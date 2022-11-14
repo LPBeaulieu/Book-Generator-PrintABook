@@ -92,7 +92,7 @@ Enter the author name (in caps) before the number, with a four-space divider in-
 ![Printing Instructions](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Printing%20Instructions.png)<hr>
 First, select the "brochure" printing mode. Second, click on the "Properties" button. Third, select the "Print on Both Sides" option, and "Flip on Short Edge".
  
-<b>Step 7</b>- <b>Run the Python code once again</b>, this time including the number of pages in the book, so that the code can determine the width of the spine. You can simply press the "up" arrow in the PowerShell in order to automatically enter the same command as before. You will then add another parameter: the width/thickness of a ream of 500 pages of the paper you will be printing on, as in the example below. 
+<b>Step 7</b>- <b>Run the Python code once again</b>, this time including the number of pages in the book, so that the code could determine the width of the spine. You can simply press the "up" arrow in the PowerShell in order to automatically enter the same command as before. You will then add another parameter: the width/thickness of a ream of 500 pages of the paper you will be printing on, as in the example below. 
 
 ```
 py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Conan Doyle" "number_of_pages:331" "inches_per_ream_500_pages:2"
