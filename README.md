@@ -105,8 +105,7 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 
 ## 🎉 Acknowledgments <a name = "acknowledgments"></a>
 - Hat tip to [@kylelobo](https://github.com/kylelobo) for the GitHub README template!
-
-
+- Shout out to the talented Rajesh Misra for the gorgeous illustration featured on the cover (https://www.publicdomainpictures.net/en/view-image.php?image=214080&picture=floral-pattern-background-843) 
 
 
 <!---
