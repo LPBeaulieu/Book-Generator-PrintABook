@@ -54,10 +54,11 @@ py -m pip install NumPy --upgrade Pillow
 
 ## 🎈 Usage <a name="usage"></a>
 
-<b>Step 1</b>- First, <b>remove any text</b>, if present, from the TXT file <b>in-between the Project Gutenberg opening tag</b> (for example: "*** START OF THE PROJECT GUTENBERG EBOOK THE ADVENTURES OF SHERLOCK HOLMES ***") <b>and the book title</b> ("The Adventures of Sherlock Holmes"). <b>Similarly, remove any text in-between the author name</b> ("Arthur Conan Doyle") <b>and the table of contents heading</b> ("Contents"). This will prevent superfluous text from appearing on your title page. If the table of contents doesn't have a heading, go ahead and remove it by hand, as the code relies on the presence of such a heading to automatically take out the table of contents.
+<b>Step 1</b> In your working folder, you need to have <b>exactly one of each of the following</b>: a <b>True Type Formatting font file (.ttf)</b> for the cover text font (when you set up your system, the "Baskerville" TTF file will be included in your working folder by default), a <b>JPEG image</b> for the cover illustration and a <b>text file</b> for your Project Gutenberg book. 
 
-- In your working folder, you need to have <b>exactly one of each of the following</b>: a <b>True Type Formatting font file (.ttf)</b> for the cover text font (when you set up your system, the "Baskerville" TTF file will be included in your working folder by default), a <b>JPEG image</b> for the cover illustration and a <b>text file</b> for your Project Gutenberg book. 
-
+- First, <b>remove any text</b>, if present, from the TXT file <b>in-between the Project Gutenberg opening tag</b> (for example: "*** START OF THE PROJECT GUTENBERG EBOOK THE ADVENTURES OF SHERLOCK HOLMES ***") <b>and the book title</b> ("The Adventures of Sherlock Holmes"). 
+- <b>Similarly, remove any text in-between the author name</b> ("Arthur Conan Doyle") <b>and the table of contents heading</b> ("Contents"). This will prevent superfluous text from appearing on your title page. If the table of contents doesn't have a heading, go ahead and remove it by hand, as the code relies on the presence of such a heading to automatically take out the table of contents.
+ 
 <b>Step 2</b>- Hold the "Shift" key while right-clicking in your working folder and select "Open PowerShell window here" to access the PowerShell in your working folder, and <b>enter the following command, adjusted to your own TXT file</b>:
 ```
 py -m printabook.py "title:Book title as found in TXT file" "author:Author name as found in TXT file"
