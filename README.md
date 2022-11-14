@@ -31,7 +31,8 @@ This app allows you to generate printer-friendly versions of TXT books from Proj
 ## ⛓️ Dependencies / Limitations <a name = "limitations"></a>
 - This Python code automatically parses the TXT file of a book from the Project Gutenberg collection in order to remove certain elements, such as the table of contents and formats it such as to be readily printable on 8 1/2" by 11" paper in booklet duplex mode. Please make sure to read the Project Gutenberg license before printing or distributing printed copies of the books: https://www.gutenberg.org/policy/license.html.
 - The code follows a certain set of rules in order to format the TXT files, which are only applicable to novels with conventional chapter headings such as "Chapter 1. / Chapter I. / Chapter One. / 1. / I. / One." (with or without the periods). You should therefore inspect the RTF file to ensure that it was formatted adequately before printing. Many formatting elements aren't dealt with, such as footnotes, so it's up to you to make the necessary adjustments to the generated RTF document. However, the code does a good job of taking care of most of the nitty-gritty details for you.
-- The code for the cover image generation was optimized on books having at least 100 pages, so you could combine a few shorter books by the same author if you like. 
+- The code for the cover image generation was optimized on books having at least 100 pages, so you could combine a few shorter books by the same author if you like.
+- The Python code automatically removes any instances of three or more spaces within the TXT file. If certain paragraphs were centered through the inclusion of spaces, that formatting will be lost in the RTF file. However, the code automatically adds tabs at the start of every new paragraph, so the overall text should look nice.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
