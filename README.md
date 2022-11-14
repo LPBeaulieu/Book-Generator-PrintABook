@@ -1,7 +1,7 @@
 # PrintABook
 This app allows you to generate printer-friendly versions of TXT books from Project Gutenberg!
 
-![Image RTF basic mode](https://github.com/LPBeaulieu/Typewriter-OCR-TintypeText/blob/main/TintypeText%20basic%20rtf%20mode%20screenshot.jpg)
+![PrintABook Thumbnail](https://github.com/LPBeaulieu/Typewriter-OCR-TintypeText/blob/main/TintypeText%20basic%20rtf%20mode%20screenshot.jpg)
 <h3 align="center">Tintype¶Text</h3>
 <div align="center">
   
@@ -74,7 +74,7 @@ Enter the author name (in caps) before the number, with a four-space divider in-
 
 <b>Step 4</b>- <b>Save your file</b> either as an ".odt" (in LibreOffice) or ".docx" (in MS Word) file.
 
-<b>Step 5</b>- <b>Print your book</b> on your home printer by following the steps shown below. I recommend printing on perforated paper (5 1/2" horizontal perforation from bottom, in the middle of the page), as you then wouldn't need to purchase a guillotine cutter to cut your pages after printing):
+<b>Step 5</b>- <b>Print your book</b> on your home printer by following the steps shown below. I recommend printing on perforated paper (5 1/2" horizontal perforation from bottom, in the middle of the page), as you then wouldn't need to purchase a guillotine cutter to cut your pages after printing. Also, after cutting the pages in half, you should stack the pages and place some heavy books on them, as they may be bowed after printing.
 
 ![Printing Instructions](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Printing%20Instructions.png)<hr>
 First, select the "booklet" printing mode. Second, click on the "Properties" button. Third, select the "Print on Both Sides" option, and "Flip on Short Edge".
@@ -82,7 +82,7 @@ First, select the "booklet" printing mode. Second, click on the "Properties" but
 <b>Step 6</b>- <b>Run the Python code once again</b>, this time including the number of pages in the book, so that the code can determine the width of the spine. You can simply press the "up" arrow in the PowerShell in order to automatically enter the same command as before. You will then add another parameter: the width/thickness of a ream of 500 pages of the paper you will be printing on, as in the example below. 
 
 ```
-py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Conan Doyle" "number_of_pages:330" "inches_per_ream_500_pages:2"
+py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Conan Doyle" "number_of_pages:331" "inches_per_ream_500_pages:2"
 ```
 
 <b>Step 7</b>- The code will take a bit longer to run this time, as it is generating the PNG image file for the book cover. You need to print this image on cover cardstock (65 lbs to 80 lbs recommended) and then cut the excess paper. The book cover is framed with a white border, which must not be removed. This white border accomodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement either in inches or centimeters (0 being no border, and you would then need to cut at the solid line, while leaving the line in the cover).
