@@ -56,10 +56,39 @@ py -m printabook.py "title:Book title as found in TXT file" "author:Author name 
 ```
 In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code in order to change the formatting of the RTF document (font, font size, line spacing, etc.) please consult the PDF document located in the github repository.
 
-<b>Step 3</b>- Review the RTF document to correct any formatting elements that weren't covered by the Python code (such as footnotes) and save it wither as an ".odt" (in LibreOffice) or ".docx" (in MS Word) file. <b>Take note of the number of pages in the document<\b>, as you will enter this when running the same code once again in order to let the code know how wide the spine should be for your book.
+<b>Step 3</b>- Review the RTF document to correct any formatting elements that weren't covered by the Python code (such as footnotes) and save it either as an ".odt" (in LibreOffice) or ".docx" (in MS Word) file. <b>Take note of the number of pages in the document<\b>, as you will enter this when running the same code once again in order to let the code know how wide the spine should be for your book.
 
-<b>Step 4</b>- You can modify the header in LibreOffice in order for it to not show up on the title page, and to display the author name on the left pages and the book title on the right pages by .
-        
+<b>Step 4</b>- You can modify the header in LibreOffice in order for it to not show up on the title page, and to display the author name on the left pages and the book title on the right pages by following the steps illustrated in the figures below:
+
+![Format Header 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image%201.png)<hr>
+Left-click on the number within the header in order to display the "Page Header" blue button. Click on it and then select "Format Header...". 
+
+![Format Header 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image%202.png)<hr>
+Remove the check marks in the boxes "Same content on left and right pages" and "Same content on first page". Then, delete the number "1" in the title page and move on to page two. 
+
+![Format Header 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image%203.png)<hr>
+Enter the author name (in caps) after the number, with a four-space divider in-between. Select left-alignment to bring the header to the left corner of the page. Move on to page three. 
+
+![Format Header 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image%204.png)<hr>
+Enter the author name (in caps) before the number, with a four-space divider in-between. Select right-alignment to bring the header to the right corner of the page. Move on to page three.
+
+<b>Step 4</b>- <b>Save your file</b> either as an ".odt" (in LibreOffice) or ".docx" (in MS Word) file.
+
+<b>Step 5</b>- <b>Print your book</b> on your home printer by following the steps shown below. I recommend printing on perforated paper (5 1/2" horizontal perforation from bottom, in the middle of the page), as you then wouldn't need to purchase a guillotine cutter to cut your pages after printing):
+
+![Printing Instructions](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Printing%20Instructions.png)<hr>
+First, select the "booklet" printing mode. Second, click on the "Properties" button. Third, select the "Print on Both Sides" option, and "Flip on Short Edge".
+ 
+<b>Step 6</b>- <b>Run the Python code once again</b>, this time including the number of pages in the book, so that the code can determine the width of the spine. You can simply press the "up" arrow in the PowerShell in order to automatically enter the same command as before. You will then add another parameter: the width/thickness of a ream of 500 pages of the paper you will be printing on, as in the example below. 
+
+```
+py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Conan Doyle" "number_of_pages:330" "inches_per_ream_500_pages:2"
+```
+
+<b>Step 7</b>- The code will take a bit longer to run this time, as it is generating the PNG image file for the book cover. You need to print this image on cover cardstock (65 lbs to 80 lbs recommended) and then cut the excess paper. The book cover is framed with a white border, which must not be removed. This white border accomodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement either in inches or centimeters (0 being no border, and you would then need to cut at the solid line, while leaving the line in the cover).
+
+<b>Step 8</b>- Assemble your book using an acid-free Polyvinyl Acetate (PVA) glue. You can use large 2" binder clips to hold the pages in place while you apply the glue to the spine. Two applications of glue may be needed for good adhesion, and the cover could then be glued on afterwards.
+
 <br><b>And that's it!</b> You're now ready to convert your favorite Project Gutenberg book TXT files into your very own printable books formatted just the way you like them! Now dollop some glue on the spine, slap on the cover, let it dry under some books and you'll soon be able to curl up around a nice book! 🎉📖
   
   
