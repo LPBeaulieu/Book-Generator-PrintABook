@@ -2,7 +2,7 @@
 This app allows you to generate printer-friendly versions of TXT books from Project Gutenberg!
 
 ![PrintABook Thumbnail](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Thumbnail.jpg)
-<h3 align="center">Tintype¶Text</h3>
+<h3 align="center">PrintABook</h3>
 <div align="center">
   
   [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPLv3.0-brightgreen.svg)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/LICENSE)
