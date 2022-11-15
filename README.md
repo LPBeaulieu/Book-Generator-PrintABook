@@ -63,7 +63,20 @@ py -m pip install NumPy --upgrade Pillow
 ```
 py -m printabook.py "title:Book title as found in TXT file" "author:Author name as found in TXT file"
 ```
-In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code in order to change the formatting of the RTF document (font, font size, line spacing, etc.) please consult the PDF document located in the github repository.
+In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code in order to change the formatting of the RTF document (font, font size, line spacing, etc.) please consult three images below:
+
+![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%201.png)<hr>
+The image above lists the different formatting parameters that can be altered when generating the RTF document.
+<br><br>
+
+![Additional Formatting Parameters 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%202.png)<hr>
+The image above lists the different formatting parameters that can be altered when generating the RTF document.
+<br><br>
+
+![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%203.png)<hr>
+The image above lists the different formatting parameters that can be altered when generating the cover image.
+<br><br>
+
 
 <b>Step 3</b>- Review the RTF document to correct any formatting elements that weren't covered by the Python code (such as footnotes) and save it either as an ".odt" (in LibreOffice) or ".docx" (in MS Word) file. <b>Take note of the number of pages in the document</b>, as you will enter this when running the same code once again in order to allow the code to determine how wide the spine should be for your book.
 
