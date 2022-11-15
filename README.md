@@ -128,7 +128,7 @@ Lay the book flat on some blotting paper, with some parcment paper covering both
 Place another sheet of blotting paper over the parchment paper, and then lay some heavy books on your binding project. This will allow the book to dry relatively flat, with the moisture from the glue reaching the blotting paper.    
 <br><br>
 
-<br><b>And that's it!</b> You're now ready to convert your favorite Project Gutenberg book TXT files into your very own printable books formatted just the way you like them! Now dollop some glue onto the spine, slap on the cover, let it dry under some books and you'll soon be able to curl up around your handcrafted book! 🎉📖
+<b>And that's it!</b> You're now ready to convert your favorite Project Gutenberg book TXT files into your very own printable books formatted just the way you like them! Now dollop some glue onto the spine, slap on the cover, let it dry under some books and you'll soon be able to curl up around your handcrafted book! 🎉📖
   
   
 ## ✍️ Authors <a name = "author"></a>
