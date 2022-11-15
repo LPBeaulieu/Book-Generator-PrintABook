@@ -110,7 +110,23 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 
 <b>Step 8</b>- The code will take a bit longer to run this time, as it is generating the PNG image file for the book cover. You need to print this image on Legal (14" x 8 1/2") cover cardstock (65 lbs to 80 lbs recommended) and then cut off the excess paper. The book cover is framed with a white border, which must not be removed. This white border accomodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement in inches or "cover_trim_width_cm:" for centimeters (with 0 being no border, and you would then need to cut at the solid line, while leaving the line within the cover).
 
-<b>Step 9</b>- Assemble your book using an acid-free Polyvinyl Acetate (PVA) glue. You can use large 2" binder clips to hold the pages in place while you apply the glue to the spine. Two applications of glue may be needed for good adhesion, and the cover could then be glued on afterwards.
+<b>Step 9</b>- Assemble your book using an acid-free Polyvinyl Acetate (PVA) glue. You can use large 2" binder clips to hold the pages in place while you apply the glue to the spine. Two applications of glue may be needed for good adhesion, and the cover could then be glued on afterwards. The images below provide guidance in assembling your book.
+
+![1-General Setup](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/1-%20General%20Setup.jpg)<hr>
+Some paper or cardstock strips should line the side where you will apply the binding clips (on both sides of the book), to avoid damaging the paper. You will require some wax paper or parchment paper (here muffin tin parchment paper liners) to lay on the book before placing heavy books on it. This will prevent the glue from adhering to the books or the blotting paper that you will place over the parchment paper. Also, you will need an old paintbrush or a foam brush in order to apply the PVA glue to the spine. Please make sure to wash the brush with soapy water right after you are done, so that you could use it for more binding projects afterwards. Also, it's a good idea to have a damp cloth available to clean up any spills or glue on your hands while you work.
+<br><br>
+
+![2-Fanning Out the Pages](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-%20Fanning%20Out%20the%20Pages.jpg)<hr>
+In order to increase the surface area exposed to the application of glue, it is recommended to fan out the pages using a large plastic container as a support. Apply an even layer of PVA glue onto the pages with your brush. When done, turn the book and fan out the spine pages in the other direction, using the same plastic container as a support. Apply some glue the same way and then let the page stand upright. Press the pages together and proceed to the next step.   
+<br><br>
+
+![3-Assembling the Sandwitch (Part 1)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/3-%20Assembling%20the%20Sandwich%20(Part%201).jpg)<hr>
+Lay the book flat on some blotting paper, with some parcment paper covering both sides of the spine.    
+<br><br>
+
+![4-Assembling the Sandwitch (Part 2)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/4-%20Assembling%20the%20Sandwich%20(Part%202).jpg)<hr>
+Place another sheet of blotting paper over the parchment paper, and then lay some heavy books on your binding project. This will allow the book to dry relatively flat, with the moisture from the glue reaching the blotting paper.    
+<br><br>
 
 <br><b>And that's it!</b> You're now ready to convert your favorite Project Gutenberg book TXT files into your very own printable books formatted just the way you like them! Now dollop some glue onto the spine, slap on the cover, let it dry under some books and you'll soon be able to curl up around your handcrafted book! 🎉📖
   
