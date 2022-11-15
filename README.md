@@ -1,7 +1,7 @@
 # PrintABook
 This app allows you to generate printer-friendly versions of TXT books from Project Gutenberg!
 
-![PrintABook Thumbnail](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Thumbnail.jpg)
+![PrintABook Thumbnail](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Thumbnail.jpg)
 <h3 align="center">PrintABook</h3>
 <div align="center">
   
@@ -65,13 +65,13 @@ py -m printabook.py "title:Book title as found in TXT file" "author:Author name 
 ```
 In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code in order to change the formatting of the RTF document (font, font size, line spacing, etc.) and cover image, please consult the three images below. <b>Should you just want to print books without worrying about all these details, simply run the code with the default settings and you will get nice results, allowing you to move on to step 3</b>.
 
-![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%20Image%201.png)<hr> The image above lists some of the formatting parameters that can be altered when generating the RTF document. Any measurements may be reported in inches or centimeters (with or without decimals, but without units). The number of lines doesn't have a unit either. Make sure to include a space in-between the different arguments passed in when you run the Python code and to include the quotes.
+![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%201.png)<hr> The image above lists some of the formatting parameters that can be altered when generating the RTF document. Any measurements may be reported in inches or centimeters (with or without decimals, but without units). The number of lines doesn't have a unit either. Make sure to include a space in-between the different arguments passed in when you run the Python code and to include the quotes.
 <br><br>
 
-![Additional Formatting Parameters 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%20Image%202.png)<hr> The image above lists the other formatting parameters that can be altered when generating the RTF document. Once again, simply pass in the number after the colon (":") symbol, without units. In the case of the font, enter the name of the font (ex: "font:Arial"). For spacing in-between paragraphs, measurements are in points, as for the font size. So a spacing of 6 points should be half of the height of a font size of 12 (again, simply include the number without units). 
+![Additional Formatting Parameters 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%202.png)<hr> The image above lists the other formatting parameters that can be altered when generating the RTF document. Once again, simply pass in the number after the colon (":") symbol, without units. In the case of the font, enter the name of the font (ex: "font:Arial"). For spacing in-between paragraphs, measurements are in points, as for the font size. So a spacing of 6 points should be half of the height of a font size of 12 (again, simply include the number without units). 
 <br><br>
 
-![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%20Image%203.png)<hr> The image above lists the different formatting parameters that can be altered when generating the cover image. The cover image may be generated in greyscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. However, both of these can be set as any color of your choice, using either the HTML color codes or RGB values.
+![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%203.png)<hr> The image above lists the different formatting parameters that can be altered when generating the cover image. The cover image may be generated in greyscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. However, both of these can be set as any color of your choice, using either the HTML color codes or RGB values.
 <br><br>
 
 
@@ -79,19 +79,19 @@ In a few seconds, your RTF file will be generated in your working folder. For a 
 
 <b>Step 4</b>- You can modify the header in LibreOffice in order for it to not show up on the title page, and to display the author name on the left pages and the book title on the right pages by following the steps illustrated in the figures below:
 
-![Format Header 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image.png)<hr>
+![Format Header 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Format%20Header-Image.png)<hr>
 Left-click on the number within the header in order to display the "Page Header" blue button. Click on it and then select "Format Header...". <br><br>
 
 
-![Format Header 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image%202.png)<hr>
+![Format Header 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Format%20Header-Image%202.png)<hr>
 Remove the check marks in the boxes "Same content on left and right pages" and "Same content on first page". Then, delete the number "1" in the title page and move on to page two. 
 <br><br>
 
-![Format Header 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image%203.png)<hr>
+![Format Header 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Format%20Header-Image%203.png)<hr>
 Enter the author name (in caps) after the number, with a four-space divider in-between. Select left-alignment to bring the header to the left corner of the page. Move on to page three. 
 <br><br>
 
-![Format Header 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image%204.png)<hr>
+![Format Header 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Format%20Header-Image%204.png)<hr>
 Enter the author name (in caps) before the number, with a four-space divider in-between. Select right-alignment to bring the header to the right corner of the page.
 <br><br>
 
@@ -99,7 +99,7 @@ Enter the author name (in caps) before the number, with a four-space divider in-
 
 <b>Step 6</b>- <b>Print your book</b> on your home printer by following the steps shown below. I recommend printing on perforated paper (5 1/2" horizontal perforation from bottom, in the middle of the page), as you then wouldn't need to purchase a guillotine cutter to cut your pages after printing. Also, after cutting the pages in half, you should stack the pages and place some heavy books on them, as they may be bowed after printing.
 
-![Printing Instructions](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Printing%20Instructions.png)<hr>
+![Printing Instructions](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
 First, select the "brochure" printing mode. Second, click on the "Properties" button. Third, select the "Print on Both Sides" option, and "Flip on Short Edge".
  
 <b>Step 7</b>- <b>Run the Python code once again</b>, this time including the number of pages in the book, so that the code could determine the width of the spine. You can simply press the "up" arrow in the PowerShell in order to automatically enter the same command as before. You will then add another parameter: the width/thickness of a ream of 500 pages of the paper you will be printing on, as in the example below. 
