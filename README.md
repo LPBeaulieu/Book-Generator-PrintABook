@@ -63,7 +63,7 @@ py -m pip install NumPy --upgrade Pillow
 ```
 py -m printabook.py "title:Book title as found in TXT file" "author:Author name as found in TXT file"
 ```
-In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code in order to change the formatting of the RTF document (font, font size, line spacing, etc.) please consult the three images below:
+In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code in order to change the formatting of the RTF document (font, font size, line spacing, etc.) and cover image, please consult the three images below. Should you just want to print books without worrying about all these details, simply run the code with the default settings, and you will get nice results, allowing you to move on to step 3.
 
 ![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%20Image%201.png)<hr> The image above lists some of the formatting parameters that can be altered when generating the RTF document. Any measurements may be reported in inches or centimeters (with or without decimals, but without units). The number of lines doesn't have a unit either. Make sure to include a space in-between the different arguments passed in when you run the Python code and to include the quotes.
 <br><br>
