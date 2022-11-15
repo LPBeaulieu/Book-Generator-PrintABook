@@ -65,16 +65,17 @@ py -m printabook.py "title:Book title as found in TXT file" "author:Author name 
 ```
 In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code in order to change the formatting of the RTF document (font, font size, line spacing, etc.) please consult three images below:
 
-![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%201.png)<hr>
-The image above lists the different formatting parameters that can be altered when generating the RTF document.
+![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%20Image%201.png)<hr>
+The image above lists some of the formatting parameters that can be altered when generating the RTF document. Any measurements may be reported in inches or centimeters (with or without decimals, but without units). The number of lines doesn't have a unit either. Make sure to include a space in-between the different arguments passed in when you run the Python code and to include the quotes.
 <br><br>
 
-![Additional Formatting Parameters 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%202.png)<hr>
-The image above lists the different formatting parameters that can be altered when generating the RTF document.
+![Additional Formatting Parameters 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%20Image%202.png)<hr>
+The image above lists the other formatting parameters that can be altered when generating the RTF document. Once again, simply pass in the number after the colon (":") symbol, without units. In the case of the font, enter the name of the font (ex: "font:Arial"). For spacing in-between paragraphs, measurements are in points, as for the font size. So a spacing of 6 points should be half of the height of a font size of 12 (again, simply include the number without units). 
 <br><br>
 
-![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%203.png)<hr>
+![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%20Image%203.png)<hr>
 The image above lists the different formatting parameters that can be altered when generating the cover image.
+The cover image may be generated in grayscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. Both of these can be set as any color of your choice, using either the HTML color codes or RGB values.
 <br><br>
 
 
@@ -82,7 +83,7 @@ The image above lists the different formatting parameters that can be altered wh
 
 <b>Step 4</b>- You can modify the header in LibreOffice in order for it to not show up on the title page, and to display the author name on the left pages and the book title on the right pages by following the steps illustrated in the figures below:
 
-![Format Header 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image%201.png)<hr>
+![Format Header 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Format%20Header-Image.png)<hr>
 Left-click on the number within the header in order to display the "Page Header" blue button. Click on it and then select "Format Header...". <br><br>
 
 
