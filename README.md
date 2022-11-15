@@ -75,7 +75,7 @@ The image above lists the other formatting parameters that can be altered when g
 
 ![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/PrintABook%20Additional%20Parameters%20Image%203.png)<hr>
 The image above lists the different formatting parameters that can be altered when generating the cover image.
-The cover image may be generated in grayscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. Both of these can be set as any color of your choice, using either the HTML color codes or RGB values.
+The cover image may be generated in greyscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. However, both of these can be set as any color of your choice, using either the HTML color codes or RGB values.
 <br><br>
 
 
