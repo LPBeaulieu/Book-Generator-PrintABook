@@ -199,19 +199,19 @@ title_page_spacing = r"\fs36"
 body_font_size = r"\fs34"
 header_font_size = r"\fs32"
 chapter_heading_font_size = r"\fs51"
-#The "max_longest_chapter_heading_body_font_ratio"
+#The "max_chapter_heading_body_font_ratio"
 #variable determines the maximum ratio between the
 #chapter headings font size and that of the body text,
 #to provide a starting font size while automatically
 #adjusting the font size to the available space.
-max_longest_chapter_heading_body_font_ratio = 1.5
+max_chapter_heading_body_font_ratio = 1.5
 #By default, the chapter headings will not be in bold,
 #but the user can pass in the argument "bold_chapter_headings"
 #to make them bold.
 bold_chapter_headings = False
 #The default tab width of 360 twips
 #corresponds to the width of four
-#spaces written in size 14 Baskerville
+#spaces written in size 17 Baskerville
 #(r"\fs28") and may be adjusted.
 tab_width = r"\deftab360"
 font = "Baskerville"
@@ -348,7 +348,7 @@ if len(sys.argv) > 1:
             elif sys.argv[i].lower()[:30] == "max_subtitle_title_font_ratio:":
                 max_subtitle_title_font_ratio = float(sys.argv[i][30:].strip())
             elif sys.argv[i].lower()[:28] == "max_chapter_body_font_ratio:":
-                 max_longest_chapter_heading_body_font_ratio = float(sys.argv[i].lower()[28:].strip())
+                 max_chapter_heading_body_font_ratio = float(sys.argv[i].lower()[28:].strip())
             elif sys.argv[i].lower()[:21] == "bold_chapter_headings":
                 bold_chapter_headings = True
             elif sys.argv[i].lower()[:15] == "body_font_size:":
