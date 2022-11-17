@@ -97,7 +97,7 @@ Enter the author name (in caps) before the number, with a four-space divider in-
 
 <b>Step 5</b>- <b>Save your file</b> either as an ".odt" (in LibreOffice) or ".docx" (in MS Word) file.
 
-<b>Step 6</b>- <b>Print your book</b> on your home printer by following the steps shown below. I recommend printing on perforated paper (5 1/2" horizontal perforation from bottom, in the middle of the page), as you then wouldn't need to purchase a guillotine cutter to cut your pages after printing. Also, after cutting the pages in half, you should stack the pages and place some heavy books on them, as they may be bowed after printing.
+<b>Step 6</b>- <b>Print your book</b> on your home printer by following the steps shown below. I recommend placing some heavy books on the printed pages, as they may be bowed after printing. You should also consider purchasing a guillotine stack paper cutter to cut your pages in half after printing and to trim the margins once the book is bound, in order to get clean edges. 
 
 ![Printing Instructions](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
 First, select the "brochure" printing mode. Second, click on the "Properties" button. Third, select the "Print on Both Sides" option, and "Flip on Short Edge".
