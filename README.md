@@ -17,7 +17,7 @@ This app allows you to generate printer-friendly versions of TXT books from Proj
 
 <p align="left"> <b>PrintABook</b> is a tool enabling you to generate printer-friendly versions of TXT books from Project Gutenberg, complete with the cover image! </p>
 
-- Simply follow the steps below to set up your system, and then add the text file (.txt) and cover background JPEG image to your working folder for the Project Gutenberg book that you wish to output in printable format before running the Python code.
+- Simply follow the steps below to set up your system, and then add the text file (.txt) and cover background JPEG image to your working folder for the Project Gutenberg book that you wish to output in printable format, before running the Python code.
 
 - The instructions below will show you how to cusomize the formatting elements of the Rich Text Document (RTF) output file, so that your book is exactly how you want it to be.
     <br> 
@@ -31,9 +31,9 @@ This app allows you to generate printer-friendly versions of TXT books from Proj
 - [Acknowledgments](#acknowledgments)
 
 ## ⛓️ Dependencies / Limitations <a name = "limitations"></a>
-- This Python code automatically parses the TXT file of a book from the Project Gutenberg collection in order to remove certain elements, such as the table of contents and formats it such as to be readily printable on 8 1/2" by 11" paper in brochure duplex mode. Please make sure to <b>read the Project Gutenberg license</b> before printing or distributing printed copies of the books: https://www.gutenberg.org/policy/license.html.
+- This Python code automatically parses the TXT file of a book from the Project Gutenberg collection in order to remove certain elements, such as the table of contents, and formats it such as to be readily printable on 8 1/2" by 11" paper in brochure duplex mode. Please make sure to <b>read the Project Gutenberg license</b> before printing or distributing printed copies of the books: https://www.gutenberg.org/policy/license.html.
 - The code follows a certain set of rules in order to format the TXT files, which are only applicable to novels with conventional chapter headings such as "Chapter 1. / Chapter I. / Chapter One. / 1. / I. / One." (with or without the periods). You should therefore <b>inspect the RTF file to ensure that it was formatted adequately before printing</b>. Many formatting elements aren't dealt with, such as footnotes, so it's up to you to make the necessary adjustments to the generated RTF document. However, the code does a good job of taking care of most of the nitty-gritty details for you.
-- The code for the cover image generation was optimized on books having <b>at least 100 pages</b>, so you could combine a few shorter books by the same author if you like.
+- The code for cover image generation was optimized on books having <b>at least 100 pages</b>, so you could combine a few shorter books by the same author if you like.
 - The Python code automatically removes any instances of three or more spaces within the TXT file. If certain paragraphs were <b>centered</b> through the inclusion of spaces, that <b>formatting will be lost</b> in the RTF file. However, the code automatically adds tabs at the start of every new paragraph, so the overall text should look nice.
 
 
@@ -44,7 +44,7 @@ allow to run a copy of <b>PrintABook</b> on a local computer.
 
 The instructions below are for Windows operating systems, but the code should run nicely on Linux and Mac-OS as well.
 
-<b>Step 1</b>- Hold the "Shift" key while right-clicking in your working folder and select "Open PowerShell window here" to access the PowerShell in your working folder and install <b>NumPy</b>  and <b>Pillow</b> (Required Python modules to generate the cover image) using the following command:
+<b>Step 1</b>- Hold the "Shift" key while right-clicking in your working folder and select "Open PowerShell window here" to access the PowerShell in your working folder. Then, install <b>NumPy</b>  and <b>Pillow</b> (Required Python modules to generate the cover image) by entering the following command:
 ```
 py -m pip install NumPy --upgrade Pillow
 ```
@@ -63,7 +63,7 @@ py -m pip install NumPy --upgrade Pillow
 ```
 py -m printabook.py "title:Book title as found in TXT file" "author:Author name as found in TXT file"
 ```
-In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code in order to change the formatting of the RTF document (font, font size, line spacing, etc.) and cover image, please consult the three images below. <b>Should you just want to print books without worrying about all these details, simply run the code with the default settings and you will get nice results, allowing you to move on to step 3</b>.
+In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code, in order to change the formatting of the RTF document (font, font size, line spacing, etc.) and cover image, please consult the three images below. <b>Should you just want to print books without worrying about all these details, simply run the code with the default settings and you will get nice results, allowing you to move on to step 3</b>.
 
 ![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%201.png)<hr> The image above lists some of the formatting parameters that can be altered when generating the RTF document. Any measurements may be reported in inches or centimeters (with or without decimals, but without units). The number of lines doesn't have a unit either. Make sure to include a space in-between the different arguments passed in when you run the Python code and to include the quotes.
 <br><br>
@@ -185,7 +185,7 @@ Here's a display of my first handbound books! There's room for improvement, but 
 - 👋 Hi, I’m Louis-Philippe!
 - 👀 I’m interested in natural language processing (NLP) and anything to do with words, really! 📝
 - 🌱 I’m currently reading about deep learning (and reviewing the underlying math involved in coding such applications 🧮😕)
-- 📫 How to reach me: By e-mail! LPBeaulieu@gmail.com 💻
+- 📫 How to reach me: By e-mail! louis.philippe.bonhomme.beaulieu.1@gmail.com 💻
 
 
 ## 🎉 Acknowledgments <a name = "acknowledgments"></a>
