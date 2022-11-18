@@ -2485,9 +2485,14 @@ txt_file_name[-4:].lower() == ".txt"):
 
                     #The offset on the x and y axis are determined by subtracting the halfpoint of
                     #either dimension of the "spine_string" from the that of the available space in
-                    #the corresponding dimension of the rectangle.
+                    #the corresponding dimension of the rectangle. In the case of "offset_y", the
+                    #"text_pixels_from_spine_bottom" are subtracted from it in order to bring the
+                    #text further up from the bottom of the spine dark rectangle. This allows to
+                    #fine-tune the automatic centering on the vertixal axis, given that the spine
+                    #is fairly narrow and any unevenness are easily noticeable.
                     offset_x = round(available_vertical_space_pixels/2 - spine_string_length_pixels/2)
-                    offset_y = round(available_horizontal_space_pixels/2 - spine_font_size/2) + cover_extra_pixels
+                    offset_y = (round(available_horizontal_space_pixels/2 - spine_font_size/2) +
+                    cover_extra_pixels - text_pixels_from_spine_bottom)
 
                     #The image is outputted in PNG format.
                     image.save(txt_file_name[:-4] + " (cover).png", "PNG")
@@ -2505,10 +2510,10 @@ txt_file_name[-4:].lower() == ".txt"):
                     #of the "offset_x".
                     #The top of the dark rectangle now stands 5.5 inches from the top of the canvas
                     #(the origin 0,0 being in the top left corner), with 25 pixels added to reach the
-                    #lighter line, and 31 pixels to reach the point where the text will start to be
+                    #lighter line, and 28 pixels to reach the point where the text will start to be
                     #written, with the addition of the "offset_y"
                     spine_text_starting_x = round(1.0*4200/14+25 + 35 + offset_x)
-                    spine_text_starting_y = round(5.5*4200/14+25+28 + offset_y + text_pixels_from_spine_bottom)
+                    spine_text_starting_y = round(5.5*4200/14+25+28 + offset_y)
 
                     image_rotated_editable.text((spine_text_starting_x, spine_text_starting_y),
                     spine_string, fill=cover_text_color, font=font_spine, align="center")
@@ -2556,9 +2561,14 @@ txt_file_name[-4:].lower() == ".txt"):
                         spine_string_length_pixels = image_editable.textlength(spine_string, font_spine)
                     #The offset on the x and y axis are determined by subtracting the halfpoint of
                     #either dimension of the "spine_string" from the that of the available space in
-                    #the corresponding dimension of the rectangle.
+                    #the corresponding dimension of the rectangle. In the case of "offset_y", the
+                    #"text_pixels_from_spine_bottom" are subtracted from it in order to bring the
+                    #text further up from the bottom of the spine dark rectangle. This allows to
+                    #fine-tune the automatic centering on the vertixal axis, given that the spine
+                    #is fairly narrow and any unevenness are easily noticeable.
                     offset_x = round(available_vertical_space_pixels/2 - spine_string_length_pixels/2)
-                    offset_y = round(available_horizontal_space_pixels/2 - spine_font_size/2) + cover_extra_pixels - text_pixels_from_spine_bottom
+                    offset_y = (round(available_horizontal_space_pixels/2 - spine_font_size/2) +
+                    cover_extra_pixels - text_pixels_from_spine_bottom)
 
                     #The image is outputted in PNG format.
                     image.save(txt_file_name[:-4] + " (cover).png", "PNG")
