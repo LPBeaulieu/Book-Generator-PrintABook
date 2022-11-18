@@ -183,7 +183,7 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 <br><br><br>
 
 
-![10-Measure "cover_extra_cm"](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/6-Measure%20%22cover_extra_cm%22.jpg)<hr> 
+![10-Measure "cover_extra_cm"](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/6-Measure%20cover_extra_cm.jpg)<hr> 
 <b>Figure 22.</b> This is a good time to place the bound pages in your folded cover and ensure that the sizing is adequate. If you won't be using a guillotine stack page cutter to even out any discrepancies, you might want to print your cover again with some adjustments made to its page width. Simply measure the length of the overhanging bound pages relative to the cover (either in inches or centimeters, in decimal form) and enter that number as an additional parameter (preceded by "cover_extra_inches:" or "cover_extra_cm:" when running the Python code. For example, if the bound pages are 2 mm longer than the cover on both sides of the book, you would then enter "cover_extra_cm:0.2" as an additional argument. Should the measurements be uneven on both sides, it is likely that you didn't fold the cover exacly the same distance from the spine on both sides and you could then just take the average between the two measurements and input it as above.  
 <br><br>
 
