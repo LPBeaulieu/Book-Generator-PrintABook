@@ -63,7 +63,7 @@ py -m pip install NumPy --upgrade Pillow
 ```
 py -m printabook.py "title:Book title as found in TXT file" "author:Author name as found in TXT file"
 ```
-In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code, in order to change the formatting of the RTF document (font, font size, line spacing, etc.) and cover image, please consult the three images below. <b>Should you just want to print books without worrying about all these details, simply run the code with the default settings and you will get nice results, allowing you to move on to step 3</b>.
+In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code, in order to change the formatting of the RTF document (font, font size, line spacing, etc.) and cover image, please consult Figures 1 to 3 below. <b>Should you just want to print books without worrying about all these details, simply run the code with the default settings and you will get nice results, allowing you to move on to step 3</b>.
 
 ![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%201.png)<hr> <b>Figure 1.</b> The image above lists some of the formatting parameters that can be altered when generating the RTF document. Any measurements may be reported either in inches or centimeters (with or without decimals, but without units). The number of lines doesn't have a unit either. Make sure to include a space in-between the different arguments passed in when you run the Python code and to include the quotes.
 <br><br>
@@ -73,7 +73,7 @@ In a few seconds, your RTF file will be generated in your working folder. For a 
 <br><br>
 
 
-![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Illustration%20Three.png)<hr> <b>Figure 3.</b> The image above lists the different formatting parameters that can be altered when generating the cover image. The cover image may be generated in greyscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. However, both of these can be set as any color of your choice, using either the HTML color codes or RGB values.
+![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Illustration%20Three.png)<hr> <b>Figure 3.</b> The image above lists the different formatting parameters that can be altered when generating the cover image. If ever you change the font of the cover text from Baskerville to some other font, the vertical text alignment on the spine might be off center. In order to bring the text up by a certain amount of pixels within the spine dark rectangle, simply pass in the number of pixels (without units) after "text_pixels_from_spine_bottom:". The cover image may be generated in greyscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. However, both of these may be set as any color of your choice, using either the HTML color codes or RGB values.
 <br><br><br>
 
 
@@ -115,15 +115,15 @@ In a few seconds, your RTF file will be generated in your working folder. For a 
 py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Conan Doyle" "number_of_pages:331" "inches_per_ream_500_pages:2"
 ```
 
-<b>Step 8</b>- The code will take a bit longer to run this time, as it is generating the PDF book cover file. You need to print this image on Legal (14" x 8 1/2") cover cardstock (65 lbs to 80 lbs recommended) and then cut off the excess paper. The book cover is framed with a white border, which must not be removed. This white border accomodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement in inches or "cover_trim_width_cm:" for centimeters (with 0 being no border, and you would then need to cut at the solid line, while leaving the line within the cover).
+<b>Step 8</b>- The code will take a bit longer to run this time, as it is generating the PDF book cover file. You need to print this image on Legal (14" x 8 1/2") cover cardstock (65 lbs to 80 lbs recommended) and then cut off the excess paper. The book cover is framed with a white border, which must not be removed. This white border accomodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement in inches or "cover_trim_width_cm:" for centimeters (with 0 being no border, and you would then need to cut at the solid line, while leaving the line within the cover). The Figures 9 to 12 describe how to print the cover PDF file in <b>Foxit PDF Reader</b>.
 
 ![Cover Printing Instructions 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Cover%201.png)<hr>
-<b>Figure 9.</b> Open the book cover PDF file in <b>Foxit PDF Reader</b> and select print in the "File" menu. Click on the "Page Setting" button in the bottom left corner of the window. Then, select "Legal" from the "Page Size" drop-down menu. 
+<b>Figure 9.</b> Open the book cover PDF file in <b>Foxit PDF Reader</b> and select "Print" in the "File" menu. Click on the "Page Setting" button in the bottom left corner of the window. Then, select "Legal" from the "Page Size" drop-down menu. 
 <br><br><br>
 
 
 ![Cover Printing Instructions 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Cover%202.png)<hr>
-<b>Figure 10.</b> Also in the "Page Setting" window, bring down the "Page Margins" to zero and click on "OK".
+<b>Figure 10.</b> Also in the "Page Setting" window, bring the "Page Margins" down to zero and click on "OK".
 <br><br><br>
 
 
