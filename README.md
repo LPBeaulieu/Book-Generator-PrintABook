@@ -65,7 +65,7 @@ py -m printabook.py "title:Book title as found in TXT file" "author:Author name 
 ```
 In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code, in order to change the formatting of the RTF document (font, font size, line spacing, etc.) and cover image, please consult the three images below. <b>Should you just want to print books without worrying about all these details, simply run the code with the default settings and you will get nice results, allowing you to move on to step 3</b>.
 
-![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%201.png)<hr> The image above lists some of the formatting parameters that can be altered when generating the RTF document. Any measurements may be reported in inches or centimeters (with or without decimals, but without units). The number of lines doesn't have a unit either. Make sure to include a space in-between the different arguments passed in when you run the Python code and to include the quotes.
+![Additional Formatting Parameters 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%201.png)<hr> <b>Figure 1.</b> The image above lists some of the formatting parameters that can be altered when generating the RTF document. Any measurements may be reported either in inches or centimeters (with or without decimals, but without units). The number of lines doesn't have a unit either. Make sure to include a space in-between the different arguments passed in when you run the Python code and to include the quotes.
 <br><br>
 
 
@@ -115,7 +115,28 @@ First, select the "brochure" printing mode. Second, click on the "Properties" bu
 py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Conan Doyle" "number_of_pages:331" "inches_per_ream_500_pages:2"
 ```
 
-<b>Step 8</b>- The code will take a bit longer to run this time, as it is generating the PNG image file for the book cover. You need to print this image on Legal (14" x 8 1/2") cover cardstock (65 lbs to 80 lbs recommended) and then cut off the excess paper. The book cover is framed with a white border, which must not be removed. This white border accomodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement in inches or "cover_trim_width_cm:" for centimeters (with 0 being no border, and you would then need to cut at the solid line, while leaving the line within the cover).
+<b>Step 8</b>- The code will take a bit longer to run this time, as it is generating the PDF book cover file. You need to print this image on Legal (14" x 8 1/2") cover cardstock (65 lbs to 80 lbs recommended) and then cut off the excess paper. The book cover is framed with a white border, which must not be removed. This white border accomodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement in inches or "cover_trim_width_cm:" for centimeters (with 0 being no border, and you would then need to cut at the solid line, while leaving the line within the cover).
+
+![Cover Printing Instructions 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
+Open the book cover PDF file in <b>Foxit PDF Reader</b> and select print in the "File" menu. Click on the "Page Setting" button in the bottom left corner of the window. Then, select "Legal" from the "Page Size" drop-down menu. 
+<br><br><br>
+
+
+![Cover Printing Instructions 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
+Also in the "Page Setting" window, bring down the "Page Margins" to zero and click on "OK".
+<br><br><br>
+
+
+![Cover Printing Instructions 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
+Click on the "Properties" button next to your printer and select "Legal" in the "Paper Size" drop-down menu. Click "OK" to exit the window.
+<br><br><br>
+
+
+![Cover Printing Instructions 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
+Finally, adjust the "Scale" to 24% in the "Custom scale" option and click on the "OK" button.
+<br><br><br>
+
+
 
 <b>Step 9</b>- Assemble your book using an acid-free Polyvinyl Acetate (PVA) glue. You can use large 2" binder clips to hold the pages in place while you apply the glue to the spine. At least two applications of glue are recommended for good adhesion, and the cover could then be glued on afterwards. The images below provide guidance in assembling your book.
 
