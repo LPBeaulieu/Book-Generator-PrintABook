@@ -69,11 +69,11 @@ In a few seconds, your RTF file will be generated in your working folder. For a 
 <br><br>
 
 
-![Additional Formatting Parameters 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%202.png)<hr> The image above lists the other formatting parameters that can be altered when generating the RTF document. Once again, simply pass in the number after the colon (":") symbol, without units. In the case of the font, enter the name of the font (ex: "font:Arial"). For spacing in-between paragraphs, measurements are in points, as for the font size. So a spacing of 6 points should be half of the height of a font size of 12 (again, simply include the number without units). 
+![Additional Formatting Parameters 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%202.png)<hr> <b>Figure 2.</b> This figure lists the other formatting parameters that can be altered when generating the RTF document. Once again, simply pass in the number after the colon (":") symbol, without units. In the case of the font, enter the name of the font (ex: "font:Arial"). For spacing in-between paragraphs, measurements are in points, as for the font size. So a spacing of 6 points should be half of the height of a font size of 12 (again, simply include the number without units). 
 <br><br>
 
 
-![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Illustration%20Three.png)<hr> The image above lists the different formatting parameters that can be altered when generating the cover image. The cover image may be generated in greyscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. However, both of these can be set as any color of your choice, using either the HTML color codes or RGB values.
+![Additional Formatting Parameters 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Illustration%20Three.png)<hr> <b>Figure 3.</b> The image above lists the different formatting parameters that can be altered when generating the cover image. The cover image may be generated in greyscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. However, both of these can be set as any color of your choice, using either the HTML color codes or RGB values.
 <br><br><br>
 
 
@@ -82,22 +82,22 @@ In a few seconds, your RTF file will be generated in your working folder. For a 
 <b>Step 4</b>- You can modify the header in LibreOffice in order for it to not show up on the title page, and to display the author name on the left pages and the book title on the right pages by following the steps illustrated in the figures below:
 
 ![Format Header 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Format%20Header-Image.png)<hr>
-Left-click on the number within the header in order to display the "Page Header" blue button. Click on it and then select "Format Header...". 
+<b>Figure 4.</b> Left-click on the number within the header in order to display the "Page Header" blue button. Click on it and then select "Format Header...". 
 <br><br><br>
 
 
 ![Format Header 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Format%20Header-Image%202.png)<hr>
-Remove the check marks in the boxes "Same content on left and right pages" and "Same content on first page". Then, delete the number "1" in the title page and move on to page two. 
+<b>Figure 5.</b> Remove the check marks in the boxes "Same content on left and right pages" and "Same content on first page". Then, delete the number "1" in the title page and move on to page two. 
 <br><br><br>
 
 
 ![Format Header 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Format%20Header-Image%203.png)<hr>
-Enter the author name (in caps) after the number, with a four-space divider in-between. Select left-alignment to bring the header to the left corner of the page. Move on to page three. 
+<b>Figure 6.</b> Enter the author name (in caps) after the number, with a four-space divider in-between. Select left-alignment to bring the header to the left corner of the page. Move on to page three. 
 <br><br><br>
 
 
 ![Format Header 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Format%20Header-Image%204.png)<hr>
-Enter the author name (in caps) before the number, with a four-space divider in-between. Select right-alignment to bring the header to the right corner of the page.
+<b>Figure 7.</b> Enter the author name (in caps) before the number, with a four-space divider in-between. Select right-alignment to bring the header to the right corner of the page.
 <br><br><br>
 
 <b>Step 5</b>- <b>Save your file</b> either as an ".odt" (in LibreOffice) or ".docx" (in MS Word) file.
@@ -105,7 +105,7 @@ Enter the author name (in caps) before the number, with a four-space divider in-
 <b>Step 6</b>- <b>Print your book</b> on your home printer by following the steps shown below. I recommend placing some heavy books on the printed pages, as they may be bowed after printing. You should also consider purchasing a guillotine stack paper cutter to cut your pages in half after printing and to trim the margins once the book is bound, in order to get clean edges. 
 
 ![Printing Instructions](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
-First, select the "brochure" printing mode. Second, click on the "Properties" button. Third, select the "Print on Both Sides" option, and "Flip on Short Edge".
+<b>Figure 8.</b> First, select the "brochure" printing mode. Second, click on the "Properties" button. Third, select the "Print on Both Sides" option, and "Flip on Short Edge".
 <br><br><br>
  
  
@@ -117,23 +117,23 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 
 <b>Step 8</b>- The code will take a bit longer to run this time, as it is generating the PDF book cover file. You need to print this image on Legal (14" x 8 1/2") cover cardstock (65 lbs to 80 lbs recommended) and then cut off the excess paper. The book cover is framed with a white border, which must not be removed. This white border accomodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement in inches or "cover_trim_width_cm:" for centimeters (with 0 being no border, and you would then need to cut at the solid line, while leaving the line within the cover).
 
-![Cover Printing Instructions 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
-Open the book cover PDF file in <b>Foxit PDF Reader</b> and select print in the "File" menu. Click on the "Page Setting" button in the bottom left corner of the window. Then, select "Legal" from the "Page Size" drop-down menu. 
+![Cover Printing Instructions 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Cover%201.png)<hr>
+<b>Figure 9.</b> Open the book cover PDF file in <b>Foxit PDF Reader</b> and select print in the "File" menu. Click on the "Page Setting" button in the bottom left corner of the window. Then, select "Legal" from the "Page Size" drop-down menu. 
 <br><br><br>
 
 
-![Cover Printing Instructions 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
-Also in the "Page Setting" window, bring down the "Page Margins" to zero and click on "OK".
+![Cover Printing Instructions 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Cover%202.png)<hr>
+<b>Figure 10.</b> Also in the "Page Setting" window, bring down the "Page Margins" to zero and click on "OK".
 <br><br><br>
 
 
-![Cover Printing Instructions 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
-Click on the "Properties" button next to your printer and select "Legal" in the "Paper Size" drop-down menu. Click "OK" to exit the window.
+![Cover Printing Instructions 3](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Cover%203.png)<hr>
+<b>Figure 11.</b> Click on the "Properties" button next to your printer and select "Legal" in the "Paper Size" drop-down menu. Click "OK" to exit the window.
 <br><br><br>
 
 
-![Cover Printing Instructions 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Instructions.png)<hr>
-Finally, adjust the "Scale" to 24% in the "Custom scale" option and click on the "OK" button.
+![Cover Printing Instructions 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Cover%204.png)<hr>
+<b>Figure 12.</b> Finally, adjust the "Scale" to 24% in the "Custom scale" option and click on the "OK" button.
 <br><br><br>
 
 
@@ -141,61 +141,70 @@ Finally, adjust the "Scale" to 24% in the "Custom scale" option and click on the
 <b>Step 9</b>- Assemble your book using an acid-free Polyvinyl Acetate (PVA) glue. You can use large 2" binder clips to hold the pages in place while you apply the glue to the spine. At least two applications of glue are recommended for good adhesion, and the cover could then be glued on afterwards. The images below provide guidance in assembling your book.
 
 ![1-General Setup](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/1-%20General%20Setup.jpg)<hr>
-Some paper or cardstock strips should line the side where you will apply the binding clips (on both sides of the book), to avoid damaging the paper. You will require some wax paper or parchment paper (here muffin tin parchment paper liners) to lay on the book before placing heavy books on it. This will prevent the glue from adhering to the books or the blotting paper that you will place over the parchment paper. Also, you will need an old paintbrush or a foam brush in order to apply the PVA glue to the spine. Please make sure to wash the brush with soapy water right after you are done, so that you could use it for more binding projects afterwards. Also, it's a good idea to have a damp cloth available to clean up any spills or glue on your hands while you work.
+<b>Figure 12.</b> Some paper or cardstock strips should line the side where you will apply the binding clips (on both sides of the book), to avoid damaging the paper. You will require some wax paper or parchment paper (here muffin tin parchment paper liners) to lay on the book before placing heavy books on it. This will prevent the glue from adhering to the books or the blotting paper that you will place over the parchment paper. Also, you will need an old paintbrush or a foam brush in order to apply the PVA glue to the spine. Please make sure to wash the brush with soapy water right after you are done, so that you could use it for more binding projects afterwards. Also, it's a good idea to have a damp cloth available to clean up any spills or glue on your hands while you work.
 <br><br><br>
 
 
-![2-Fanning Out the Pages](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-%20Fanning%20Out%20the%20Pages.jpg)<hr> In order to increase the surface area exposed to the application of glue, it is recommended to fan out the pages using a large plastic container as a support. Apply an even layer of PVA glue onto the pages with your brush. When done, turn the book and fan out the spine pages in the other direction, using the same plastic container as a support. Apply some glue the same way and then let the page stand upright. Press the pages together and proceed to the next step.   
+![2-Fanning Out the Pages](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-%20Fanning%20Out%20the%20Pages.jpg)<hr> 
+<b>Figure 13.</b> In order to increase the surface area exposed to the application of glue, it is recommended to fan out the pages using a large plastic container as a support. Apply an even layer of PVA glue onto the pages with your brush. When done, turn the book and fan out the spine pages in the other direction, using the same plastic container as a support. Apply some glue the same way and then let the page stand upright. Press the pages together and proceed to the next step.   
 <br><br><br>
 
 
-![3-Assembling the Sandwitch (Part 1)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/3-%20Assembling%20the%20Sandwich%20(Part%201).jpg)<hr> Lay the book flat on some blotting paper, with some parcment paper covering both sides of the spine. 
+![3-Assembling the Sandwitch (Part 1)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/3-%20Assembling%20the%20Sandwich%20(Part%201).jpg)<hr> <b>Figure 14.</b> Lay the book flat on some blotting paper, with some parcment paper covering both sides of the spine. 
 <br><br><br>
 
 
-![4-Assembling the Sandwitch (Part 2)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/4-%20Assembling%20the%20Sandwich%20(Part%202).jpg)<hr> Place another sheet of blotting paper over the parchment paper, and then lay some heavy books on your binding project. This will allow the book to dry relatively flat, with the moisture from the glue reaching the blotting paper.  
+![4-Assembling the Sandwitch (Part 2)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/4-%20Assembling%20the%20Sandwich%20(Part%202).jpg)<hr> <b>Figure 15.</b> Place another sheet of blotting paper over the parchment paper, and then lay some heavy books on your binding project. This will allow the book to dry relatively flat, with the moisture from the glue reaching the blotting paper.  
 <br><br>
 
 
-![5-General Setup for Cover Assembly](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/1-Applying%20cover%20general%20setup.jpg)<hr> The image above shows the tools needed to add the cover to your book. Use scissors or other more precise cutting tools to remove the excess cardstock, while leaving the white trim, as shown on the image. There is an extra 1/64 inch (or 0.5 mm) of white space where you need to cut along the background, so you don't need to cut too close to the background on the scap cardstock. A pencil will be used later to figure out where to fold the second crease of the spine. A bone cutter tool may be useful when folding, but is not strictly necessary. A flat-tip paintbrush will help you apply the PVA glue more precisely. 
+![5-General Setup for Cover Assembly](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/1-Applying%20cover%20general%20setup.jpg)<hr> 
+<b>Figure 16.</b> The image above shows the tools needed to add the cover to your book. Use scissors or other more precise cutting tools to remove the excess cardstock, while leaving the white trim, as shown on the image. There is an extra 1/64 inch (or 0.5 mm) of white space where you need to cut along the background, so you don't need to cut too close to the background on the scap cardstock. A pencil will be used later to figure out where to fold the second crease of the spine. A bone cutter tool may be useful when folding, but is not strictly necessary. A flat-tip paintbrush will help you apply the PVA glue more precisely. 
 <br><br><br>
 
 
-![6-First Fold](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-First%20fold.jpg)<hr> Line up the edges of the cardstock paper such that the edge of the spine dark rectangle is barely visible and carefully crease the paper, using a bone folder tool if you have one. Be vigilant when folding covers printed with laser toner, which tends to flake off when rubbed. If possible, try to fold right before the edge to avoid scraping the toner, as shown in the next image. Furthermore, I recommend using inkjet printers to print the spines of books with more than 200 pages (using 20 lb 8 1/2" x 11" copy paper), as thicker books will result in the toner on the spine to crack when being opened, thus reducing the legibility of the spine text. When printing book covers with inkjet printers, you would need to apply a sealer to make the cover waterproof to increase its durability.
+![6-First Fold](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-First%20fold.jpg)<hr> 
+<b>Figure 17.</b> Line up the edges of the cardstock paper such that the edge of the spine dark rectangle is barely visible and carefully crease the paper, using a bone folder tool if you have one. Be vigilant when folding covers printed with laser toner, which tends to flake off when rubbed. If possible, try to fold right before the edge to avoid scraping the toner, as shown in the next image. Furthermore, I recommend using inkjet printers to print the spines of books with more than 200 pages (using 20 lb 8 1/2" x 11" copy paper), as thicker books will result in the toner on the spine to crack when being opened, thus reducing the legibility of the spine text. When printing book covers with inkjet printers, you would need to apply a sealer to make the cover waterproof to increase its durability.
 <br><br><br>
 
 
 ![7-First Fold Result](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/3-First%20fold%20result.jpg)<hr>
-Here's an illustration of the results after the first fold. Note that the fold is right before the edge of the spine dark rectangle.
+<b>Figure 18.</b> Here's an illustration of the results after the first fold. Note that the fold is right before the edge of the spine dark rectangle.
 <br><br><br>
 
 
-![8-Tracing Outline of Second Fold](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/4-Tracing%20second%20fold%20line.jpg)<hr> Use the pencil to trace the outline of the other side of the dark spine rectangle on the back of the cardstock cover, while holding it up against a light source to see through it. This will enable you to line up the ruler and crease the paper to get the second fold on the spine.
+![8-Tracing Outline of Second Fold](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/4-Tracing%20second%20fold%20line.jpg)<hr> 
+<b>Figure 19.</b> Use the pencil to trace the outline of the other side of the dark spine rectangle on the back of the cardstock cover, while holding it up against a light source to see through it. This will enable you to line up the ruler and crease the paper to get the second fold on the spine.
 <br><br><br>
 
 
-![9-Second Fold](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/5-Second%20fold.jpg)<hr> Lay the ruler about 1/64 - 1/32 inch (0.5 - 1 mm) below the pencil line carefully lift the other side of the cardstock to make the second fold on the spine. You can use a bone folder to make the fold crisper afterwards.
+![9-Second Fold](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/5-Second%20fold.jpg)<hr> 
+<b>Figure 20.</b> Lay the ruler about 1/64 - 1/32 inch (0.5 - 1 mm) below the pencil line carefully lift the other side of the cardstock to make the second fold on the spine. You can use a bone folder to make the fold crisper afterwards.
 <br><br><br>
 
 
-![10-Measure "cover_extra_cm"](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/6-Measure%20%22cover_extra_cm%22.jpg)<hr> This is a good time to place the bound pages in your folded cover and ensure that the sizing is good. If you will not be using a guillotine stack page cutter to even out any discrepancies, you might want to print your cover again with some adjustments made to its page width. Simply measure the length of the overhanging bound pages relative to the cover (either in inches or centimeters, in decimal form) and enter that number as an additional parameter (preceded by "cover_extra_inches:" or "cover_extra_cm:" when running the Python code. For example, if the bound pages are 2 mm longer than the cover on both sides of the book, you would then enter "cover_extra_cm:0.2" as an additional argument. If the measurements are uneven on both sides, it is likely that you didn't fold the cover exacly the same distance from the spine on both sides and you can just take the average between the two measurements and input it as above.  
+![10-Measure "cover_extra_cm"](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/6-Measure%20%22cover_extra_cm%22.jpg)<hr> 
+<b>Figure 21.</b> This is a good time to place the bound pages in your folded cover and ensure that the sizing is good. If you will not be using a guillotine stack page cutter to even out any discrepancies, you might want to print your cover again with some adjustments made to its page width. Simply measure the length of the overhanging bound pages relative to the cover (either in inches or centimeters, in decimal form) and enter that number as an additional parameter (preceded by "cover_extra_inches:" or "cover_extra_cm:" when running the Python code. For example, if the bound pages are 2 mm longer than the cover on both sides of the book, you would then enter "cover_extra_cm:0.2" as an additional argument. If the measurements are uneven on both sides, it is likely that you didn't fold the cover exacly the same distance from the spine on both sides and you can just take the average between the two measurements and input it as above.  
 <br><br>
 
 
-![11-Apply glue onto the spine](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/7-Applying%20glue%20on%20spine.jpg)<hr> Apply some PVA glue on the back side of the spine with your paintbrush and then add another coat of glue onto the spine of the bound pages to ensure good contact between cover and pages. 
+![11-Apply glue onto the spine](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/7-Applying%20glue%20on%20spine.jpg)<hr> 
+<b>Figure 22.</b> Apply some PVA glue on the back side of the spine with your paintbrush and then add another coat of glue onto the spine of the bound pages to ensure good contact between cover and pages. 
 <br><br><br>
 
 
-![11-Apply glue onto the spine](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/8-Assembling%20the%20book.jpg)<hr> Line up the bound pages on top of the glue on the cover, using the folds to guide you. Carefully adjust the alignment before applying too much downwards pressure on the pages. The fold the cover pages around the book and gently tap the spine on your working surface. Smooth the spine with your fingers and place the finished book under some other books as done previously to ensure that the book dries flat. 
+![11-Apply glue onto the spine](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/8-Assembling%20the%20book.jpg)<hr> 
+<b>Figure 23.</b> Line up the bound pages on top of the glue on the cover, using the folds to guide you. Carefully adjust the alignment before applying too much downwards pressure on the pages. The fold the cover pages around the book and gently tap the spine on your working surface. Smooth the spine with your fingers and place the finished book under some other books as done previously to ensure that the book dries flat. 
 <br><br><br>
 
 
 ![12-Stack of bound books](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/10-Stack%20of%20books.jpg)<hr>
-Here's a display of my first handbound books! There's room for improvement, but given that I used perforated paper with perforations in the middle of the 8 1/2" x 11" pages that were somewhat uneven, I think the results are quite decent! For best results, I would recommend carefully lining up the pages so that the spine is perfectly flat and then trimming the pargins using a guillotine stack page cutter (which I didn't have access to) after your project is done.
+<b>Figure 24.</b> Here's a display of my first handbound books! There's room for improvement, but given that I used perforated paper with perforations in the middle of the 8 1/2" x 11" pages that were somewhat uneven, I think the results are quite decent! For best results, I would recommend carefully lining up the pages so that the spine is perfectly flat and then trimming the pargins using a guillotine stack page cutter (which I didn't have access to) after your project is done.
 <br><br><br>
 
 
-![13-Stack of bound books](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/11-Book%20Reading%20Experience.jpg)<hr> Most importantly, the resulting book read like... well a book!
+![13-Stack of bound books](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/11-Book%20Reading%20Experience.jpg)<hr> 
+<b>Figure 25.</b> Most importantly, the resulting book read like... well a book!
 <br><br><br>
 
 
