@@ -154,6 +154,26 @@ cover_author_line_spacing = 4
 cover_box_color = None
 cover_text_color = None
 cover_trim_width = 0.25
+#The "cover_line" variable determines whether
+#a dark border will be present on the cover,
+#before the white trim. The default setting
+#does not include such a border, as the users
+#may wish to trim their pages using a stack
+#page guillotine cutter, and the presence of
+#a black line would likely leave behind some
+#uneven line after cutting.
+cover_line = False
+#An extra 35 pixels are added, as there seems to
+#be 3 mm missing on both sides of the cover due
+#to binding irregularities and the thickness of
+#the glue: (3 mm * inch/25.4 mm * 4200 pixels/14 inch)
+cover_extra_pixels = 35
+#The "text_pixels_from_spine_bottom" variable
+#determines how many pixels are added to the
+#starting "y" coordinate (in the rotated image)
+#from the bottom of the spine box to reach the
+#point where the spine text will start to be written.
+text_pixels_from_spine_bottom = 3
 
 number_of_pages = None
 inches_per_ream_500_pages = None
@@ -253,27 +273,14 @@ right_margin_twips = 1600
 #pixel count: (4200 - 4.75*4200/14) = 2775 px
 left_margin_cover_textbox = 2775
 
-#The space between the left edge of the textbox
-#and the start of the text on the x axis is set to 100 pixels,
-#so the text will start drawing at "left_margin_cover_textbox + 100" pixels
-left_margin_cover_text = 2875
-#The left margin can simply be calculated given the pixel
+#The right margin can simply be calculated given the pixel
 #width of the canvas: 4220-(0.75*4200/14) = 3995 px
 right_margin_cover_textbox = 3995
-
-#The space between the right edge of the textbox
-#and the end of the text on the x axis is set to 100 pixels,
-#so the text will start drawing at "right_margin_cover_textbox - 100" pixels
-right_margin_cover_text = 3895
 
 #The top margin of the text box on the cover page can
 #be determined by adding a 25% of the vertical
 #pixels to the starting y corrdinate of 0. (0+(2550/4)).
 top_margin_cover_textbox = 640
-
-
-#The bottom margin of the text box on the cover page
-#can be determined by adding
 
 #A line spacing of 276 twips (r"\sl276\slmult1")
 #is equivalent to 1.15 line spacing. Here is
@@ -447,6 +454,17 @@ if len(sys.argv) > 1:
                 cover_trim_width = float(sys.argv[i][17:].strip())
             elif sys.argv[i].strip().lower()[:20] == "cover_trim_width_cm:":
                 cover_trim_width = float(sys.argv[i][20:].strip())/2.54
+            elif sys.argv[i].strip().lower()[:10] == "cover_line":
+                cover_line = True
+            elif sys.argv[i].strip().lower()[:19] == "cover_extra_inches:":
+                inches = float(sys.argv[i].strip()[19:])
+                cover_extra_pixels = round(inches*4200/14)
+            elif sys.argv[i].strip().lower()[:15] == "cover_extra_cm:":
+                cm = float(sys.argv[i].strip()[15:])
+                cover_extra_pixels = round(cm/2.54*4200/14)
+            elif sys.argv[i].strip().lower()[:30] == "text_pixels_from_spine_bottom:":
+                text_pixels_from_spine_bottom = int(sys.argv[i].strip()[30:])
+
 
     except:
         problem = True
@@ -458,6 +476,27 @@ if len(sys.argv) > 1:
 #provided a title, author and valid file name.
 if (problem == False and title != None and author != None and txt_file_name != None and
 txt_file_name[-4:].lower() == ".txt"):
+
+    #Some extra pixels are subtracted from "left_margin_cover_textbox",
+    #(35 pixels by default), as there seems to be 3 mm missing on both
+    #sides of the cover due to binding irregularities and the thickness of
+    #the glue: (3 mm * inch/25.4 mm * 4200 pixels/14 inch = 35 pixels).
+    #By subtracting some pixels, the cover title box is shifted towards
+    #the left.
+    left_margin_cover_textbox -= cover_extra_pixels
+
+    #The same applies to the "right_margin_cover_textbox"
+    right_margin_cover_textbox -= cover_extra_pixels
+
+    #The space between the left edge of the textbox
+    #and the start of the text on the x axis is set to 100 pixels,
+    #so the text will start drawing at "left_margin_cover_textbox + 100" pixels
+    left_margin_cover_text = left_margin_cover_textbox + 100
+
+    #The space between the right edge of the textbox
+    #and the end of the text on the x axis is set to 100 pixels,
+    #so the text will start drawing at "right_margin_cover_textbox - 100" pixels
+    right_margin_cover_text = right_margin_cover_textbox - 100
 
     #The space between the top margin of the textbox
     #and where the top edge of the text on the y axis
@@ -1947,7 +1986,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 #esthetically pleasing results in terms of contrast with the
                 #background.
                 #The first pixel "x,y" coordinate at index "[0][0]" in the numpy
-                #array "image_array" (before the image is converted to "RGBA" mode)
+                #array "image_array" (before the image is converted to "RGB" mode)
                 #will be checked to see if it is of type "np.ndarray", indicating that
                 #it has RGB channels, instead of being an integer as in a
                 #grayscale image. If the "isinstance()" method is "False",
@@ -2028,11 +2067,11 @@ txt_file_name[-4:].lower() == ".txt"):
                     else:
                         min_pixel = [min_pixels[0], min_pixels[1]]
 
-                #The "image" is then converted to "RGBA" mode in case
-                #the user has specified some colors to use in "RGBA" mode.
+                #The "image" is then converted to "RGB" mode in case
+                #the user has specified some colors to use in "RGB" mode.
                 #The "image_array" is overwritten with the multi-channel
-                #"RGBA" numpy array.
-                image = image.convert("RGBA")
+                #"RGB" numpy array.
+                image = image.convert("RGB")
                 image_array = np.array(image)
                 #The "image_editable" instantiation of the "Draw" class will allow
                 #to modify the background image by overlaying it with the text boxes.)
@@ -2048,7 +2087,7 @@ txt_file_name[-4:].lower() == ".txt"):
                     #Knowing the pixel "x,y" coordinates for the pixel with the lowest
                     #grayscale value ("min_pixel"), it is possible to find it within the
                     #colored image, by indexing the "image_array" numpy array derived from it.
-                    dark_color = (image_array[min_pixel[0], min_pixel[1]]).tolist()[:-1]
+                    dark_color = (image_array[min_pixel[0], min_pixel[1]]).tolist()
 
                     #The complementary color is determined by subtracting the RGB
                     #values from those of white (255,255,255). This tends to give
@@ -2061,7 +2100,7 @@ txt_file_name[-4:].lower() == ".txt"):
                     dark_color_grayscale = round(dark_color[0]/3 + dark_color[1]/3 + dark_color[2]/3)
                     #The same process as above is repeated for the lightest color on the background image,
                     #except that its complementary color is not determined.
-                    light_color = (image_array[max_pixel[0], max_pixel[1]]).tolist()[:-1]
+                    light_color = (image_array[max_pixel[0], max_pixel[1]]).tolist()
 
                     light_color_grayscale = round(light_color[0]/3 + light_color[1]/3 + light_color[2]/3)
 
@@ -2348,30 +2387,36 @@ txt_file_name[-4:].lower() == ".txt"):
                 image_editable.rectangle([(0,0),(4200, cover_trim_width_pixels)], fill="white")
                 image_editable.rectangle([(round(4200-cover_trim_width*4200/14),0),(4200, 2550)], fill="white")
                 image_editable.rectangle([(0,2550-cover_trim_width_pixels),(4200, 2550)], fill="white")
-                #An extra pixel (equivalent to about 1 mm) is added to the width of the white rectangle
-                #on the left vertical side, to allow to cut the line while excluding the pattern on the
-                #excess cardstock.
-                image_editable.rectangle([(4200-round(11*4200/14+width_of_spine_pixels)-1,0),
-                ((4200-round(11*4200/14+width_of_spine_pixels))+cover_trim_width_pixels, 2550)], fill="white")
-                #A dark trim of color "dark_color" is drawn directly within the white border, so as to
-                #harmonize the white border with the rest of the contents of the cover.
-                image_editable.rectangle([((4200-round(11*4200/14+width_of_spine_pixels))+
-                cover_trim_width_pixels,cover_trim_width_pixels),(4200-cover_trim_width_pixels,
-                2550-cover_trim_width_pixels)], outline=cover_box_color, width = 25)
+                #The top left corner of the white rectangle is shifted to the left by "2*cover_extra_pixels"
+                #pixels, to account for the extra pixels added on the left and right covers. Also, an extra
+                #6 pixels (equivalent to about 0.5 mm) are added to the width of the white rectangle on the
+                #left vertical side, to allow to cut the line while excluding the pattern on the excess cardstock.
+                image_editable.rectangle([(4200-round(11*4200/14+width_of_spine_pixels+2*cover_extra_pixels)-6,0),
+                (4200-round(11*4200/14+width_of_spine_pixels+2*cover_extra_pixels) + cover_trim_width_pixels, 2550)], fill="white")
+                if cover_line == True:
+                    #If the variable "cover_line" is set to "True" (default setting is "False"), a dark trim
+                    #of color "dark_color" is drawn directly within the white border, so as to harmonize
+                    #the white border with the rest of the contents of the cover. Once again, the top left
+                    #corner of the dark rectangle is shifted to the left by "2*cover_extra_pixels"
+                    #pixels, to account for the extra pixels added on the left and right covers.
+                    image_editable.rectangle([((4200-round(11*4200/14+width_of_spine_pixels+2*cover_extra_pixels))+
+                    cover_trim_width_pixels,cover_trim_width_pixels),(4200-cover_trim_width_pixels,
+                    2550-cover_trim_width_pixels)], outline=cover_box_color, width = 25)
 
                 #The "x,y" coordinates of the top left corner of the rectangle are calculated based on the
                 #width of the covers of the book (14"-5.5"=8.5") and the pixel count is given using the known
                 #pixel numbers for the width of a Legal page in landscape mode (4200 pixels at 300 ppi).
                 #The width of the spine is then subracted in order to reach the left "x" coordinate with
-                #the addition of 3 pixels to account for the space needed to fold the spine. The top "y"
-                #coordinate is set at one inch from the top of the page, and the bottom "y" coordinate of
-                #the bottom right corner is set at one inche from the bottom of the page (8.5"-1"=7.5").
-                #The bottom right corner "x" coordinate is calculated based on the width of the covers of
-                #the book (14"-5.5"=8.5") and the pixel count is determined using the Legal proportions
-                #as above, with 3 pixels being subtracted to avoid spillover of the black spine onto the
-                #cover page when folding the cover paper.
-                image_editable.rounded_rectangle([(8.5*4200/14-width_of_spine_pixels+3,1.0*4200/14),
-                (8.5*4200/14-3,7.5*4200/14)], radius=50, fill=cover_box_color)
+                #the subtraction of "cover_extra_pixels" pixels to account for the space needed to fold
+                #the spine and for the added thickness imparted by the glue. The top "y" coordinate is set
+                #at one inch from the top of the page, and the bottom "y" coordinate of the bottom right
+                #corner is set at one inche from the bottom of the page (8.5"-1"=7.5"). The bottom right
+                #corner "x" coordinate is calculated based on the width of the covers of the book (14"-5.5"=8.5")
+                #and the pixel count is determined using the Legal proportions as above, with "cover_extra_pixels"
+                #pixels being subtracted to avoid spillover of the black spine onto the cover page when folding
+                #the cover paper.
+                image_editable.rounded_rectangle([(8.5*4200/14-width_of_spine_pixels-cover_extra_pixels,1.0*4200/14),
+                (8.5*4200/14-cover_extra_pixels,7.5*4200/14)], radius=50, fill=cover_box_color)
 
                 #The author name is initialized to take up less space on the spine. First, the name is
                 #split at every space or hyphen, with inclusion of those characters as separate elements
@@ -2405,16 +2450,16 @@ txt_file_name[-4:].lower() == ".txt"):
                 #of the black rectangle is drawn only if the number of pages is over 300, as its presence
                 #decreases the available space for the spine text.
                 if number_of_pages >= 300:
-                    image_editable.rounded_rectangle([(8.5*4200/14-width_of_spine_pixels+25+3,1.0*4200/14+25),
-                    (8.5*4200/14-25-3,7.5*4200/14-25)], radius=round((width_of_spine_pixels
+                    image_editable.rounded_rectangle([(8.5*4200/14-width_of_spine_pixels+25-cover_extra_pixels,1.0*4200/14+25),
+                    (8.5*4200/14-25-cover_extra_pixels,7.5*4200/14-25)], radius=round((width_of_spine_pixels
                     -50)/width_of_spine_pixels*50), outline=cover_text_color, width=10)
 
                     #The available space on the horizontal axis is determined by subtracting the
                     #"x" coordinate of the bottom right corner of the spine dark rectangle from
                     #that of the top left corner. 70 pixels are subtracted from that amount to
                     #account for the space between the pale rectangle vertical edges and the text.
-                    available_horizontal_space_pixels = (round((8.5*4200/14-25-3)-
-                    (8.5*4200/14-width_of_spine_pixels+25+3))-70)
+                    available_horizontal_space_pixels = (round((8.5*4200/14-25)-
+                    (8.5*4200/14-width_of_spine_pixels+25))-70)
                     #As there is one inch above and below the dark rectangle, the height of the
                     #dark rectangle is equal to the height of the Legal page in landscape mode
                     #minus two inches (8.5"-2"=6.5"). 50 pixels are subtracted to account for the
@@ -2442,15 +2487,15 @@ txt_file_name[-4:].lower() == ".txt"):
                     #either dimension of the "spine_string" from the that of the available space in
                     #the corresponding dimension of the rectangle.
                     offset_x = round(available_vertical_space_pixels/2 - spine_string_length_pixels/2)
-                    offset_y = round(available_horizontal_space_pixels/2 - spine_font_size/2)
+                    offset_y = round(available_horizontal_space_pixels/2 - spine_font_size/2) + cover_extra_pixels
 
                     #The image is outputted in PNG format.
-                    image.save(txt_file_name[:-4] + "(cover).png", "PNG")
+                    image.save(txt_file_name[:-4] + " (cover).png", "PNG")
 
                     #As text can only be written horizontally in Pillow, the image is reloaded and
                     #rotated 90 degrees clockwise in order to write the text on the spine.
                     image_rotated = (Image.open(txt_file_name[:-4] +
-                    "(cover).png").convert("RGBA").rotate(90, expand = True))
+                    " (cover).png").convert("RGB").rotate(90, expand = True))
                     image_rotated_editable = ImageDraw.Draw(image_rotated)
 
                     #The starting x and y coordinates mirror the measurements in the unrotated image.
@@ -2460,10 +2505,10 @@ txt_file_name[-4:].lower() == ".txt"):
                     #of the "offset_x".
                     #The top of the dark rectangle now stands 5.5 inches from the top of the canvas
                     #(the origin 0,0 being in the top left corner), with 25 pixels added to reach the
-                    #lighter line, and 28 pixels to reach the point where the text will start to be
+                    #lighter line, and 31 pixels to reach the point where the text will start to be
                     #written, with the addition of the "offset_y"
                     spine_text_starting_x = round(1.0*4200/14+25 + 35 + offset_x)
-                    spine_text_starting_y = round(5.5*4200/14+25+3+28 + offset_y)
+                    spine_text_starting_y = round(5.5*4200/14+25+28 + offset_y + text_pixels_from_spine_bottom)
 
                     image_rotated_editable.text((spine_text_starting_x, spine_text_starting_y),
                     spine_string, fill=cover_text_color, font=font_spine, align="center")
@@ -2485,8 +2530,8 @@ txt_file_name[-4:].lower() == ".txt"):
                     #account for the space between the pale rectangle vertical edges and the text.
                     #As "space_offset" effectively acts as a margin, it is subtracted from the
                     #available horizontal pixels.
-                    available_horizontal_space_pixels = (round((8.5*4200/14-3)-
-                    (8.5*4200/14-width_of_spine_pixels+3))-space_offset)
+                    available_horizontal_space_pixels = (round((8.5*4200/14)-
+                    (8.5*4200/14-width_of_spine_pixels))-space_offset)
 
                     #As there is one inch above and below the dark rectangle, the height of the
                     #dark rectangle is equal to the height of the Legal page in landscape mode
@@ -2513,15 +2558,15 @@ txt_file_name[-4:].lower() == ".txt"):
                     #either dimension of the "spine_string" from the that of the available space in
                     #the corresponding dimension of the rectangle.
                     offset_x = round(available_vertical_space_pixels/2 - spine_string_length_pixels/2)
-                    offset_y = round(available_horizontal_space_pixels/2 - spine_font_size/2)
+                    offset_y = round(available_horizontal_space_pixels/2 - spine_font_size/2) + cover_extra_pixels - text_pixels_from_spine_bottom
 
                     #The image is outputted in PNG format.
-                    image.save(txt_file_name[:-4] + "(cover).png", "PNG")
+                    image.save(txt_file_name[:-4] + " (cover).png", "PNG")
 
                     #As text can only be written horizontally in Pillow, the image is reloaded and
                     #rotated 90 degrees clockwise in order to write the text on the spine.
                     image_rotated = (Image.open(txt_file_name[:-4] +
-                    "(cover).png").convert("RGBA").rotate(90, expand = True))
+                    " (cover).png").convert("RGB").rotate(90, expand = True))
                     image_rotated_editable = ImageDraw.Draw(image_rotated)
 
                     #The starting x and y coordinates mirror the measurements in the unrotated image.
@@ -2537,9 +2582,12 @@ txt_file_name[-4:].lower() == ".txt"):
                     image_rotated_editable.text((spine_text_starting_x, spine_text_starting_y),
                     spine_string, fill=cover_text_color, font=font_spine, align="center")
 
-                #The image is once more outputted in PNG format, thus
-                #overwriting the unrotated version.
-                image_rotated.save(txt_file_name[:-4] + "(cover).png", "PNG")
+                #The image is once more outputted in PDF format, and the original
+                #unrotated PNG image is deleted.
+                image_rotated.save(txt_file_name[:-4] + " (cover).pdf")
+                os.remove(txt_file_name[:-4] + " (cover).png")
+
+
 
 #If the user hasn't provided a title, author and valid file name,
 #the following error message will be displayed on screen.
