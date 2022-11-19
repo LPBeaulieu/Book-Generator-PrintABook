@@ -97,7 +97,7 @@ In a few seconds, your RTF file will be generated in your working folder. For a 
 
 
 ![Format Header 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Format%20Header-Image%204.png)<hr>
-<b>Figure 7.</b> Enter the author name (in caps) before the number, with a four-space divider in-between. Select right-alignment to bring the header to the right corner of the page.
+<b>Figure 7.</b> Enter the title (in caps) before the number, with a four-space divider in-between. Select right-alignment to bring the header to the right corner of the page.
 <br><br><br>
 
 <b>Step 5</b>- <b>Save your file</b> either as an ".odt" (in LibreOffice) or ".docx" (in MS Word) file.
