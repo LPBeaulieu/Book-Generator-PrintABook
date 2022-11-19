@@ -1,5 +1,5 @@
 # PrintABook
-This app allows you to generate printer-friendly versions of TXT books from Project Gutenberg!
+This app allows you to generate printer-friendly versions of book TXT files from Project Gutenberg!
 
 ![PrintABook Thumbnail](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Thumbnail.jpg)
 <h3 align="center">PrintABook</h3>
@@ -15,7 +15,7 @@ This app allows you to generate printer-friendly versions of TXT books from Proj
 
 ---
 
-<p align="left"> <b>PrintABook</b> is a tool enabling you to generate printer-friendly versions of TXT books from Project Gutenberg, complete with the cover image! </p>
+<p align="left"> <b>PrintABook</b> is a tool enabling you to generate printer-friendly versions of book TXT files from Project Gutenberg, complete with the cover image! </p>
 
 - Simply follow the steps below to set up your system, and then add the text file (.txt) and cover background JPEG image to your working folder for the Project Gutenberg book that you wish to output in printable format, before running the Python code.
 
