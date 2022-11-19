@@ -150,7 +150,7 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 <br><br><br>
 
 
-![3-Assembling the Sandwitch (Part 1)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/3-%20Assembling%20the%20Sandwich%20(Part%201).jpg)<hr> <b>Figure 15.</b> Lay the book flat on some blotting paper, with some parcment paper covering both sides of the spine. 
+![3-Assembling the Sandwitch (Part 1)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/3-%20Assembling%20the%20Sandwich%20(Part%201).jpg)<hr> <b>Figure 15.</b> Lay the book flat on some blotting paper, with some parchment paper covering both sides of the spine. 
 <br><br><br>
 
 
