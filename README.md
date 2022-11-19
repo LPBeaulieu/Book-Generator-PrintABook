@@ -40,7 +40,7 @@ This app allows you to generate printer-friendly versions of book TXT files from
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
 The following instructions will be provided in great detail, as they are intended for a broad audience and will
-allow to run a copy of <b>PrintABook</b> on a local computer. 
+allow to run a copy of <b>PrintABook</b> on a local computer. You can also view the YouTube version of the instructions at the following link: https://www.youtube.com/watch?v=Cu0GCh3rEuI&list=PL8fAaOg_mhoHUzvqHrLiDTZU9KicMSTmz. 
 
 The instructions below are for Windows operating systems, but the code should run nicely on Linux and Mac-OS as well.
 
