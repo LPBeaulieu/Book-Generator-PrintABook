@@ -2173,7 +2173,7 @@ txt_file_name[-4:].lower() == ".txt"):
                     if cover_text_color != None and cover_text_color[0] == "(":
                         cover_text_color = "rgb" + cover_text_color
                     elif cover_text_color == None:
-                        cover_text_color = "LightGrey"
+                        cover_text_color = "White"
                 #The length (in pixels) taken up by the title is determined using the
                 #"textlength()" method, using the "font_title" with the default font size
                 #"cover_title_size".
@@ -2600,6 +2600,9 @@ txt_file_name[-4:].lower() == ".txt"):
                 image_rotated.save(txt_file_name[:-4] + " (cover).pdf")
                 os.remove(txt_file_name[:-4] + " (cover).png")
 
+                print("\nYour book has been created successfully! Here are the colors used for the boxes and text:")
+                print("Cover boxes color: " + cover_box_color)
+                print("Cover text color: " + cover_text_color)
 
 
 #If the user hasn't provided a title, author and valid file name,
