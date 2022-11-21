@@ -2166,11 +2166,14 @@ txt_file_name[-4:].lower() == ".txt"):
                     cover_box_color = "rgb" + str(tuple(dark_color))
 
                 else:
-                    if cover_box_color[0] == "(":
+                    if cover_box_color != None and cover_box_color[0] == "(":
                         cover_box_color = "rgb" + cover_box_color
-                    if cover_text_color[0] == "(":
+                    elif cover_box_color == None:
+                        cover_box_color = "Black"
+                    if cover_text_color != None and cover_text_color[0] == "(":
                         cover_text_color = "rgb" + cover_text_color
-
+                    elif cover_text_color == None:
+                        cover_text_color = "LightGrey"
                 #The length (in pixels) taken up by the title is determined using the
                 #"textlength()" method, using the "font_title" with the default font size
                 #"cover_title_size".
