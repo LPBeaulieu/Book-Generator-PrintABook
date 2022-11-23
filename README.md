@@ -69,7 +69,7 @@ In a few seconds, your RTF file will be generated in your working folder. For a 
 <br><br>
 
 
-![Additional Formatting Parameters 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20Image%202.png)<hr> <b>Figure 2.</b> This figure lists the other formatting parameters that can be altered when generating the RTF document. Once again, simply pass in the number after the colon (":") symbol, without units. In the case of the font, enter the name of the font (ex: "font:Arial"). For spacing in-between paragraphs, measurements are in points, as for the font size. So a spacing of 6 points should be half of the height of a font size of 12 (again, simply include the number without units). 
+![Additional Formatting Parameters 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/PrintABook%20Additional%20Parameters%20image%202.png)<hr> <b>Figure 2.</b> This figure lists the other formatting parameters that can be altered when generating the RTF document. Once again, simply pass in the number after the colon (":") symbol, without units. In the case of the font, enter the name of the font (ex: "font:Arial"). For spacing in-between paragraphs, measurements are in points, as for the font size. So a spacing of 6 points should be half of the height of a font size of 12. By default, the forward slashes are changed to smallcaps formatting delimitors. In order to keep the forward slashes unchanged, simply enter "keep_forward_slashes" as an additional argument (again, simply include the number without units). 
 <br><br>
 
 
