@@ -131,6 +131,17 @@ else:
     cover_font = ttf_files[0]
 
 
+#The "small_caps" variable will
+#determine if the forward slashes
+#will be changed to smallcaps RTF
+#commands (r"\scaps" and r"\scaps0").
+#The default setting is "True", meaning
+#that the forward slashes will be changed
+#to smallcaps RTF commands, and the user
+#can set "small_caps" to "False" if they
+#wish to maintain the forward slashes.
+small_caps = True
+
 title = None
 author = None
 #If the title needs to be split
@@ -474,7 +485,8 @@ if len(sys.argv) > 1:
                 text_pixels_from_spine_bottom = int(sys.argv[i].strip()[30:])
             elif sys.argv[i].strip().lower()[:32] == "pixels_from_top_cover_title_box:":
                 pixels_from_top_cover_title_box = int(sys.argv[i].strip()[32:])
-
+            elif sys.argv[i].strip().lower()[:20] == "keep_forward_slashes":
+                small_caps = False
 
     except:
         problem = True
@@ -486,8 +498,6 @@ if len(sys.argv) > 1:
 #provided a title, author and valid file name.
 if (problem == False and title != None and author != None and txt_file_name != None and
 txt_file_name[-4:].lower() == ".txt"):
-
-    print(text_pixels_from_spine_bottom)
 
     #Some extra pixels are subtracted from "left_margin_cover_textbox",
     #(35 pixels by default), as there seems to be 3 mm missing on both
@@ -803,7 +813,8 @@ txt_file_name[-4:].lower() == ".txt"):
         #The line indices at which the opening and closing tags of the manuscript are located
         #within the "text" list are stored in "first_line_index" and "last_line_index" and
         #will enable to slice out the Project Gutenberg information and license.
-        elif text[i].strip(" ") != "\n" and text[i][:40] == "*** START OF THE PROJECT GUTENBERG EBOOK":
+        elif (text[i].strip(" ") != "\n" and (text[i][:40] == "*** START OF THE PROJECT GUTENBERG EBOOK" or
+        text[i][:41] == "*** START OF THIS PROJECT GUTENBERG EBOOK")):
             #If there are "***" in the line (after the opening stars),
             #then the "first_line_index" is set to the next line ("i+1").
             if text[i][3:].find("***") != -1:
@@ -817,7 +828,8 @@ txt_file_name[-4:].lower() == ".txt"):
                     if "***" in text[j]:
                         first_line_index = j+1
                         break
-        elif text[i].strip(" ") != "\n" and text[i][:38] == "*** END OF THE PROJECT GUTENBERG EBOOK":
+        elif (text[i].strip(" ") != "\n" and (text[i][:38] == "*** END OF THE PROJECT GUTENBERG EBOOK" or
+        text[i][:39] == "*** END OF THIS PROJECT GUTENBERG EBOOK")):
             last_line_index = i-1
 
     if problem == False and contents_index_start != None and contents_index_end != None:
@@ -1843,7 +1855,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 #list, and if the previous character is not a letter and the following character is either
                 #a letter or "¡", "¿" (which would start an exclamation or question, respectively, in Spanish)
                 #a backslash (if the quote is followed by an RTF command or escape such as "\i"),
-                #or an underscore (the italics will be dealt with after this step), then the double quote
+                #or a smallcaps (the italics will be dealt with after this step), then the double quote
                 #is changed to the opening directional quote.
                 elif (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
                 (text_string[double_quote_indices[i]-1].isalpha() == False and
@@ -1887,7 +1899,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 #The variable "italics_opening_tag" is initialized to false and
                 #designates whether or not the next italics tag to be assigned
                 #is an opening tag. As the "for" loop proceeds in reverse order
-                #to avoid indexing issues related tu the substitution of an underscore
+                #to avoid indexing issues related to the substitution of an underscore
                 #for a multi-character RTF command, the first italics tag to
                 #be assigned will be a closing one (r"\i0"). Every time an
                 #italics tag is assigned, the value of "italics_opening_tag"
@@ -1923,8 +1935,62 @@ txt_file_name[-4:].lower() == ".txt"):
                 else:
                     print("\nThere appears to be formatting errors in the submitted text file, " +
                     "in that there are some unmatched underscores that prevent the code from " +
-                    "applying intalics formating to the text. All the underscores were therefore " +
+                    "applying italics formating to the text. All the underscores were therefore " +
                     "left unchanged and designate words or passages in italics.")
+
+
+            if small_caps == True:
+                #A copy of "text_string" is made in case there are formatting errors in the
+                #manuscript and unmatched forward slashes. This way, the "text_string" will only
+                #be updated if all of the forward slashes can be assigned to smallcaps RTF commands.
+                text_string_copy = text_string
+                #If there is at least one instance of a forward slash in
+                #"text_string_copy", indicating the presence of smallcaps
+                #formatting, the "if" statement will run.
+                if text_string_copy.find(r"/") != -1:
+                    forward_slash_matches = re.finditer(r"/", text_string_copy)
+                    forward_slash_indices = [match.start() for match in forward_slash_matches]
+                    #The variable "smallcaps_opening_tag" is initialized to false and
+                    #designates whether or not the next smallcaps tag to be assigned
+                    #is an opening tag. As the "for" loop proceeds in reverse order
+                    #to avoid indexing issues related to the substitution of a forward slash
+                    #for a multi-character RTF command, the first smallcaps tag to
+                    #be assigned will be a closing one (r"\scaps0"). Every time an
+                    #smallcaps tag is assigned, the value of "smallcaps_opening_tag"
+                    #is changed to its opposite.
+                    smallcaps_opening_tag = False
+                    for i in range(len(forward_slash_indices)-1, -1, -1):
+                        if smallcaps_opening_tag == True and forward_slash_indices[i] < len(text_string_copy)-1:
+                            #The "text_string_copy" string is sliced while skipping over the index at
+                            #which the smallcaps was found, introducing the RTF smallcaps tag in its place.
+                            text_string_copy = (text_string_copy[:forward_slash_indices[i]] + r"\scaps " +
+                            text_string_copy[forward_slash_indices[i]+1:])
+                            smallcaps_opening_tag = False
+                        elif smallcaps_opening_tag == False and forward_slash_indices[i] < len(text_string_copy)-1:
+                            text_string_copy = (text_string_copy[:forward_slash_indices[i]] + r"\scaps0 " +
+                            text_string_copy[forward_slash_indices[i]+1:])
+                            smallcaps_opening_tag = True
+                        elif smallcaps_opening_tag == False and forward_slash_indices[i] == len(text_string_copy)-1:
+                            text_string_copy = text_string_copy[:forward_slash_indices[i]] + r"\scaps0 "
+                            smallcaps_opening_tag = True
+
+                    #As the initial value of "smallcaps_opening_tag" was set
+                    #to "False", it should end up at "False" if all smallcaps
+                    #were matched to their respective smallcaps RTF commands. If
+                    #The value ends up being "True", it means that there are
+                    #some missing smallcaps in the text file to fully pair up.
+                    if smallcaps_opening_tag == False:
+                        text_string = text_string_copy
+                    #If the smallcaps don't match up, the user is informed that
+                    #the smallcaps formatting has not been applied to the file and
+                    #the smallcaps will remained unchanged. The code below will
+                    #continue on with the "text_string", which was not updated
+                    #as in the "if" statement above.
+                    else:
+                        print("\nThere appears to be formatting errors in the submitted text file, " +
+                        "in that there are some unmatched forward slashes that prevent the code from " +
+                        "applying smallcaps formating to the text. All the forward slashes were therefore " +
+                        "left unchanged and designate words or passages in smallcaps.")
 
             #The RTF escapes are substituted for the symbols to allow for adequate representation within
             #the RTF file.
@@ -2368,7 +2434,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 #If the title wasn't split, it will be written using the "text"() method of the Pillow module
                 else:
                     image_editable.text((left_margin_cover_text + cover_title_offset
-                    -round(cover_trim_width_pixels/2), vertical_margin_cover_text),
+                    -round(cover_trim_width_pixels/2), vertical_margin_cover_text + pixels_from_top_cover_title_box),
                     title, fill=cover_text_color, font=font_title, align="center")
                 #A similar approach is taken for the author name, except that since it is written in smaller sized font,
                 #it needs a horizontal offset ("cover_author_offset") in order to be centered. Also, the text begins at
