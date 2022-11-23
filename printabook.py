@@ -173,7 +173,15 @@ cover_extra_pixels = 35
 #starting "y" coordinate (in the rotated image)
 #from the bottom of the spine box to reach the
 #point where the spine text will start to be written.
+#Negative values will bring the text down.
 text_pixels_from_spine_bottom = 3
+#The "pixels_from_top_cover_title_box" variable
+#determines how many pixels are added to the
+#starting "y" coordinate (in the unrotated image)
+#from the top of the cover title box to reach the
+#point where the cover title text will start to be
+#written. Negative values will bring the text up.
+pixels_from_top_cover_title_box = 0
 
 number_of_pages = None
 inches_per_ream_500_pages = None
@@ -464,6 +472,8 @@ if len(sys.argv) > 1:
                 cover_extra_pixels = round(cm/2.54*4200/14)
             elif sys.argv[i].strip().lower()[:30] == "text_pixels_from_spine_bottom:":
                 text_pixels_from_spine_bottom = int(sys.argv[i].strip()[30:])
+            elif sys.argv[i].strip().lower()[:32] == "pixels_from_top_cover_title_box:":
+                pixels_from_top_cover_title_box = int(sys.argv[i].strip()[32:])
 
 
     except:
@@ -476,6 +486,8 @@ if len(sys.argv) > 1:
 #provided a title, author and valid file name.
 if (problem == False and title != None and author != None and txt_file_name != None and
 txt_file_name[-4:].lower() == ".txt"):
+
+    print(text_pixels_from_spine_bottom)
 
     #Some extra pixels are subtracted from "left_margin_cover_textbox",
     #(35 pixels by default), as there seems to be 3 mm missing on both
@@ -2341,9 +2353,16 @@ txt_file_name[-4:].lower() == ".txt"):
                 #"vertical_margin_cover_text", using the "multiline_text()" method of the Pillow module
                 #with the "adjusted_title_cover" string containing a carriage return "\n" after the
                 #"first_half_words_string".
+
+                #The "pixels_from_top_cover_title_box" variable
+                #determines how many pixels are added to the
+                #starting "y" coordinate (in the unrotated image)
+                #from the top of the cover title box to reach the
+                #point where the cover title text will start to be
+                #written. Negative values will bring the text up.
                 if adjusted_title_cover != None:
                     image_editable.multiline_text((left_margin_cover_text +
-                    cover_title_offset-round(cover_trim_width_pixels/2), vertical_margin_cover_text),
+                    cover_title_offset-round(cover_trim_width_pixels/2), vertical_margin_cover_text + pixels_from_top_cover_title_box),
                     adjusted_title_cover, fill=cover_text_color, font=font_title, align="center",
                     spacing=cover_title_line_spacing)
                 #If the title wasn't split, it will be written using the "text"() method of the Pillow module
