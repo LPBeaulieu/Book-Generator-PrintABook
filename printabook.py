@@ -699,21 +699,53 @@ txt_file_name[-4:].lower() == ".txt"):
 
     with open(txt_file_name, "r", encoding="utf-8") as f:
         text = f.readlines()
-    #First, any occurences of more than one successive space are
-    #changed to a single space. This needs to be done before introducing
-    #RTF commands, which are followed by an optional space, the removal
-    #of which would result in merged words.
-    #Then, backslashes and curly brackets (if present in the TXT file)
-    #are changed to their corresponding RTF escapes, so as to avoid
-    #any issues when parsing the RTF code.
+
     for i in range(len(text)):
         #Instances of three or more successive spaces would typically
         #designate tabs and will be removed. Afterwards, any instances
-        #of two or more successive space will be changed for a signe space,
+        #of two or more successive spaces will be changed for a single space,
         #as there could have been a typo with an additional space.
+        #This needs to be done before introducing RTF commands, which are
+        #followed by an optional space, the removal of which would result
+        #in merged words. Instances of "[Illustration]" are removed and
+        #backslashes (if present in the TXT file) are changed to their
+        #corresponding RTF escapes, so as to avoid any issues when parsing
+        #the RTF code. Finally, instances of "_{", denoting subscript passages,
+        #are changed for the subscript RTF command (r"{\sub "). The same goes
+        #for superscript passages ("^{"), which are changed to r"{\super ".
         text[i] = (re.sub('[" "]{3,}', "", text[i]).replace("  ", " ")
-        .replace("[Illustration]", "").replace('\\', r"\'5c")
-        .replace('{', "\\'7b").replace('}', "\\'7d"))
+        .replace("[Illustration]", "").replace('\\', r"\'5c").replace('_{', r'{\sub ')
+        .replace('^{', r'{\super '))
+
+        #If a line still contains a caret symbol, it is likely because there is
+        #a single character following it that should be in superscript. The indices
+        #of all carets in the line are gathered using the "finditer" method from
+        #the re module. These indices are screened in reverse order if there is at
+        #least one caret in the line. The reverse order prevents indexing issues
+        #given the substitution of multiple characters (r"{\super ") for a single
+        #character ("^").
+        caret_matches = re.finditer(r'\^', text[i])
+        caret_indices = [match.start() for match in caret_matches]
+        if caret_indices != []:
+            length_line = len(text[i])
+            for j in range(len(caret_indices)-1, -1, -1):
+                #If the caret is found before the penultimate character in
+                #the line (caret_indices[j] < length_line-3), then the line
+                #is overwritten with the slicing of text[i], skipping over the
+                #caret index and including a closing curly bracket ("}") after
+                #the character following the caret. Finally, the characters
+                #that follow are added ("+ text[i][caret_indices[j]+2:]").
+                if caret_indices[j] < length_line-3:
+                    text[i] = (text[i][:caret_indices[j]] + r"{\super " +
+                    text[i][caret_indices[j]+1] + "}" +
+                    text[i][caret_indices[j]+2:])
+                #If the caret is the penultimate character on the line, it
+                #means that the only character after it will be in superscript,
+                #and a space needs to be added in order to prevent it from merging
+                #with the first word on the following line. 
+                elif caret_indices[j] < length_line-2:
+                    text[i] = (text[i][:caret_indices[j]] + r"{\super " +
+                    text[i][caret_indices[j]+1] + "} ")
 
     #The "title_index" variable (defaulted to None), will serve as line
     #reference to locate the "contents" section (if present)
@@ -1995,7 +2027,7 @@ txt_file_name[-4:].lower() == ".txt"):
             #The RTF escapes are substituted for the symbols to allow for adequate representation within
             #the RTF file.
             rtf_escapes = [['…', r"\'85"], ['†', r"\'86"], ['‡', r"\'87"],  ['✕', r"\'d7"], ['\+', r"\'2b"],
-            ['⋅', r"\'b7"], ['÷', r"\'f7"], ['/', r"\'2f"], ['>', r"\'3e"], ['<', r"\'3c"], ['=', r"\'3d"],
+            ['⋅', r"\'b7"], ['·', r"\'b7"], ['÷', r"\'f7"], ['/', r"\'2f"], ['>', r"\'3e"], ['<', r"\'3c"],
             ['¢', r"\'a2"], ['\$', r"\'24"], ['€', r"\'80"], ['¤', r"\'a4"], ['¥', r"\'a5"],  [r'\[', r"\'5b"],
             ['\]', r"\'5d"], ['\^', r"\'5e"], ['ˆ', r"\'88"], ['`', r"\'60"], ['´', r"\'b4"], ['”', r"\'94"],
             ['\|', r"\'7c"], ['¦', r"\'a6"], ['£', r"\'a3"], ['″', r"\'22"], ['%', r"\'25"], ['‰', r"\'89"],
@@ -2017,7 +2049,7 @@ txt_file_name[-4:].lower() == ".txt"):
             ['ï', r"\'ef"], ['ð', r"\'f0"], ['ñ', r"\'f1"], ['ò', r"\'f2"], ['ó', r"\'f3"], ['ô', r"\'f4"],
             ['õ', r"\'f5"], ['ö', r"\'f6"], ['ø', r"\'f8"], ['ù', r"\'f9"], ['ú', r"\'fa"], ['û', r"\'fb"],
             ['ü', r"\'fc"], ['ý', r"\'fd"], ['þ', r"\'fe"], ['ÿ', r"\'ff"], ["\-", r"\'2d"], ["—", r"\'97"],
-            ['—', r"\'96"], ['_', r"\'5f"], ["‘", r"\'91"], ["’", r"\'92"], ['“', r"\'93"]]
+            ['—', r"\'96"], ['_', r"\'5f"], ["‘", r"\'91"], ["’", r"\'92"], ['“', r"\'93"], ['=', r"\'3d"]]
             for escape in rtf_escapes:
                 text_string = re.sub(escape[0], escape[1], text_string)
 
