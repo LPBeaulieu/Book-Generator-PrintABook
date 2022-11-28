@@ -179,13 +179,21 @@ cover_line = False
 #to binding irregularities and the thickness of
 #the glue: (3 mm * inch/25.4 mm * 4200 pixels/14 inch)
 cover_extra_pixels = 35
-#The "text_pixels_from_spine_bottom" variable
+#The "pixels_from_bottom_cover_spine" variable
 #determines how many pixels are added to the
 #starting "y" coordinate (in the rotated image)
 #from the bottom of the spine box to reach the
 #point where the spine text will start to be written.
 #Negative values will bring the text down.
-text_pixels_from_spine_bottom = 3
+pixels_from_bottom_cover_spine = 3
+#A similar approach is taken with the variable
+#"pixels_from_left_cover_spine" to determine how
+#many pixels are added to the starting "x" coordinate
+#(in the rotated image) from the left edge of the
+#spine box to reach the point where the spine
+#text will start to be written. Negative values
+#will bring the text left.
+pixels_from_left_cover_spine = 0
 #The "pixels_from_top_cover_title_box" variable
 #determines how many pixels are added to the
 #starting "y" coordinate (in the unrotated image)
@@ -193,6 +201,14 @@ text_pixels_from_spine_bottom = 3
 #point where the cover title text will start to be
 #written. Negative values will bring the text up.
 pixels_from_top_cover_title_box = 0
+#A similar approach is taken with the variable
+#"pixels_from_left_cover_title_box" to determine how
+#many pixels are added to the starting "x" coordinate
+#(in the unrotated image) from the left edge of the
+#cover title box to reach the point where the cover
+#title text will start to be written. Negative
+#values will bring the text left.
+pixels_from_left_cover_title_box = 0
 
 number_of_pages = None
 inches_per_ream_500_pages = None
@@ -481,10 +497,14 @@ if len(sys.argv) > 1:
             elif sys.argv[i].strip().lower()[:15] == "cover_extra_cm:":
                 cm = float(sys.argv[i].strip()[15:])
                 cover_extra_pixels = round(cm/2.54*4200/14)
-            elif sys.argv[i].strip().lower()[:30] == "text_pixels_from_spine_bottom:":
-                text_pixels_from_spine_bottom = int(sys.argv[i].strip()[30:])
+            elif sys.argv[i].strip().lower()[:31] == "pixels_from_bottom_cover_spine:":
+                pixels_from_bottom_cover_spine = int(sys.argv[i].strip()[31:])
+            elif sys.argv[i].strip().lower()[:29] == "pixels_from_left_cover_spine:":
+                pixels_from_left_cover_spine = int(sys.argv[i].strip()[29:])
             elif sys.argv[i].strip().lower()[:32] == "pixels_from_top_cover_title_box:":
-                pixels_from_top_cover_title_box = int(sys.argv[i].strip()[32:])
+                pixels_from_top_cover_title_box = int(sys.argv[i].strip()[32:])    
+            elif sys.argv[i].strip().lower()[:33] == "pixels_from_left_cover_title_box:":
+                pixels_from_left_cover_title_box = int(sys.argv[i].strip()[33:])
             elif sys.argv[i].strip().lower()[:20] == "keep_forward_slashes":
                 small_caps = False
 
@@ -742,7 +762,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 #If the caret is the penultimate character on the line, it
                 #means that the only character after it will be in superscript,
                 #and a space needs to be added in order to prevent it from merging
-                #with the first word on the following line. 
+                #with the first word on the following line.
                 elif caret_indices[j] < length_line-2:
                     text[i] = (text[i][:caret_indices[j]] + r"{\super " +
                     text[i][caret_indices[j]+1] + "} ")
@@ -2458,15 +2478,23 @@ txt_file_name[-4:].lower() == ".txt"):
                 #from the top of the cover title box to reach the
                 #point where the cover title text will start to be
                 #written. Negative values will bring the text up.
+
+                #A similar approach is taken with the variable
+                #"pixels_from_left_cover_title_box" to determine how
+                #many pixels are added to the starting "x" coordinate
+                #(in the unrotated image) from the left edge of the
+                #cover title box to reach the point where the cover
+                #title text will start to be written. Negative
+                #values will bring the text left.
                 if adjusted_title_cover != None:
                     image_editable.multiline_text((left_margin_cover_text +
-                    cover_title_offset-round(cover_trim_width_pixels/2), vertical_margin_cover_text + pixels_from_top_cover_title_box),
+                    cover_title_offset-round(cover_trim_width_pixels/2) + pixels_from_left_cover_title_box, vertical_margin_cover_text + pixels_from_top_cover_title_box),
                     adjusted_title_cover, fill=cover_text_color, font=font_title, align="center",
                     spacing=cover_title_line_spacing)
                 #If the title wasn't split, it will be written using the "text"() method of the Pillow module
                 else:
                     image_editable.text((left_margin_cover_text + cover_title_offset
-                    -round(cover_trim_width_pixels/2), vertical_margin_cover_text + pixels_from_top_cover_title_box),
+                    -round(cover_trim_width_pixels/2) + pixels_from_left_cover_title_box, vertical_margin_cover_text + pixels_from_top_cover_title_box),
                     title, fill=cover_text_color, font=font_title, align="center")
                 #A similar approach is taken for the author name, except that since it is written in smaller sized font,
                 #it needs a horizontal offset ("cover_author_offset") in order to be centered. Also, the text begins at
@@ -2606,13 +2634,17 @@ txt_file_name[-4:].lower() == ".txt"):
                     #The offset on the x and y axis are determined by subtracting the halfpoint of
                     #either dimension of the "spine_string" from the that of the available space in
                     #the corresponding dimension of the rectangle. In the case of "offset_y", the
-                    #"text_pixels_from_spine_bottom" are subtracted from it in order to bring the
+                    #"pixels_from_bottom_cover_spine" are subtracted from it in order to bring the
                     #text further up from the bottom of the spine dark rectangle. This allows to
                     #fine-tune the automatic centering on the vertixal axis, given that the spine
-                    #is fairly narrow and any unevenness are easily noticeable.
-                    offset_x = round(available_vertical_space_pixels/2 - spine_string_length_pixels/2)
+                    #is fairly narrow and any unevenness are easily noticeable. A similar approach
+                    #is taken with the variable "pixels_from_left_cover_spine", where pixels are
+                    #added to the "x" axis (in the rotated image) to adjust the point where the
+                    #spine text will start to be written.
+                    offset_x = (round(available_vertical_space_pixels/2 - spine_string_length_pixels/2) +
+                    pixels_from_left_cover_spine)
                     offset_y = (round(available_horizontal_space_pixels/2 - spine_font_size/2) +
-                    cover_extra_pixels - text_pixels_from_spine_bottom)
+                    cover_extra_pixels - pixels_from_bottom_cover_spine)
 
                     #The image is outputted in PNG format.
                     image.save(txt_file_name[:-4] + " (cover).png", "PNG")
@@ -2682,13 +2714,13 @@ txt_file_name[-4:].lower() == ".txt"):
                     #The offset on the x and y axis are determined by subtracting the halfpoint of
                     #either dimension of the "spine_string" from the that of the available space in
                     #the corresponding dimension of the rectangle. In the case of "offset_y", the
-                    #"text_pixels_from_spine_bottom" are subtracted from it in order to bring the
+                    #"pixels_from_bottom_cover_spine" are subtracted from it in order to bring the
                     #text further up from the bottom of the spine dark rectangle. This allows to
                     #fine-tune the automatic centering on the vertixal axis, given that the spine
                     #is fairly narrow and any unevenness are easily noticeable.
                     offset_x = round(available_vertical_space_pixels/2 - spine_string_length_pixels/2)
                     offset_y = (round(available_horizontal_space_pixels/2 - spine_font_size/2) +
-                    cover_extra_pixels - text_pixels_from_spine_bottom)
+                    cover_extra_pixels - pixels_from_bottom_cover_spine)
 
                     #The image is outputted in PNG format.
                     image.save(txt_file_name[:-4] + " (cover).png", "PNG")
