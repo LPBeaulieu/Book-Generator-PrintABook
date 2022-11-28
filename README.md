@@ -19,7 +19,7 @@ This app allows you to generate printer-friendly versions of book TXT files from
 
 - Simply follow the steps below to set up your system, and then add the text file (.txt) and cover background JPEG image to your working folder for the Project Gutenberg book that you wish to output in printable format, before running the Python code.
 
-- The instructions below will show you how to cusomize the formatting elements of the Rich Text Document (RTF) output file, so that your book is exactly how you want it to be.
+- The instructions below will show you how to customize the formatting elements of the Rich Text Document (RTF) output file, so that your book is exactly how you want it to be.
     <br> 
 </p>
 
@@ -117,7 +117,7 @@ The cover image may be generated in greyscale tones for printing in black and wh
 py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Conan Doyle" "number_of_pages:331" "inches_per_ream_500_pages:2"
 ```
 
-<b>Step 8</b>- The code will take a bit longer to run this time, as it is generating the PDF book cover file. You need to print this image on Legal (14" x 8 1/2") cover cardstock (65 lbs to 80 lbs recommended) and then cut off the excess paper. The book cover is framed with a white border, which must not be removed. This white border accomodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement in inches or "cover_trim_width_cm:" for centimeters (with 0 being no border, and you would then need to cut at the solid line, while leaving the line within the cover). The Figures 9 to 12 describe how to print the cover PDF file in <b>Foxit PDF Reader</b>.
+<b>Step 8</b>- The code will take a bit longer to run this time, as it is generating the PDF book cover file. You need to print this image on Legal (14" x 8 1/2") cover cardstock (65 lbs to 80 lbs recommended) and then cut off the excess paper. The book cover is framed with a white border, which must not be removed. This white border accommodates the non-printable area of most printers (about a quarter of an inch, or  6.4 mm). You can adjust the width of the white border to the specifications of your printer by entering another parameter "cover_trim_width:" followed by the measurement in inches or "cover_trim_width_cm:" for centimeters (with 0 being no border, and you would then need to cut at the solid line, while leaving the line within the cover). The Figures 9 to 12 describe how to print the cover PDF file in <b>Foxit PDF Reader</b>.
 
 ![Cover Printing Instructions 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Cover%201.png)<hr>
 <b>Figure 9.</b> Open the book cover PDF file in <b>Foxit PDF Reader</b> and select "Print" in the "File" menu. Click on the "Page Setting" button in the bottom left corner of the window. Then, select "Legal" from the "Page Size" drop-down menu. 
@@ -186,7 +186,7 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 
 
 ![10-Measure "cover_extra_cm"](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/6-Measure%20cover_extra_cm.jpg)<hr> 
-<b>Figure 22.</b> This is a good time to place the bound pages in your folded cover and ensure that the sizing is adequate. If you won't be using a guillotine stack page cutter to even out any discrepancies, you might want to print your cover again with some adjustments made to its page width. Simply measure the length of the overhanging bound pages relative to the cover (either in inches or centimeters, in decimal form) and enter that number as an additional parameter (preceded by "cover_extra_inches:" or "cover_extra_cm:" when running the Python code. For example, if the bound pages are 2 mm longer than the cover on both sides of the book, you would then enter "cover_extra_cm:0.2" as an additional argument. Should the measurements be uneven on both sides, it is likely that you didn't fold the cover exacly the same distance from the spine on both sides and you could then just take the average between the two measurements and input it as above.  
+<b>Figure 22.</b> This is a good time to place the bound pages in your folded cover and ensure that the sizing is adequate. If you won't be using a guillotine stack page cutter to even out any discrepancies, you might want to print your cover again with some adjustments made to its page width. Simply measure the length of the overhanging bound pages relative to the cover (either in inches or centimeters, in decimal form) and enter that number as an additional parameter (preceded by "cover_extra_inches:" or "cover_extra_cm:" when running the Python code. For example, if the bound pages are 2 mm longer than the cover on both sides of the book, you would then enter "cover_extra_cm:0.2" as an additional argument. Should the measurements be uneven on both sides, it is likely that you didn't fold the cover exactly the same distance from the spine on both sides and you could then just take the average between the two measurements and input it as above.  
 <br><br>
 
 
