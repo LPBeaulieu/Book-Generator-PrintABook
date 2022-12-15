@@ -223,7 +223,9 @@ grayscale = False
 title_size = r"\fs112"
 #The "cover_title_size" is initialized
 #at 200 and the code will determine the largest
-#font size that fits within the title page.
+#font size that fits within the front cover box.
+#The user can specify another starting
+#value for "cover_title_size".
 cover_title_size = 200
 subtitle_size = None
 #The spacing on the cover in-between
@@ -239,8 +241,10 @@ cover_spacing_title_height_ratio = 0.20
 max_author_title_font_ratio = 0.75
 max_subtitle_title_font_ratio = 0.75
 #The "cover_author_size" is initialized
-#at 200 and the code will determine the largest
-#font size that fits within the title page.
+#at 150 and the code will determine the largest
+#font size that fits within the front cover box.
+#The user can specify another starting
+#value for "cover_author_size"
 cover_author_size = 150
 #The font size of the divider
 #separating the title and the
@@ -483,6 +487,10 @@ if len(sys.argv) > 1:
                 cover_box_color = sys.argv[i].lower()[16:].strip()
             elif sys.argv[i].lower()[:17] == "cover_text_color:":
                 cover_text_color =  sys.argv[i].lower()[17:].strip()
+            elif sys.argv[i].lower()[:17] == "cover_title_size:":
+                cover_title_size = round(float(sys.argv[i][17:].strip())*2)
+            elif sys.argv[i].lower()[:18] == "cover_author_size:":
+                cover_author_size = round(float(sys.argv[i][18:].strip())*2)
             elif sys.argv[i].lower()[:33] == "cover_spacing_title_height_ratio:":
                 cover_spacing_title_height_ratio = float(sys.argv[i][33:].strip())
             elif sys.argv[i].strip().lower()[:17] == "cover_trim_width:":
@@ -502,7 +510,7 @@ if len(sys.argv) > 1:
             elif sys.argv[i].strip().lower()[:29] == "pixels_from_left_cover_spine:":
                 pixels_from_left_cover_spine = int(sys.argv[i].strip()[29:])
             elif sys.argv[i].strip().lower()[:32] == "pixels_from_top_cover_title_box:":
-                pixels_from_top_cover_title_box = int(sys.argv[i].strip()[32:])    
+                pixels_from_top_cover_title_box = int(sys.argv[i].strip()[32:])
             elif sys.argv[i].strip().lower()[:33] == "pixels_from_left_cover_title_box:":
                 pixels_from_left_cover_title_box = int(sys.argv[i].strip()[33:])
             elif sys.argv[i].strip().lower()[:20] == "keep_forward_slashes":
@@ -2582,7 +2590,6 @@ txt_file_name[-4:].lower() == ".txt"):
 
                 #The "spine_string" containing the text written on the spine is assembled.
                 spine_string = author_spine + title.strip()
-
                 #Similar to what was done above, the font size of the spine
                 #initialized to 100 pixels, will be optimized to the available
                 #space. However, in this case both the horizontal and vertical
