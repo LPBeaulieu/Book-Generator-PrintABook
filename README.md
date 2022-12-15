@@ -77,8 +77,7 @@ In a few seconds, your RTF file will be generated in your working folder. For a 
 
 The cover image may be generated in greyscale tones for printing in black and white. The cover box color would then automatically be set as black and the text color would be light grey. By default, color images are generated, so you would need to pass in the argument "greyscale" in order to generate a greyscale image. For color images, the color of the boxes is set by default as the complementary color of the darkest color, and then adjusted automatically so that it is dark enough to render the text nicely. The text color is by default the lightest color found in the image. However, both of these may be set as any color of your choice, using either the HTML color codes or RGB values.
 
-Finally, the largest possible title font size on the front cover may be modified by entering the desired font size (in points) after the "cover_title_size:" argument. Similarly, the largest possible author size on the front cover may be set by adding the font size after the "cover_author_size:" argument. The code will then scale the text down to the largest font size that fits within the front cover box. 
-
+Finally, the largest possible title font size on the front cover may be modified by entering the desired font size (in points, the default value being 100 pt) after the "cover_title_size:" argument. Similarly, the largest possible author size on the front cover may be set by adding the font size after the "cover_author_size:" argument, the default value being 75 pt in this case. The code will then scale the text down to the largest font size that fits within the front cover box. 
 <br><br><br>
 
 
