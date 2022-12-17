@@ -360,19 +360,19 @@ if len(sys.argv) > 1:
             elif len(sys.argv[i]) > 1 and sys.argv[i][:7] == "author:":
                 if len(sys.argv[i][7:]) > 3 and sys.argv[i][7:10].lower() == "by ":
                     author = sys.argv[i][10:]
-                    author_names = author.split(" ")
+                    author_names = re.split(r"( )", author)
                     for i in range(len(author_names)):
                         if author_names[i].lower() != "by":
                             author_names[i] == author_names[i].capitalize()
                     #"by" will not be included in the "author" variable, so
                     #index 0 in "author_names" is skipped over.
-                    author = " ".join(author_names[1:]).strip()
+                    author = "".join(author_names[1:]).strip()
                 elif len(sys.argv[i][7:]) > 3 and sys.argv[i][7:10] != "by ":
                     author = sys.argv[i][7:].strip()
-                    author_names = author.split(" ")
+                    author_names = re.split(r"( )", author)
                     for i in range(len(author_names)):
                         author_names[i] == author_names[i].capitalize()
-                    author = " ".join(author_names).strip()
+                    author = "".join(author_names).strip()
                 else:
                     author = sys.argv[i][7:].strip()
             #The font sizes are automatically multiplied by two, so that
@@ -522,6 +522,7 @@ if len(sys.argv) > 1:
         "by a colon, and the desired setting directly after the colon. For example, " +
         'to set the title, you would enter: "title:Your Title Here" as an additional argument.')
 
+
 #The code below only runs if the user has at least
 #provided a title, author and valid file name.
 if (problem == False and title != None and author != None and txt_file_name != None and
@@ -598,7 +599,7 @@ txt_file_name[-4:].lower() == ".txt"):
         #decremented until both fragments of the title
         #can fit onto their own line or a font size of
         #27 is reached.
-        title_words = title.split()
+        title_words = re.split(r"( )", title)
         number_of_title_words = len(title_words)
         #The middle index in the title will be the threshold
         #for including a carriage return in the title.
@@ -611,6 +612,7 @@ txt_file_name[-4:].lower() == ".txt"):
         #"character_count" will be incremented accordingly.
         character_count = 0
         word_delimitor = None
+
         for i in range(len(title_words)):
             if character_count <= middle_index_in_title - (len(title_words[i])+1):
                 character_count += len(title_words[i])
@@ -623,9 +625,9 @@ txt_file_name[-4:].lower() == ".txt"):
                 word_delimitor = i
                 break
         first_half_words = title_words[:word_delimitor]
-        first_half_words_string = " ".join(first_half_words)
+        first_half_words_string = "".join(first_half_words)
         second_half_words = title_words[word_delimitor:]
-        second_half_words_string = " ".join(second_half_words)
+        second_half_words_string = "".join(second_half_words)
 
         adjusted_title_rtf = first_half_words_string + "\line " + second_half_words_string
         title_width_set = False
@@ -675,7 +677,7 @@ txt_file_name[-4:].lower() == ".txt"):
     width_threshold =  int((5.5*1440 - (left_margin_twips + right_margin_twips)) * correction_factor)
 
     if author_width_twips > width_threshold:
-        author_words = author.split()
+        author_words = re.split(r"( )", author)
         number_of_author_words = len(author_words)
         middle_index_in_author = len(author)//2
         character_count = 0
@@ -687,9 +689,9 @@ txt_file_name[-4:].lower() == ".txt"):
                 word_delimitor = i
                 break
         first_half_words = author_words[:word_delimitor]
-        first_half_words_string = " ".join(first_half_words)
+        first_half_words_string = "".join(first_half_words)
         second_half_words = author_words[word_delimitor:]
-        second_half_words_string = " ".join(second_half_words)
+        second_half_words_string = "".join(second_half_words)
         adjusted_author_rtf = first_half_words_string + "\line " + second_half_words_string
 
         author_width_set = False
@@ -728,6 +730,7 @@ txt_file_name[-4:].lower() == ".txt"):
     with open(txt_file_name, "r", encoding="utf-8") as f:
         text = f.readlines()
 
+    remove_spaces = False
     for i in range(len(text)):
         #Instances of three or more successive spaces would typically
         #designate tabs and will be removed. Afterwards, any instances
@@ -741,9 +744,28 @@ txt_file_name[-4:].lower() == ".txt"):
         #the RTF code. Finally, instances of "_{", denoting subscript passages,
         #are changed for the subscript RTF command (r"{\sub "). The same goes
         #for superscript passages ("^{"), which are changed to r"{\super ".
-        text[i] = (re.sub('[" "]{3,}', "", text[i]).replace("  ", " ")
-        .replace("[Illustration]", "").replace('\\', r"\'5c").replace('_{', r'{\sub ')
-        .replace('^{', r'{\super '))
+
+        #The successive spaces are only removed after the author name, as the
+        #user might want to incorporate some spaces in the title or author name
+        #in order for the text to be split differently, The "remove_spaces"
+        #variable (initialized to "False") will be set to "True" upon reaching
+        #the line containing the author name and successive spaces will be
+        #removed starting at the next line ("elif remove_spaces == True:").
+        #If the author name stored in the variable "author" is in the line
+        #under investigation ("text[i]") and the first word of "author" is
+        #either the first or second (in case it is preceded by "by") word in
+        #"text[i]", then "remove_spaces" is set to "True".
+        if author in text[i] and author.split()[0] in [text[i].split()[0], text[i].split()[1]]:
+            remove_spaces = True
+            text[i] = (text[i].replace("[Illustration]", "").replace('\\', r"\'5c")
+            .replace('_{', r'{\sub ').replace('^{', r'{\super '))
+        elif remove_spaces == False:
+            text[i] = (text[i].replace("[Illustration]", "").replace('\\', r"\'5c")
+            .replace('_{', r'{\sub ').replace('^{', r'{\super '))
+        elif remove_spaces == True:
+            text[i] = (re.sub('[" "]{3,}', "", text[i]).replace("  ", " ")
+            .replace("[Illustration]", "").replace('\\', r"\'5c").replace('_{', r'{\sub ')
+            .replace('^{', r'{\super '))
 
         #If a line still contains a caret symbol, it is likely because there is
         #a single character following it that should be in superscript. The indices
@@ -938,12 +960,12 @@ txt_file_name[-4:].lower() == ".txt"):
                 #a "\line" linebreak RTF command and
                 #will be updated in text[title_index].
                 if adjusted_title_rtf != None:
-                    text[i] = (title_size + adjusted_title_rtf + r"\par}{\pard\pvmrg\phmrg\posxc" +
+                    text[i] = (r"\qc" + title_size + adjusted_title_rtf + r"\par}{\pard\pvmrg\phmrg\posxc" +
                     title_page_spacing + title_page_posy + "\qc\line" + divider_size + 3*r"\'87" +
                      r"\par}{\pard\hyphpar0\pvmrg\phmrg\posxc" + title_page_spacing + title_page_posy + "\qc\line")
                 #Otherwise, the RTF formatting is added to the line.
                 else:
-                    text[i] = (title_size + text[i].strip(" ") + r"\par}{\pard\pvmrg\phmrg\posxc" +
+                    text[i] = (r"\qc" + title_size + text[i].strip(" ") + r"\par}{\pard\pvmrg\phmrg\posxc" +
                     title_page_spacing + title_page_posy + "\qc\line" + divider_size + 3*r"\'87" +
                      r"\par}{\pard\hyphpar0\pvmrg\phmrg\posxc" + title_page_spacing + title_page_posy + "\qc\line")
             #If the element at index "i" of the "text" list corresponds to the author name
@@ -2088,7 +2110,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 body_font_size + header_top_margin + top_margin +
                 bottom_margin + left_margin + right_margin + tab_width + r"\hyphauto\hyphconsec1"
                 r"\widowctrl" + r"{\header\pard\qc\plain" + header_font_size +
-                r"\chpgn\par}{\pard\hyphpar0\pvmrg\phmrg\posxc" + title_page_posy + r"\qc")
+                r"\chpgn\par}{\pard\hyphpar0\pvmrg\phmrg\posxc" + title_page_posy)
                 g.write(text_string + r"\par}}")
 
             #If the "inches_per_ream_500_pages" or "cm_per_ream_500_pages" and "number_of_pages"
@@ -2333,7 +2355,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 #of the title can fit within the black rectangle, down to a minimum font size of 50.
                 cover_title_height = cover_title_size
                 if title_length_pixels > available_horizontal_space_pixels:
-                    title_words = title.split()
+                    title_words = re.split(r"( )", title)
                     number_of_title_words = len(title_words)
                     middle_index_in_title = len(title)//2
                     character_count = 0
@@ -2345,9 +2367,9 @@ txt_file_name[-4:].lower() == ".txt"):
                             word_delimitor = i
                             break
                     first_half_words = title_words[:word_delimitor]
-                    first_half_words_string = " ".join(first_half_words)
+                    first_half_words_string = "".join(first_half_words)
                     second_half_words = title_words[word_delimitor:]
-                    second_half_words_string = " ".join(second_half_words)
+                    second_half_words_string = "".join(second_half_words)
                     adjusted_title_cover = first_half_words_string + "\n" + second_half_words_string
 
                     while cover_title_size > 50:
@@ -2393,7 +2415,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 author_length_pixels/2))
                 available_horizontal_space_pixels = round((right_margin_cover_text-left_margin_cover_text))
                 if author_length_pixels > available_horizontal_space_pixels:
-                    author_words = author.split()
+                    author_words = re.split(r"( )", author)
                     number_of_author_words = len(author_words)
                     middle_index_in_author = len(author)//2
                     character_count = 0
@@ -2405,9 +2427,9 @@ txt_file_name[-4:].lower() == ".txt"):
                             word_delimitor = i
                             break
                     first_half_words = author_words[:word_delimitor]
-                    first_half_words_string = " ".join(first_half_words)
+                    first_half_words_string = "".join(first_half_words)
                     second_half_words = author_words[word_delimitor:]
-                    second_half_words_string = " ".join(second_half_words)
+                    second_half_words_string = "".join(second_half_words)
                     adjusted_author_cover = first_half_words_string + "\n" + second_half_words_string
                     adjusted_author = first_half_words_string + "\n" + second_half_words_string
 
