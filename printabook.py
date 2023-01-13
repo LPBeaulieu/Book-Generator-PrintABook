@@ -116,6 +116,7 @@ if jpeg_files == []:
 elif len(jpeg_files) > 1:
     print("\nPlease include only one JPEG file containing the image that you " +
     "wish to use as a background for the book cover in the working folder.")
+    problem = True
 else:
     background_img = jpeg_files[0]
 
@@ -124,9 +125,11 @@ ttf_files = glob.glob(path_ttf)
 if ttf_files == []:
     print("\nPlease include a True Type Font (.ttf) file containing " +
     "the font you wish to use on the cover page in the working folder.")
+    problem = True
 elif len(ttf_files) > 1:
     print("\nPlease include only one True Type Font (.ttf) file containing " +
     "the font you wish to use on the cover page in the working folder.")
+    problem = True
 else:
     cover_font = ttf_files[0]
 
@@ -156,6 +159,12 @@ adjusted_title_rtf = None
 adjusted_title_cover = None
 adjusted_author_rtf = None
 adjusted_author_cover = None
+#"spine_text" is initialized as "None",
+#and a value can be supplied by the user
+#should they want to use different text
+#than the abbreviated author name, followed
+#by a hyphen and the book title.
+spine_text = None
 #Should the cover title need to be split,
 #the default line spacing in-between title lines
 #is initialized at 5 pixels, and may be altered
@@ -367,7 +376,7 @@ if len(sys.argv) > 1:
                     #"by" will not be included in the "author" variable, so
                     #index 0 in "author_names" is skipped over.
                     author = "".join(author_names[1:]).strip()
-                elif len(sys.argv[i][7:]) > 3 and sys.argv[i][7:10] != "by ":
+                elif len(sys.argv[i][7:]) > 3 and sys.argv[i][7:10].lower() != "by ":
                     author = sys.argv[i][7:].strip()
                     author_names = re.split(r"( )", author)
                     for i in range(len(author_names)):
@@ -513,6 +522,8 @@ if len(sys.argv) > 1:
                 pixels_from_top_cover_title_box = int(sys.argv[i].strip()[32:])
             elif sys.argv[i].strip().lower()[:33] == "pixels_from_left_cover_title_box:":
                 pixels_from_left_cover_title_box = int(sys.argv[i].strip()[33:])
+            elif sys.argv[i].strip().lower()[:11] == "spine_text:":
+                spine_text = sys.argv[i].strip()[11:]
             elif sys.argv[i].strip().lower()[:20] == "keep_forward_slashes":
                 small_caps = False
 
@@ -814,9 +825,9 @@ txt_file_name[-4:].lower() == ".txt"):
         if title_index == None and text[i].lower().strip() == title.lower():
             title_index = i
         elif (contents_index_start == None and title_index != None and
-        i < title_index + 15 and (text[i].lower().strip() == "contents" or
-        text[i].lower().strip() == "content" or text[i].lower().strip() == "table of contents" or
-        text[i].lower().strip() == "toc")):
+        i < title_index + 15 and (text[i].lower().strip() in ["content","content.",
+        "content:", "contents", "contents.", "contents:", "table of contents",
+        "table of contents.", "table of contents:", "toc", "toc.", "toc:"])):
             #The index at which the table of contents starts (the header)
             #is stored within "contents_index_start" to allow for slicing
             #it out of the "text" list later on in the code.
@@ -968,6 +979,10 @@ txt_file_name[-4:].lower() == ".txt"):
                     text[i] = (r"\qc" + title_size + text[i].strip(" ") + r"\par}{\pard\pvmrg\phmrg\posxc" +
                     title_page_spacing + title_page_posy + "\qc\line" + divider_size + 3*r"\'87" +
                      r"\par}{\pard\hyphpar0\pvmrg\phmrg\posxc" + title_page_spacing + title_page_posy + "\qc\line")
+            #If there is line within 5 lines after the title that contains either "by\n" or "by:\n", it will be
+            #changed to "\n", as the author name won't be preceded by "by".
+            elif title_index != None and i > title_index and i < title_index+5 and text[i].strip().lower() in ["by", "by:"]:
+                text[i] = "\n"
             #If the element at index "i" of the "text" list corresponds to the author name
             #(either or not while skipping over the first word such as "by") and is located
             #within 5 elements of the title, it is added to the title page.
@@ -2099,7 +2114,8 @@ txt_file_name[-4:].lower() == ".txt"):
             ['ï', r"\'ef"], ['ð', r"\'f0"], ['ñ', r"\'f1"], ['ò', r"\'f2"], ['ó', r"\'f3"], ['ô', r"\'f4"],
             ['õ', r"\'f5"], ['ö', r"\'f6"], ['ø', r"\'f8"], ['ù', r"\'f9"], ['ú', r"\'fa"], ['û', r"\'fb"],
             ['ü', r"\'fc"], ['ý', r"\'fd"], ['þ', r"\'fe"], ['ÿ', r"\'ff"], ["\-", r"\'2d"], ["—", r"\'97"],
-            ['—', r"\'96"], ['_', r"\'5f"], ["‘", r"\'91"], ["’", r"\'92"], ['“', r"\'93"], ['=', r"\'3d"]]
+            ['—', r"\'96"], ['_', r"\'5f"], ["‘", r"\'91"], ["’", r"\'92"], ['“', r"\'93"], ['=', r"\'3d"],
+            ['–', r"\'96"]]
             for escape in rtf_escapes:
                 text_string = re.sub(escape[0], escape[1], text_string)
 
@@ -2370,21 +2386,37 @@ txt_file_name[-4:].lower() == ".txt"):
                     first_half_words_string = "".join(first_half_words)
                     second_half_words = title_words[word_delimitor:]
                     second_half_words_string = "".join(second_half_words)
-                    adjusted_title_cover = first_half_words_string + "\n" + second_half_words_string
+                    if first_half_words != []:
+                        adjusted_title_cover = first_half_words_string + "\n" + second_half_words_string
 
-                    while cover_title_size > 50:
-                        if (image_editable.textlength(first_half_words_string, font_title) >
-                        available_horizontal_space_pixels or
-                        image_editable.textlength(second_half_words_string, font_title) >
-                        available_horizontal_space_pixels):
-                            cover_title_size-=1
-                            font_title = ImageFont.truetype(cover_font, cover_title_size)
-                        else:
-                            break
-                    #If the title was split, the "cover_title_height" variable is updated to
-                    #reflect that the text now spans two lines, including the spacing
-                    #in-between the lines ("cover_title_line_spacing").
-                    cover_title_height = 2*cover_title_size + cover_title_line_spacing
+                        while cover_title_size > 50:
+                            if (image_editable.textlength(first_half_words_string, font_title) >
+                            available_horizontal_space_pixels or
+                            image_editable.textlength(second_half_words_string, font_title) >
+                            available_horizontal_space_pixels):
+                                cover_title_size-=1
+                                font_title = ImageFont.truetype(cover_font, cover_title_size)
+                            else:
+                                #If the title was split, the "cover_title_height" variable is updated to
+                                #reflect that the text now spans two lines, including the spacing
+                                #in-between the lines ("cover_title_line_spacing").
+                                cover_title_height = 2*cover_title_size + cover_title_line_spacing
+                                break
+                    #If there is only one word in the title and that word happens to be very long,
+                    #then instead of splitting the title in half, the font size "cover_title_size"
+                    #will be decremented until the fitle fits within the cover box.
+                    else:
+                        while cover_title_size > 50:
+                            if (image_editable.textlength(title, font_title) >
+                            available_horizontal_space_pixels):
+                                cover_title_size-=1
+                                font_title = ImageFont.truetype(cover_font, cover_title_size)
+                            else:
+                                #If the title wasn't split, but was resized, the "cover_title_height"
+                                #variable is updated to reflect this. As the text does not span two lines,
+                                #"cover_title_size" isn't multiplied by 2.
+                                cover_title_height = cover_title_size + cover_title_line_spacing
+                                break
 
                     #The "cover_title_offset" variable stores the offset length in pixels required on
                     #the x axis so that the title is centered within the black rectangle. The carriage
@@ -2518,13 +2550,15 @@ txt_file_name[-4:].lower() == ".txt"):
                 #values will bring the text left.
                 if adjusted_title_cover != None:
                     image_editable.multiline_text((left_margin_cover_text +
-                    cover_title_offset-round(cover_trim_width_pixels/2) + pixels_from_left_cover_title_box, vertical_margin_cover_text + pixels_from_top_cover_title_box),
+                    cover_title_offset-round(cover_trim_width_pixels/2) + pixels_from_left_cover_title_box,
+                    vertical_margin_cover_text + pixels_from_top_cover_title_box),
                     adjusted_title_cover, fill=cover_text_color, font=font_title, align="center",
                     spacing=cover_title_line_spacing)
                 #If the title wasn't split, it will be written using the "text"() method of the Pillow module
                 else:
                     image_editable.text((left_margin_cover_text + cover_title_offset
-                    -round(cover_trim_width_pixels/2) + pixels_from_left_cover_title_box, vertical_margin_cover_text + pixels_from_top_cover_title_box),
+                    -round(cover_trim_width_pixels/2) + pixels_from_left_cover_title_box,
+                    vertical_margin_cover_text + pixels_from_top_cover_title_box),
                     title, fill=cover_text_color, font=font_title, align="center")
                 #A similar approach is taken for the author name, except that since it is written in smaller sized font,
                 #it needs a horizontal offset ("cover_author_offset") in order to be centered. Also, the text begins at
@@ -2596,22 +2630,24 @@ txt_file_name[-4:].lower() == ".txt"):
                 image_editable.rounded_rectangle([(8.5*4200/14-width_of_spine_pixels-cover_extra_pixels,1.0*4200/14),
                 (8.5*4200/14-cover_extra_pixels,7.5*4200/14)], radius=50, fill=cover_box_color)
 
-                #The author name is initialized to take up less space on the spine. First, the name is
+                #If the user hasn't specified some text to be included on the spine ("spine_text == None"),
+                #the author name is initialized to take up less space on the spine. First, the name is
                 #split at every space or hyphen, with inclusion of those characters as separate elements
                 #in the "author_name_split" list (given the use of parentheses). Then, the names are
                 #cycled through in the "for" loop and if the element isn't the last one in the list,
                 #meaning that it is not the last name, and if it isn't a space or a hyphen and if its
                 #length is more than 1 and the second character isn't a period, then that name is
                 #initialized.
-                author_name_split = re.split(r"([' '-])", author)
-                for i in range(len(author_name_split)):
-                    if (author_name_split[i] not in [" ", "-"] and (len(author_name_split[i]) > 1 and
-                    author_name_split[i][1] != ".") and i < len(author_name_split)-1):
-                        author_name_split[i] = author_name_split[i][0] + "."
-                author_spine = "".join(author_name_split) + " — "
+                if spine_text == None:
+                    author_name_split = re.split(r"([' '-])", author)
+                    for i in range(len(author_name_split)):
+                        if (author_name_split[i] not in [" ", "-"] and (len(author_name_split[i]) > 1 and
+                        author_name_split[i][1] != ".") and i < len(author_name_split)-1):
+                            author_name_split[i] = author_name_split[i][0] + "."
+                    author_spine = "".join(author_name_split) + " — "
 
-                #The "spine_string" containing the text written on the spine is assembled.
-                spine_string = author_spine + title.strip()
+                    #The "spine_text" containing the text written on the spine is assembled.
+                    spine_text = author_spine + title.strip()
                 #Similar to what was done above, the font size of the spine
                 #initialized to 100 pixels, will be optimized to the available
                 #space. However, in this case both the horizontal and vertical
@@ -2621,7 +2657,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 spine_font_size = 100
                 font_spine = ImageFont.truetype(cover_font, spine_font_size)
 
-                spine_string_length_pixels = image_editable.textlength(spine_string, font_spine)
+                spine_text_length_pixels = image_editable.textlength(spine_text, font_spine)
 
                 #Similarly to the title and author box, a white rectangle 25 pixels distant from the edge
                 #of the black rectangle is drawn only if the number of pages is over 300, as its presence
@@ -2645,23 +2681,23 @@ txt_file_name[-4:].lower() == ".txt"):
                     #the pale rectangle horizontal edges and the text.
                     available_vertical_space_pixels = 6.5*4200/14-50-70
 
-                    #If either the length of the "spine_string" in pixels ("spine_string_length_pixels")
+                    #If either the length of the "spine_text" in pixels ("spine_text_length_pixels")
                     #exceeds the "available_vertical_space_pixels" or if the height of the spine font
                     #"spine_font_size" is above the "available_horizontal_space_pixels", the "spine_font_size"
                     #will be decremented until both dimensions are within range of the available space.
-                    if (spine_string_length_pixels > available_vertical_space_pixels or
+                    if (spine_text_length_pixels > available_vertical_space_pixels or
                     spine_font_size > available_horizontal_space_pixels):
                         while cover_title_size > 25:
-                            if (image_editable.textlength(spine_string, font_spine) > available_vertical_space_pixels or
+                            if (image_editable.textlength(spine_text, font_spine) > available_vertical_space_pixels or
                             spine_font_size > available_horizontal_space_pixels):
                                 spine_font_size-=1
                                 font_spine = ImageFont.truetype(cover_font, spine_font_size)
                             else:
-                                spine_string_length_pixels = image_editable.textlength(spine_string, font_spine)
+                                spine_text_length_pixels = image_editable.textlength(spine_text, font_spine)
                                 break
 
                     #The offset on the x and y axis are determined by subtracting the halfpoint of
-                    #either dimension of the "spine_string" from the that of the available space in
+                    #either dimension of the "spine_text" from the that of the available space in
                     #the corresponding dimension of the rectangle. In the case of "offset_y", the
                     #"pixels_from_bottom_cover_spine" are subtracted from it in order to bring the
                     #text further up from the bottom of the spine dark rectangle. This allows to
@@ -2670,7 +2706,7 @@ txt_file_name[-4:].lower() == ".txt"):
                     #is taken with the variable "pixels_from_left_cover_spine", where pixels are
                     #added to the "x" axis (in the rotated image) to adjust the point where the
                     #spine text will start to be written.
-                    offset_x = (round(available_vertical_space_pixels/2 - spine_string_length_pixels/2) +
+                    offset_x = (round(available_vertical_space_pixels/2 - spine_text_length_pixels/2) +
                     pixels_from_left_cover_spine)
                     offset_y = (round(available_horizontal_space_pixels/2 - spine_font_size/2) +
                     cover_extra_pixels - pixels_from_bottom_cover_spine)
@@ -2697,7 +2733,7 @@ txt_file_name[-4:].lower() == ".txt"):
                     spine_text_starting_y = round(5.5*4200/14+25+28 + offset_y)
 
                     image_rotated_editable.text((spine_text_starting_x, spine_text_starting_y),
-                    spine_string, fill=cover_text_color, font=font_spine, align="center")
+                    spine_text, fill=cover_text_color, font=font_spine, align="center")
 
                 #If the "number_of_pages" is below 300, the white rectangle will not be drawn to allow
                 #for more space for the text on a smaller spine. The margins are adjusted in consequence.
@@ -2725,29 +2761,29 @@ txt_file_name[-4:].lower() == ".txt"):
                     #to allow for space between the pale rectangle horizontal edges and the text.
                     available_vertical_space_pixels = 6.5*4200/14-70
 
-                    #If either the length of the "spine_string" in pixels ("spine_string_length_pixels")
+                    #If either the length of the "spine_text" in pixels ("spine_text_length_pixels")
                     #exceeds the "available_vertical_space_pixels" or if the height of the spine font
                     #"spine_font_size" is above the "available_horizontal_space_pixels", the "spine_font_size"
                     #will be decremented until both dimensions are within range of the available space.
-                    if (spine_string_length_pixels > available_vertical_space_pixels or
+                    if (spine_text_length_pixels > available_vertical_space_pixels or
                     spine_font_size > available_horizontal_space_pixels):
                         while spine_font_size > 25:
-                            if (image_editable.textlength(spine_string, font_spine) >
+                            if (image_editable.textlength(spine_text, font_spine) >
                             available_vertical_space_pixels or
                             spine_font_size > available_horizontal_space_pixels):
                                 spine_font_size-=1
                                 font_spine = ImageFont.truetype(cover_font, spine_font_size)
                             else:
                                 break
-                        spine_string_length_pixels = image_editable.textlength(spine_string, font_spine)
+                        spine_text_length_pixels = image_editable.textlength(spine_text, font_spine)
                     #The offset on the x and y axis are determined by subtracting the halfpoint of
-                    #either dimension of the "spine_string" from the that of the available space in
+                    #either dimension of the "spine_text" from the that of the available space in
                     #the corresponding dimension of the rectangle. In the case of "offset_y", the
                     #"pixels_from_bottom_cover_spine" are subtracted from it in order to bring the
                     #text further up from the bottom of the spine dark rectangle. This allows to
                     #fine-tune the automatic centering on the vertixal axis, given that the spine
                     #is fairly narrow and any unevenness are easily noticeable.
-                    offset_x = round(available_vertical_space_pixels/2 - spine_string_length_pixels/2)
+                    offset_x = round(available_vertical_space_pixels/2 - spine_text_length_pixels/2)
                     offset_y = (round(available_horizontal_space_pixels/2 - spine_font_size/2) +
                     cover_extra_pixels - pixels_from_bottom_cover_spine)
 
@@ -2771,7 +2807,7 @@ txt_file_name[-4:].lower() == ".txt"):
                     spine_text_starting_y = round(5.5*4200/14 + (space_offset/2) + offset_y)
 
                     image_rotated_editable.text((spine_text_starting_x, spine_text_starting_y),
-                    spine_string, fill=cover_text_color, font=font_spine, align="center")
+                    spine_text, fill=cover_text_color, font=font_spine, align="center")
 
                 #The image is once more outputted in PDF format, and the original
                 #unrotated PNG image is deleted.
