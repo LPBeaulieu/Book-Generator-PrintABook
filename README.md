@@ -137,8 +137,8 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 <br><br><br>
 
 
-![Cover Printing Instructions 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Cover%204.png)<hr>
-<b>Figure 12.</b> Finally, adjust the "Scale" to 24% in the "Custom scale" option and click on the "OK" button.
+![Cover Printing Instructions 4](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/Printing%20Cover-4.png)<hr>
+<b>Figure 12.</b> Finally, if needed, adjust the "Scale" to 24% in the "Custom scale" option and click on the "OK" button.
 <br><br><br>
 
 
@@ -150,42 +150,48 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 <br><br><br>
 
 
+![1-Sanding the Spine Edges, Part 1](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/1-Sanding%20the%20edges%20(part%201).jpg)<hr>
+<b>Figure 14.</b> You could optionally sand the spine edges to give a cleaner look after gluing on the cover. I used some very fine P220 grit sandpaper. <br><br><br>
+
+![1-Sanding the Spine Edges, Part 2](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/1-Sanding%20the%20edges%20(part%202).jpg)<hr>
+<b>Figure 15.</b> When sanding the spine edges, make sure to wear the appropriate personal protective equipment, as it produces some paper dust. <br><br><br>
+
 ![2-Fanning Out the Pages](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-%20Fanning%20Out%20the%20Pages.jpg)<hr> 
-<b>Figure 14.</b> In order to increase the surface area exposed to the application of glue, it is recommended to fan out the pages using a large plastic container as a support. Apply an even layer of PVA glue onto the pages with your brush. When done, turn the book and fan out the spine pages in the other direction, using the same plastic container as a support. Apply some glue the same way and then let the pages stand upright. Press the pages together to encourage good adhesion.   
+<b>Figure 16.</b> In order to increase the surface area exposed to the application of glue, it is recommended to fan out the pages using a large plastic container as a support. Apply an even layer of PVA glue onto the pages with your brush. When done, turn the book and fan out the spine pages in the other direction, using the same plastic container as a support. Apply some glue the same way and then let the pages stand upright. Press the pages together to encourage good adhesion.   
 <br><br><br>
 
 
-![3-Assembling the Sandwitch (Part 1)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/3-%20Assembling%20the%20Sandwich%20(Part%201).jpg)<hr> <b>Figure 15.</b> Lay the book flat on some blotting paper, with some parchment paper covering both sides of the spine. 
+![3-Assembling the Sandwitch (Part 1)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/3-%20Assembling%20the%20Sandwich%20(Part%201).jpg)<hr> <b>Figure 17.</b> Lay the book flat on some blotting paper, with some parchment paper covering both sides of the spine. 
 <br><br><br>
 
 
-![4-Assembling the Sandwitch (Part 2)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/4-%20Assembling%20the%20Sandwich%20(Part%202).jpg)<hr> <b>Figure 16.</b> Place another sheet of blotting paper over the parchment paper, and then lay some heavy books on your binding project. This will allow the book to dry relatively flat, with the moisture from the glue reaching the blotting paper.  
+![4-Assembling the Sandwitch (Part 2)](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/4-%20Assembling%20the%20Sandwich%20(Part%202).jpg)<hr> <b>Figure 18.</b> Place another sheet of blotting paper over the parchment paper, and then lay some heavy books on your binding project. This will allow the book to dry relatively flat, with the moisture from the glue reaching the blotting paper.  
 <br><br>
 
 
-![5-General Setup for Cover Assembly](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/1-Applying%20cover%20general%20setup.jpg)<hr> 
-<b>Figure 17.</b> The image above shows the tools needed to add the cover to your book. Use scissors or other more precise cutting tools to remove the excess cardstock, while leaving the white trim, as shown in the image. There is an extra 1/64 inch (or 0.5 mm) of white space where you need to cut along the background, so you don't need to cut too close to the background on the leftover cardstock. A pencil will be used later to figure out where to fold the second crease of the spine. A bone cutter tool may be useful when folding, but is not strictly necessary. A flat-tip paintbrush will help you apply the PVA glue more precisely. 
+![5-General Setup for Cover Assembly](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-Drawing%20the%20spine%20contour.jpg)<hr> 
+<b>Figure 19.</b> The image above shows the tools needed to add the cover to your book. Use scissors or other more precise cutting tools to remove the excess cardstock, while leaving the white trim, as shown in the image. There is an extra 1/64 inch (or 0.5 mm) of white space where you need to cut along the background, so you don't need to cut too close to the background on the leftover cardstock. A pencil will be used later to figure out where to fold the second crease of the spine. A bone cutter tool may be useful when folding, but is not strictly necessary. A flat-tip paintbrush will help you apply the PVA glue more precisely. 
 <br><br><br>
 
 
-![6-First Fold](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-First%20fold.jpg)<hr> 
-<b>Figure 18.</b> Line up the edges of the cardstock paper, such that the edge of the spine's dark rectangle is barely visible and carefully crease the paper, using a bone folder tool if you have one. Be vigilant when folding covers printed with laser toner, which tends to flake off when rubbed. If possible, try to fold right before the edge to avoid scraping the toner, as shown in the next image. Furthermore, I recommend using inkjet printers to print the spines of books with more than around 200 pages (using 20 lb 8 1/2" x 11" copy paper), as thicker books will result in the toner on the spine to crack when being opened, thus reducing the legibility of the spine text. When printing book covers with inkjet printers, you would need to apply a sealer to make the cover waterproof and increase its durability.
+![6-Tracing Spine Outline](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-First%20fold.jpg)<hr> 
+<b>Figure 20.</b> Use the pencil to trace the outline of the dark spine rectangle on the back of the cardstock cover, while holding it up against a light source to see through it. This will enable you to line up the ruler and crease the paper to get the folds on the spine. 
 <br><br><br>
 
+![10-Folding the Spine](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-Placing%20the%20ruler.jpg)<hr> 
+<b>Figure 21.</b> Lay the ruler about 1/64 - 1/32 inch (0.5 - 1 mm) on the outer side of the pencil line, and carefully lift the other side of the cardstock to make a fold on the spine. You can use a bone folder to make the fold crisper afterwards. 
+<br><br><br>
+
+![10-Folding the Spine](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-Folding%20the%20cover.jpg)<hr> 
+<b>Figure 21.</b> Be vigilant when folding covers printed with laser toner, which tends to flake off when rubbed. If possible, try to fold right before the edge to avoid scraping the toner, as shown in the next image. Furthermore, I recommend using inkjet printers to print the spines of books with more than around 200 pages (using 20 lb 8 1/2" x 11" copy paper), as thicker books will result in the toner on the spine to crack when being opened, thus reducing the legibility of the spine text. When printing book covers with inkjet printers, you would need to apply a sealer to make the cover waterproof and increase its durability. <br><br><br>
 
 ![7-First Fold Result](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/3-First%20fold%20result.jpg)<hr>
-<b>Figure 19.</b> Here are the results for the first fold. Note that the fold is right before the edge of the spine dark rectangle.
+<b>Figure 19.</b> Here are the results for the first fold. Note that the fold is right before the edge of the spine dark rectangle. Repeat the procedure for the other fold. 
 <br><br><br>
 
 
-![8-Tracing Outline of Second Fold](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/4-Tracing%20second%20fold%20line.jpg)<hr> 
-<b>Figure 20.</b> Use the pencil to trace the outline of the other side of the dark spine rectangle on the back of the cardstock cover, while holding it up against a light source to see through it. This will enable you to line up the ruler and crease the paper to get the second fold on the spine.
-<br><br><br>
 
 
-![9-Second Fold](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/5-Second%20fold.jpg)<hr> 
-<b>Figure 21.</b> Lay the ruler about 1/64 - 1/32 inch (0.5 - 1 mm) below the pencil line, and carefully lift the other side of the cardstock to make the second fold on the spine. You can use a bone folder to make the fold crisper afterwards.
-<br><br><br>
 
 
 ![10-Measure "cover_extra_cm"](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/6-Measure%20cover_extra_cm.jpg)<hr> 
