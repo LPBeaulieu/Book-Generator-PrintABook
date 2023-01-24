@@ -179,7 +179,7 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 <br><br><br>
 
 ![10-Folding the Spine](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-Placing%20the%20ruler.jpg)<hr> 
-<b>Figure 21.</b> Lay the ruler about 1/64 - 1/32 inch (0.5 - 1 mm) on the outer side of the pencil line, and carefully lift the other side of the cardstock to make a fold on the spine. You can use a bone folder to make the fold crisper afterwards. 
+<b>Figure 21.</b> Lay the ruler about 1/64 - 1/32 inch (0.5 - 1 mm) on the outer side of the pencil line, and carefully lift the other side of the cardstock to make a fold on one side of the spine. You can use a bone folder to make the fold crisper afterwards. 
 <br><br><br>
 
 ![10-Folding the Spine](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/2-Folding%20the%20cover.jpg)<hr> 
