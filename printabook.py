@@ -231,11 +231,13 @@ grayscale = False
 #in size 56.
 title_size = r"\fs112"
 #The "cover_title_size" is initialized
-#at 200 and the code will determine the largest
+#at 100 pixels and the code will determine the largest
 #font size that fits within the front cover box.
-#The user can specify another starting
-#value for "cover_title_size".
-cover_title_size = 200
+#The user can specify another starting value for
+#"cover_title_size". Similarly, the "spine_font_size"
+#default value is set at 100 pixels.
+cover_title_size = 100
+spine_font_size = 100
 subtitle_size = None
 #The spacing on the cover in-between
 #the title and the author name will be
@@ -497,9 +499,11 @@ if len(sys.argv) > 1:
             elif sys.argv[i].lower()[:17] == "cover_text_color:":
                 cover_text_color =  sys.argv[i].lower()[17:].strip()
             elif sys.argv[i].lower()[:17] == "cover_title_size:":
-                cover_title_size = round(float(sys.argv[i][17:].strip())*2)
+                cover_title_size = round(sys.argv[i][17:].strip())
             elif sys.argv[i].lower()[:18] == "cover_author_size:":
-                cover_author_size = round(float(sys.argv[i][18:].strip())*2)
+                cover_author_size = round(sys.argv[i][18:].strip())
+            elif sys.argv[i].lower()[:16] == "spine_font_size:":
+                spine_font_size = round(sys.argv[i][16:].strip())
             elif sys.argv[i].lower()[:33] == "cover_spacing_title_height_ratio:":
                 cover_spacing_title_height_ratio = float(sys.argv[i][33:].strip())
             elif sys.argv[i].strip().lower()[:17] == "cover_trim_width:":
@@ -1899,7 +1903,7 @@ txt_file_name[-4:].lower() == ".txt"):
 
             #Joining the list items of "text" with empty strings, as there are
             #already "\n\n" dividers in-between paragraphs.
-            text_string = ("".join(text).replace("\n", "").replace("--", r"\'97"))
+            text_string = "".join(text).replace("\n", "")
 
             #If there is at least one instance of a non-directional single "'" or
             #double '"' quote in the "text_string" string, then the following "if"
@@ -1909,80 +1913,84 @@ txt_file_name[-4:].lower() == ".txt"):
                 text_string = (text_string.replace("‘", "'").replace("’", "'")
                 .replace('“', '"').replace('”', '"'))
 
-            #The nested quotes and single or double quotes followed by a space (and thus mapping
-            #to closing directional quotes) are changed to their RTF escape equivalents.
-            quote_substitutions = [['"' + "'", r"\'93" + r"\'91"], ["'" + '"', r"\'92" + r"\'94"],
-            ["' ", r"\'92" + ' '], ['" ', r"\'94" + ' ']]
-            for quote in quote_substitutions:
-                text_string = re.sub(quote[0], quote[1], text_string)
+                #The nested quotes and single or double quotes followed by a space (and thus mapping
+                #to closing directional quotes) are changed to their RTF escape equivalents.
+                quote_substitutions = [['"' + "'", r"\'93" + r"\'91"], ["'" + '"', r"\'92" + r"\'94"],
+                ["' ", r"\'92" + ' '], ['" ', r"\'94" + ' ']]
+                for quote in quote_substitutions:
+                    text_string = re.sub(quote[0], quote[1], text_string)
 
-            #If the first character of the "text_string" string
-            #is a quote, it is then changed for the corresponding
-            #opening directional quote.
-            if text_string[0] == "'":
-                text_string = r"\'91" + text_string[1:]
-            elif text_string[0] == '"':
-                text_string = r"\'93" + text_string[1:]
+                #If the first character of the "text_string" string
+                #is a quote, it is then changed for the corresponding
+                #opening directional quote.
+                if text_string[0] == "'":
+                    text_string = r"\'91" + text_string[1:]
+                elif text_string[0] == '"':
+                    text_string = r"\'93" + text_string[1:]
 
-            #If the last character of the "text_string" string
-            #is a quote, it is then changed for the corresponding
-            #closing directional quote.
-            if text_string[-1] == "'":
-                text_string = text_string[:-1] + r"\'92"
-            elif text_string[-1] == '"':
-                text_string = text_string[:-1] + r"\'94"
+                #If the last character of the "text_string" string
+                #is a quote, it is then changed for the corresponding
+                #closing directional quote.
+                if text_string[-1] == "'":
+                    text_string = text_string[:-1] + r"\'92"
+                elif text_string[-1] == '"':
+                    text_string = text_string[:-1] + r"\'94"
 
-            #The indices of any remaining symmetrical double quotes ('"') are stored in
-            #the list "double_quote_indices" and cycled through using a "for" loop.
-            #If the index is above zero and smaller than the last index of the "double_quote_indices"
-            #list, and if the preceding character is not a space, then the closing directional quote
-            #is substituted for the symmetrical one. The "text_string" string is updated by
-            #slicing it while skipping over what was the symmetrical double quote ('"') at index
-            #"double_quote_indices[i]" in "text_string". The "for" loop proceeds in reverse order
-            #to avoid indexing issues when substituting quotes for multi-character RTF escapes.
-            double_quote_matches = re.finditer('"', text_string)
-            double_quote_indices = [match.start() for match in double_quote_matches]
-            for i in range(len(double_quote_indices)-1, -1, -1):
-                if (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
-                text_string[double_quote_indices[i]-1] != " "):
-                    text_string = (text_string[:double_quote_indices[i]] + r"\'94" +
-                    text_string[double_quote_indices[i]+1:])
-
+                #The indices of any remaining symmetrical double quotes ('"') are stored in
+                #the list "double_quote_indices" and cycled through using a "for" loop.
                 #If the index is above zero and smaller than the last index of the "double_quote_indices"
-                #list, and if the previous character is not a letter and the following character is either
-                #a letter or "¡", "¿" (which would start an exclamation or question, respectively, in Spanish)
-                #a backslash (if the quote is followed by an RTF command or escape such as "\i"),
-                #or a smallcaps (the italics will be dealt with after this step), then the double quote
-                #is changed to the opening directional quote.
-                elif (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
-                (text_string[double_quote_indices[i]-1].isalpha() == False and
-                (text_string[double_quote_indices[i]+1].isalpha() or
-                text_string[double_quote_indices[i]+1] in ["¡", "¿", "\\", "_"]))):
-                    text_string = (text_string[:double_quote_indices[i]] + r"\'93" +
-                    text_string[double_quote_indices[i]+1:])
+                #list, and if the preceding character is not a space, "(", "[", "{", "-", "_" then the
+                #closing directional quote is substituted for the symmetrical one. The "text_string"
+                #string is updated by slicing it while skipping over what was the symmetrical double
+                #quote ('"') at index "double_quote_indices[i]" in "text_string". The "for" loop proceeds
+                #in reverse order to avoid indexing issues when substituting quotes for multi-character RTF escapes.
+                double_quote_matches = re.finditer('"', text_string)
+                double_quote_indices = [match.start() for match in double_quote_matches]
+                for i in range(len(double_quote_indices)-1, -1, -1):
+                    if (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
+                    text_string[double_quote_indices[i]-1] not in [" ", "(", "[", "{", "-", "_"]):
+                        text_string = (text_string[:double_quote_indices[i]] + r"\'94" +
+                        text_string[double_quote_indices[i]+1:])
 
-            single_quote_matches = re.finditer("'", text_string)
-            single_quote_indices = [match.start() for match in single_quote_matches]
-            for i in range(len(single_quote_indices)-1, -1, -1):
-                #The "if" statement will also change the symmetrical single quote to the closing
-                #directional single quote in contractions such as "don't", as only the preceding character
-                #is considered. In this case, the preceding character must not be a space nor a backslash
-                #so that the single quote in the RTF escapes (such as r"\'92") are not confused for actual
-                #single quotes.
-                if (single_quote_indices[i] > 0  and single_quote_indices[i] < len(text_string)-1 and
-                text_string[single_quote_indices[i]-1] != "\\" and text_string[single_quote_indices[i]-1] != " "):
-                    text_string = (text_string[:single_quote_indices[i]] + r"\'92" +
-                    text_string[single_quote_indices[i]+1:])
+                    #If the index is above zero and smaller than the last index of the "double_quote_indices"
+                    #list, and if the previous character is not a letter and the following character is either
+                    #a letter or "¡", "¿" (which would start an exclamation or question, respectively, in Spanish)
+                    #a backslash (if the quote is followed by an RTF command or escape such as "\i"),
+                    #or a smallcaps (the italics will be dealt with after this step), then the double quote
+                    #is changed to the opening directional quote.
+                    elif (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
+                    (text_string[double_quote_indices[i]-1].isalpha() == False and
+                    (text_string[double_quote_indices[i]+1].isalpha() or
+                    text_string[double_quote_indices[i]+1] in ["¡", "¿", "\\", "_"]))):
+                        text_string = (text_string[:double_quote_indices[i]] + r"\'93" +
+                        text_string[double_quote_indices[i]+1:])
 
-                elif (single_quote_indices[i] > 0 and single_quote_indices[i] < len(text_string)-1 and
-                (text_string[single_quote_indices[i]-1] != "\\" and
-                text_string[single_quote_indices[i]-1].isalpha() == False and
-                (text_string[single_quote_indices[i]+1].isalpha() or
-                text_string[single_quote_indices[i]+1] in ["¡", "¿", "\\", "_"]))):
-                    text_string = (text_string[:single_quote_indices[i]] + r"\'91" +
-                    text_string[single_quote_indices[i]+1:])
+                single_quote_matches = re.finditer("'", text_string)
+                single_quote_indices = [match.start() for match in single_quote_matches]
+                for i in range(len(single_quote_indices)-1, -1, -1):
+                    #The "if" statement will also change the symmetrical single quote to the closing
+                    #directional single quote in contractions such as "don't", as only the preceding character
+                    #is considered. In this case, the preceding character must not be a space, "(", "[", "{",
+                    #"-", "_" nor a backslash (so that the single quote in the RTF escapes (such as r"\'92"))
+                    #are not confused for actual single quotes.
+                    if (single_quote_indices[i] > 0  and single_quote_indices[i] < len(text_string)-1 and
+                    text_string[single_quote_indices[i]-1] != "\\" and text_string[single_quote_indices[i]-1] not in
+                    [" ", "(", "[", "{", "-", "_",  "\\"]):
+                        text_string = (text_string[:single_quote_indices[i]] + r"\'92" +
+                        text_string[single_quote_indices[i]+1:])
 
+                    elif (single_quote_indices[i] > 0 and single_quote_indices[i] < len(text_string)-1 and
+                    (text_string[single_quote_indices[i]-1] != "\\" and
+                    text_string[single_quote_indices[i]-1].isalpha() == False and
+                    (text_string[single_quote_indices[i]+1].isalpha() or
+                    text_string[single_quote_indices[i]+1] in ["¡", "¿", "\\", "_"]))):
+                        text_string = (text_string[:single_quote_indices[i]] + r"\'91" +
+                        text_string[single_quote_indices[i]+1:])
 
+            #Any instance of two successive hyphens is changed to an em-dash. This is done after
+            #dealing with unsymmetrical quotes, as the presence of a hyphen is of consequence in
+            #determining which directional quote to use.
+            text_string = text_string.replace("--", r"\'97")
             #A copy of "text_string" is made in case there are formatting errors in the
             #manuscript and unmatched underscores. This way, the "text_string" will only
             #be updated if all of the underscores can be assigned to italics RTF commands.
@@ -2649,12 +2657,12 @@ txt_file_name[-4:].lower() == ".txt"):
                     #The "spine_text" containing the text written on the spine is assembled.
                     spine_text = author_spine + title.strip()
                 #Similar to what was done above, the font size of the spine
-                #initialized to 100 pixels, will be optimized to the available
-                #space. However, in this case both the horizontal and vertical
+                #initialized to 100 pixels (unless the user specified something different),
+                #will be optimized to the available space.
+                #However, in this case both the horizontal and vertical
                 #space need to be considered, as only one line of text can fit
                 #onto the spine (so the string will not be split into two lines
                 #as for the title and author box).
-                spine_font_size = 100
                 font_spine = ImageFont.truetype(cover_font, spine_font_size)
 
                 spine_text_length_pixels = image_editable.textlength(spine_text, font_spine)
