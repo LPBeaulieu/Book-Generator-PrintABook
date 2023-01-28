@@ -177,12 +177,14 @@ cover_trim_width = 0.25
 #The "cover_line" variable determines whether
 #a dark border will be present on the cover,
 #before the white trim. The default setting
-#does not include such a border, as the users
+#includes such a border, but as the users
 #may wish to trim their pages using a stack
 #page guillotine cutter, and the presence of
-#a black line would likely leave behind some
-#uneven line after cutting.
-cover_line = False
+#a dark line would likely leave behind some
+#uneven line after cutting, they may wish to remove
+#such a line by passing the argument "no_cover_line"
+#when running the Python code.
+cover_line = True
 #An extra 35 pixels are added, as there seems to
 #be 3 mm missing on both sides of the cover due
 #to binding irregularities and the thickness of
@@ -209,7 +211,7 @@ pixels_from_left_cover_spine = 0
 #from the top of the cover title box to reach the
 #point where the cover title text will start to be
 #written. Negative values will bring the text up.
-pixels_from_top_cover_title_box = 0
+pixels_from_top_cover_title_box = 10
 #A similar approach is taken with the variable
 #"pixels_from_left_cover_title_box" to determine how
 #many pixels are added to the starting "x" coordinate
@@ -231,13 +233,11 @@ grayscale = False
 #in size 56.
 title_size = r"\fs112"
 #The "cover_title_size" is initialized
-#at 100 pixels and the code will determine the largest
+#at 125 pixels and the code will determine the largest
 #font size that fits within the front cover box.
 #The user can specify another starting value for
-#"cover_title_size". Similarly, the "spine_font_size"
-#default value is set at 100 pixels.
-cover_title_size = 100
-spine_font_size = 100
+#"cover_title_size".
+cover_title_size = 125
 subtitle_size = None
 #The spacing on the cover in-between
 #the title and the author name will be
@@ -252,11 +252,18 @@ cover_spacing_title_height_ratio = 0.20
 max_author_title_font_ratio = 0.75
 max_subtitle_title_font_ratio = 0.75
 #The "cover_author_size" is initialized
-#at 150 and the code will determine the largest
+#at 94 pixels and the code will determine the largest
 #font size that fits within the front cover box.
 #The user can specify another starting
 #value for "cover_author_size"
-cover_author_size = 150
+cover_author_size = 94
+#Similarly, the "spine_font_size"
+#default value is set at 100 pixels,
+#and the code will determine the largest
+#font size that fits within the spine.
+#The user can specify another starting
+#value for "spine_font_size".
+spine_font_size = 100
 #The font size of the divider
 #separating the title and the
 #subtitle and author name.
@@ -510,8 +517,8 @@ if len(sys.argv) > 1:
                 cover_trim_width = float(sys.argv[i][17:].strip())
             elif sys.argv[i].strip().lower()[:20] == "cover_trim_width_cm:":
                 cover_trim_width = float(sys.argv[i][20:].strip())/2.54
-            elif sys.argv[i].strip().lower()[:10] == "cover_line":
-                cover_line = True
+            elif sys.argv[i].strip().lower()[:13] == "no_cover_line":
+                cover_line = False
             elif sys.argv[i].strip().lower()[:19] == "cover_extra_inches:":
                 inches = float(sys.argv[i].strip()[19:])
                 cover_extra_pixels = round(inches*4200/14)
@@ -2614,7 +2621,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 image_editable.rectangle([(4200-round(11*4200/14+width_of_spine_pixels+2*cover_extra_pixels)-6,0),
                 (4200-round(11*4200/14+width_of_spine_pixels+2*cover_extra_pixels) + cover_trim_width_pixels, 2550)], fill="white")
                 if cover_line == True:
-                    #If the variable "cover_line" is set to "True" (default setting is "False"), a dark trim
+                    #If the variable "cover_line" is set to "True" , a dark trim
                     #of color "dark_color" is drawn directly within the white border, so as to harmonize
                     #the white border with the rest of the contents of the cover. Once again, the top left
                     #corner of the dark rectangle is shifted to the left by "2*cover_extra_pixels"
