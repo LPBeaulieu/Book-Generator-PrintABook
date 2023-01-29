@@ -232,12 +232,12 @@ grayscale = False
 #a title size of r"fs\112" is really
 #in size 56.
 title_size = r"\fs112"
-#The "cover_title_size" is initialized
+#The "cover_title_font_size" is initialized
 #at 125 pixels and the code will determine the largest
 #font size that fits within the front cover box.
 #The user can specify another starting value for
-#"cover_title_size".
-cover_title_size = 125
+#"cover_title_font_size".
+cover_title_font_size = 125
 subtitle_size = None
 #The spacing on the cover in-between
 #the title and the author name will be
@@ -251,12 +251,12 @@ cover_spacing_title_height_ratio = 0.20
 #adjusting the font size to the available space.
 max_author_title_font_ratio = 0.75
 max_subtitle_title_font_ratio = 0.75
-#The "cover_author_size" is initialized
+#The "cover_author_font_size" is initialized
 #at 94 pixels and the code will determine the largest
 #font size that fits within the front cover box.
 #The user can specify another starting
-#value for "cover_author_size"
-cover_author_size = 94
+#value for "cover_author_font_size"
+cover_author_font_size = 94
 #Similarly, the "spine_font_size"
 #default value is set at 100 pixels,
 #and the code will determine the largest
@@ -505,10 +505,10 @@ if len(sys.argv) > 1:
                 cover_box_color = sys.argv[i].lower()[16:].strip()
             elif sys.argv[i].lower()[:17] == "cover_text_color:":
                 cover_text_color =  sys.argv[i].lower()[17:].strip()
-            elif sys.argv[i].lower()[:17] == "cover_title_size:":
-                cover_title_size = round(sys.argv[i][17:].strip())
-            elif sys.argv[i].lower()[:18] == "cover_author_size:":
-                cover_author_size = round(sys.argv[i][18:].strip())
+            elif sys.argv[i].lower()[:22] == "cover_title_font_size:":
+                cover_title_font_size = round(sys.argv[i][22:].strip())
+            elif sys.argv[i].lower()[:23] == "cover_author_font_size:":
+                cover_author_font_size = round(sys.argv[i][23:].strip())
             elif sys.argv[i].lower()[:16] == "spine_font_size:":
                 spine_font_size = round(sys.argv[i][16:].strip())
             elif sys.argv[i].lower()[:33] == "cover_spacing_title_height_ratio:":
@@ -2158,7 +2158,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 #The "ImageDraw" module will load the default background image (which
                 #the user can change by selecting another image in the working folder and
                 #passing in its name as an additional argument, when calling the Python code.
-                font_title = ImageFont.truetype(cover_font, cover_title_size)
+                font_title = ImageFont.truetype(cover_font, cover_title_font_size)
                 image = Image.open(background_img)
                 #If the user hasn't provided a color for the cover text box
                 #nor for the cover text, the colors will be assigned automatically
@@ -2367,7 +2367,7 @@ txt_file_name[-4:].lower() == ".txt"):
                         cover_text_color = "White"
                 #The length (in pixels) taken up by the title is determined using the
                 #"textlength()" method, using the "font_title" with the default font size
-                #"cover_title_size".
+                #"cover_title_font_size".
                 title_length_pixels = image_editable.textlength(title, font_title)
                 #The "cover_title_offset" variable stores the offset length in pixels required on the x axis so that the
                 #title is centered within the black rectangle. The offset is calculated as the difference between the
@@ -2384,7 +2384,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 #will be split in the same way as for the title page, and the font size will be
                 #decremented by one unit in the "while" loop below until each of the split lines
                 #of the title can fit within the black rectangle, down to a minimum font size of 50.
-                cover_title_height = cover_title_size
+                cover_title_height = cover_title_font_size
                 if title_length_pixels > available_horizontal_space_pixels:
                     title_words = re.split(r"( )", title)
                     number_of_title_words = len(title_words)
@@ -2404,33 +2404,33 @@ txt_file_name[-4:].lower() == ".txt"):
                     if first_half_words != []:
                         adjusted_title_cover = first_half_words_string + "\n" + second_half_words_string
 
-                        while cover_title_size > 50:
+                        while cover_title_font_size > 50:
                             if (image_editable.textlength(first_half_words_string, font_title) >
                             available_horizontal_space_pixels or
                             image_editable.textlength(second_half_words_string, font_title) >
                             available_horizontal_space_pixels):
-                                cover_title_size-=1
-                                font_title = ImageFont.truetype(cover_font, cover_title_size)
+                                cover_title_font_size-=1
+                                font_title = ImageFont.truetype(cover_font, cover_title_font_size)
                             else:
                                 #If the title was split, the "cover_title_height" variable is updated to
                                 #reflect that the text now spans two lines, including the spacing
                                 #in-between the lines ("cover_title_line_spacing").
-                                cover_title_height = 2*cover_title_size + cover_title_line_spacing
+                                cover_title_height = 2*cover_title_font_size + cover_title_line_spacing
                                 break
                     #If there is only one word in the title and that word happens to be very long,
-                    #then instead of splitting the title in half, the font size "cover_title_size"
+                    #then instead of splitting the title in half, the font size "cover_title_font_size"
                     #will be decremented until the fitle fits within the cover box.
                     else:
-                        while cover_title_size > 50:
+                        while cover_title_font_size > 50:
                             if (image_editable.textlength(title, font_title) >
                             available_horizontal_space_pixels):
-                                cover_title_size-=1
-                                font_title = ImageFont.truetype(cover_font, cover_title_size)
+                                cover_title_font_size-=1
+                                font_title = ImageFont.truetype(cover_font, cover_title_font_size)
                             else:
                                 #If the title wasn't split, but was resized, the "cover_title_height"
                                 #variable is updated to reflect this. As the text does not span two lines,
-                                #"cover_title_size" isn't multiplied by 2.
-                                cover_title_height = cover_title_size + cover_title_line_spacing
+                                #"cover_title_font_size" isn't multiplied by 2.
+                                cover_title_height = cover_title_font_size + cover_title_line_spacing
                                 break
 
                     #The "cover_title_offset" variable stores the offset length in pixels required on
@@ -2448,10 +2448,10 @@ txt_file_name[-4:].lower() == ".txt"):
                     max([first_half_words_string_length, second_half_words_string_length])/2))
 
                 #As the author name font size should be at most 75% of that of the title,
-                #the initial font size is set to 75% of "cover_title_size".
-                cover_author_size = round(0.75*cover_title_size)
-                font_author = ImageFont.truetype(cover_font, cover_author_size)
-                cover_author_height = cover_author_size
+                #the initial font size is set to 75% of "cover_title_font_size".
+                cover_author_font_size = round(0.75*cover_title_font_size)
+                font_author = ImageFont.truetype(cover_font, cover_author_font_size)
+                cover_author_height = cover_author_font_size
                 author_length_pixels = image_editable.textlength(author, font_author)
                 #The "cover_author_offset" variable stores the offset length in pixels required on the
                 #x axis so that the author name (which should be smaller than the title, in principle)
@@ -2480,16 +2480,16 @@ txt_file_name[-4:].lower() == ".txt"):
                     adjusted_author_cover = first_half_words_string + "\n" + second_half_words_string
                     adjusted_author = first_half_words_string + "\n" + second_half_words_string
 
-                    while cover_author_size > 50*max_author_title_font_ratio:
+                    while cover_author_font_size > 50*max_author_title_font_ratio:
                         if (image_editable.textlength(first_half_words_string, font_author) >
                         available_horizontal_space_pixels or
                         image_editable.textlength(second_half_words_string, font_author) >
                         available_horizontal_space_pixels):
-                            cover_author_size-=1
-                            font_author = ImageFont.truetype(cover_font, cover_author_size)
+                            cover_author_font_size-=1
+                            font_author = ImageFont.truetype(cover_font, cover_author_font_size)
                         else:
                             break
-                    cover_author_height = 2*cover_author_size + cover_author_line_spacing
+                    cover_author_height = 2*cover_author_font_size + cover_author_line_spacing
 
                     #The "cover_author_offset" variable stores the offset length in pixels required on
                     #the x axis so that the author name (which should be smaller than the title, in
@@ -2702,7 +2702,7 @@ txt_file_name[-4:].lower() == ".txt"):
                     #will be decremented until both dimensions are within range of the available space.
                     if (spine_text_length_pixels > available_vertical_space_pixels or
                     spine_font_size > available_horizontal_space_pixels):
-                        while cover_title_size > 25:
+                        while cover_title_font_size > 25:
                             if (image_editable.textlength(spine_text, font_spine) > available_vertical_space_pixels or
                             spine_font_size > available_horizontal_space_pixels):
                                 spine_font_size-=1
