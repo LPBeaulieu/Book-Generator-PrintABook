@@ -170,7 +170,7 @@ py -m printabook.py "title:The Adventures of Sherlock Holmes" "author:Arthur Con
 
 
 ![5-General Setup for Cover Assembly](https://github.com/LPBeaulieu/Book-Generator-PrintABook/blob/main/Github%20Page%20Images/1-Applying%20cover%20general%20setup.jpg)<hr> 
-<b>Figure 19.</b> The image above shows the tools needed to add the cover to your book. Use scissors or other more precise cutting tools to remove the excess cardstock, while leaving the white trim, as shown in the image. There is an extra 1/64 inch (or 0.5 mm) of white space where you need to cut along the background, so you don't need to cut too close to the background on the leftover cardstock. A pencil will be used later to figure out where to fold the second crease of the spine. A bone cutter tool may be useful when folding, but is not strictly necessary. A flat-tip paintbrush will help you apply the PVA glue more precisely. 
+<b>Figure 19.</b> The image above shows the tools needed to add the cover to your book. Use scissors or other more precise cutting tools to remove the excess cardstock, while leaving the white trim, as shown in the image. There is an extra 1/64 inch (or 0.5 mm) of white space where you need to cut along the background, so you don't need to cut too close to the background on the leftover cardstock. A pencil will be used later to figure out where to fold the cover on either side of the the spine. A bone folder tool may be useful when folding, but is not strictly necessary. A flat-tip paintbrush will help you apply the PVA glue more precisely. 
 <br><br><br>
 
 
