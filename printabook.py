@@ -185,11 +185,10 @@ cover_trim_width = 0.25
 #such a line by passing the argument "no_cover_line"
 #when running the Python code.
 cover_line = True
-#An extra 35 pixels are added, as there seems to
-#be 3 mm missing on both sides of the cover due
-#to binding irregularities and the thickness of
-#the glue: (3 mm * inch/25.4 mm * 4200 pixels/14 inch)
-cover_extra_pixels = 35
+#An extra 20 pixels are added to the cover width,
+#to account for binding irregularities and the
+#thickness of the glue:
+cover_extra_pixels = 20
 #The "pixels_from_bottom_cover_spine" variable
 #determines how many pixels are added to the
 #starting "y" coordinate (in the rotated image)
@@ -379,17 +378,17 @@ if len(sys.argv) > 1:
                 if len(sys.argv[i][7:]) > 3 and sys.argv[i][7:10].lower() == "by ":
                     author = sys.argv[i][10:]
                     author_names = re.split(r"( )", author)
-                    for i in range(len(author_names)):
-                        if author_names[i].lower() != "by":
-                            author_names[i] == author_names[i].capitalize()
+                    for j in range(len(author_names)):
+                        if author_names[j].lower() != "by":
+                            author_names[j] == author_names[j].capitalize()
                     #"by" will not be included in the "author" variable, so
                     #index 0 in "author_names" is skipped over.
                     author = "".join(author_names[1:]).strip()
                 elif len(sys.argv[i][7:]) > 3 and sys.argv[i][7:10].lower() != "by ":
                     author = sys.argv[i][7:].strip()
                     author_names = re.split(r"( )", author)
-                    for i in range(len(author_names)):
-                        author_names[i] == author_names[i].capitalize()
+                    for j in range(len(author_names)):
+                        author_names[j] == author_names[j].capitalize()
                     author = "".join(author_names).strip()
                 else:
                     author = sys.argv[i][7:].strip()
@@ -1912,11 +1911,18 @@ txt_file_name[-4:].lower() == ".txt"):
             #already "\n\n" dividers in-between paragraphs.
             text_string = "".join(text).replace("\n", "")
 
-            #If there is at least one instance of a non-directional single "'" or
-            #double '"' quote in the "text_string" string, then the following "if"
-            #statement will run. First, all of the directional quotes are switched
-            #to their non-directional counterparts.
-            if text_string.find("'") != -1 or text_string.find('"') != -1:
+            #The index after the three "double dagger" acting as a divider in-between the book title and author
+            #name on the title page is determined. This is important, because RTF escapes containing non-directional
+            #single quotes are used in the "double dagger" RTF escape ("\'87"). The search for non-directional single
+            #quotes in "text_string" must then begin after the end of the double daggers.
+            index_end_double_dagger_divider = text_string.find(r"\'87\'87\'87")+11
+
+            #If there is at least one instance of a non-directional single "'" in the "text_string" string
+            #(after the "double dagger" divider in-between the book title and author name on the title page)
+            #or if there is a double '"' quote in the "text_string" string, then the following "if" statement
+            #will run. First, all of the directional quotes are switched to their non-directional counterparts.
+            if (text_string[index_end_double_dagger_divider:].find("'") != -1 or text_string.find('"') != -1):
+
                 text_string = (text_string.replace("‘", "'").replace("’", "'")
                 .replace('“', '"').replace('”', '"'))
 
@@ -1946,7 +1952,8 @@ txt_file_name[-4:].lower() == ".txt"):
                 #The indices of any remaining symmetrical double quotes ('"') are stored in
                 #the list "double_quote_indices" and cycled through using a "for" loop.
                 #If the index is above zero and smaller than the last index of the "double_quote_indices"
-                #list, and if the preceding character is not a space, "(", "[", "{", "-", "_" then the
+                #list, and if the preceding character is not a space, "(", "[", "{", "-" or "‘" (so that
+                #there isn't a closing double quote after an opening single quote) then the
                 #closing directional quote is substituted for the symmetrical one. The "text_string"
                 #string is updated by slicing it while skipping over what was the symmetrical double
                 #quote ('"') at index "double_quote_indices[i]" in "text_string". The "for" loop proceeds
@@ -1955,7 +1962,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 double_quote_indices = [match.start() for match in double_quote_matches]
                 for i in range(len(double_quote_indices)-1, -1, -1):
                     if (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
-                    text_string[double_quote_indices[i]-1] not in [" ", "(", "[", "{", "-", "_"]):
+                    text_string[double_quote_indices[i]-1] not in [" ", "(", "[", "{", "-", "‘"]):
                         text_string = (text_string[:double_quote_indices[i]] + r"\'94" +
                         text_string[double_quote_indices[i]+1:])
 
@@ -1978,11 +1985,10 @@ txt_file_name[-4:].lower() == ".txt"):
                     #The "if" statement will also change the symmetrical single quote to the closing
                     #directional single quote in contractions such as "don't", as only the preceding character
                     #is considered. In this case, the preceding character must not be a space, "(", "[", "{",
-                    #"-", "_" nor a backslash (so that the single quote in the RTF escapes (such as r"\'92"))
+                    #"-", nor a backslash (so that the single quote in the RTF escapes (such as r"\'92"))
                     #are not confused for actual single quotes.
                     if (single_quote_indices[i] > 0  and single_quote_indices[i] < len(text_string)-1 and
-                    text_string[single_quote_indices[i]-1] != "\\" and text_string[single_quote_indices[i]-1] not in
-                    [" ", "(", "[", "{", "-", "_",  "\\"]):
+                    text_string[single_quote_indices[i]-1] not in [" ", "(", "[", "{", "-", "\\"]):
                         text_string = (text_string[:single_quote_indices[i]] + r"\'92" +
                         text_string[single_quote_indices[i]+1:])
 
@@ -1993,6 +1999,15 @@ txt_file_name[-4:].lower() == ".txt"):
                     text_string[single_quote_indices[i]+1] in ["¡", "¿", "\\", "_"]))):
                         text_string = (text_string[:single_quote_indices[i]] + r"\'91" +
                         text_string[single_quote_indices[i]+1:])
+
+            #RANDOM SUBSTITUTION: Any instance of '“‘”' (in RTF escape form) would be changed to '“‘“'
+            #(in RTF escape form), as I've noticed that the opening multi-level nested quotes are not
+            #handled well by the code above. The "replace()" methods below handle three and two-level
+            #opening nested quotes, but you would need to do manual substitutions for higher levels
+            #of quote nesting.
+            text_string = (text_string.replace(r"\'93" + r"\'91" + r"\'94", r"\'93" + r"\'91" + r"\'93")
+            .replace(r"\'91" + r"\'93" + r"\'92", r"\'91" + r"\'93" + r"\'91")
+            .replace(r"\'93" + r"\'94", r"\'93" + r"\'93").replace(r"\'91" + r"\'92", r"\'91" + r"\'91"))
 
             #Any instance of two successive hyphens is changed to an em-dash. This is done after
             #dealing with unsymmetrical quotes, as the presence of a hyphen is of consequence in
@@ -2133,6 +2148,13 @@ txt_file_name[-4:].lower() == ".txt"):
             ['–', r"\'96"]]
             for escape in rtf_escapes:
                 text_string = re.sub(escape[0], escape[1], text_string)
+
+            #Any instance of a dash or em-dash flanked by closing double or single quotes would be
+            #changed to a closing quote, dash and an opening quote.
+            text_string = (text_string.replace(r"\'94" + "-" + r"\'94", r"\'94" + "-" + r"\'93" )
+            .replace(r"\'94" + r"\'97" + r"\'94", r"\'94" + r"\'97" + r"\'93")
+            .replace(r"\'92" + "-" + r"\'92", r"\'92" + "-" + r"\'91")
+            .replace(r"\'92" + r"\'97" + r"\'92", r"\'92" + r"\'97" + r"\'91"))
 
             #Please consult the following reference for an in-depth explanation of RTF commands:
             #(https://www.oreilly.com/library/view/rtf-pocket-guide/9781449302047/ch01.html)
