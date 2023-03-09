@@ -4,6 +4,7 @@ import os
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import re
 import sys
+import math
 
 
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13',
@@ -230,7 +231,7 @@ grayscale = False
 #not half-points. This means that
 #a title size of r"fs\112" is really
 #in size 56.
-title_size = r"\fs112"
+title_size = r"\fs112 "
 #The "cover_title_font_size" is initialized
 #at 125 pixels and the code will determine the largest
 #font size that fits within the front cover box.
@@ -266,15 +267,15 @@ spine_font_size = 100
 #The font size of the divider
 #separating the title and the
 #subtitle and author name.
-divider_size = r"\fs72"
+divider_size = r"\fs72 "
 #To ensure that the spacing between
 #Title, Subtitle and Author are the
 #same, "title_page_spacing" is set as
 #the font size before "\line" RTF commands.
-title_page_spacing = r"\fs36"
-body_font_size = r"\fs34"
-header_font_size = r"\fs32"
-chapter_heading_font_size = r"\fs51"
+title_page_spacing = r"\fs36 "
+body_font_size = r"\fs34 "
+header_font_size = r"\fs32 "
+chapter_heading_font_size = r"\fs51 "
 #The "max_chapter_heading_body_font_ratio"
 #variable determines the maximum ratio between the
 #chapter headings font size and that of the body text,
@@ -289,13 +290,13 @@ bold_chapter_headings = False
 #corresponds to the width of four
 #spaces written in size 17 Baskerville
 #(r"\fs28") and may be adjusted.
-tab_width = r"\deftab360"
+tab_width = r"\deftab360 "
 font = "Baskerville"
 #"title_page_posy" determines
 #the starting vertical distance (in twips), from
 #the top left of the page, where the title page
 #paragraph starts.
-title_page_posy = r"\posy4040"
+title_page_posy = r"\posy4040 "
 #The top and bottom margins
 #are set to 0, given that these are
 #the lowest possible top and
@@ -304,9 +305,9 @@ title_page_posy = r"\posy4040"
 #different proportions of the resulting
 #sheets (8.5x11" vs 5.5x8.5" for the
 #individual pages).
-header_top_margin = r"\headery0"
-top_margin = r"\margt720"
-bottom_margin = r"\margb0"
+header_top_margin = r"\headery0 "
+top_margin = r"\margt720 "
+bottom_margin = r"\margb0 "
 #The default values in twips for
 #the left and right margins is of
 #1600, which equates to about 0.75 inches.
@@ -315,9 +316,9 @@ bottom_margin = r"\margb0"
 #these specifications would be suitable
 #for books up to 700 pages in length,
 #which should cover most books.
-left_margin = r"\margl1600"
+left_margin = r"\margl1600 "
 left_margin_twips = 1600
-right_margin = r"\margr1600"
+right_margin = r"\margr1600 "
 right_margin_twips = 1600
 
 #The default left and right
@@ -620,34 +621,18 @@ txt_file_name[-4:].lower() == ".txt"):
         #decremented until both fragments of the title
         #can fit onto their own line or a font size of
         #27 is reached.
+
+        #The "re.split()" method with retention of spaces is
+        #used in case the user has inputted additional spaces
+        #to affect the splitting point of the title.
         title_words = re.split(r"( )", title)
         number_of_title_words = len(title_words)
         #The middle index in the title will be the threshold
         #for including a carriage return in the title.
-        middle_index_in_title = len(title)//2
-        #For every word in the title, a check will be made
-        #to see whether it could fit on the first line (along
-        #with the space after it, hence the "+1" below) and
-        #still be within the "middle_index_in_title" threshold.
-        #if so, the word will be added to the line and
-        #"character_count" will be incremented accordingly.
-        character_count = 0
-        word_delimitor = None
-
-        for i in range(len(title_words)):
-            if character_count <= middle_index_in_title - (len(title_words[i])+1):
-                character_count += len(title_words[i])
-            #If there isn't room on the current line for
-            #the word and its following space, then it will
-            #be the forst word on the next line and the
-            #index of that word in "title_words" will be
-            #the point where the carriage return "\line" will be added.
-            else:
-                word_delimitor = i
-                break
-        first_half_words = title_words[:word_delimitor]
+        middle_index_in_title = math.ceil(len(title_words)/2)
+        first_half_words = title_words[:middle_index_in_title]
         first_half_words_string = "".join(first_half_words)
-        second_half_words = title_words[word_delimitor:]
+        second_half_words = title_words[middle_index_in_title:]
         second_half_words_string = "".join(second_half_words)
 
         adjusted_title_rtf = first_half_words_string + "\line " + second_half_words_string
@@ -700,18 +685,10 @@ txt_file_name[-4:].lower() == ".txt"):
     if author_width_twips > width_threshold:
         author_words = re.split(r"( )", author)
         number_of_author_words = len(author_words)
-        middle_index_in_author = len(author)//2
-        character_count = 0
-        word_delimitor = None
-        for i in range(len(author_words)):
-            if character_count <= middle_index_in_author - (len(author_words[i])+1):
-                character_count += len(author_words[i])
-            else:
-                word_delimitor = i
-                break
-        first_half_words = author_words[:word_delimitor]
+        middle_index_in_author = math.ceil(len(author_words)/2)
+        first_half_words = author_words[:middle_index_in_title]
         first_half_words_string = "".join(first_half_words)
-        second_half_words = author_words[word_delimitor:]
+        second_half_words = author_words[middle_index_in_title:]
         second_half_words_string = "".join(second_half_words)
         adjusted_author_rtf = first_half_words_string + "\line " + second_half_words_string
 
@@ -1057,14 +1034,28 @@ txt_file_name[-4:].lower() == ".txt"):
             #by a period or not, and if the line index is zero or the previous line
             #is empty, then the chapter heading is further investigated below.
             #Examples: Chapter 1. / CHAPTER II / 1 / II. / Chapter One. / Three
-            if ((text[i].strip() in numbers or text[i].strip() in numbers_dots or
+            if (text[i].strip(" ") != "\n" and (text[i].strip() in numbers or text[i].strip() in numbers_dots or
             text[i].strip() in roman_numerals or text[i].strip() in roman_numerals_dots or
             text[i].strip().lower() in numbers_letters_lower or
+            text[i].strip()[0] in ["_", r"/"] and text[i].strip()[-1] in ["_", r"/"] and
+            text[i].strip()[0] == text[i].strip()[-1] and text[i].strip()[1:-1] in numbers or
+            text[i].strip()[0] in ["_", r"/"] and text[i].strip()[-1] in ["_", r"/"] and
+            text[i].strip()[0] == text[i].strip()[-1] and text[i].strip()[1:-1] in numbers_dots or
+            text[i].strip()[0] in ["_", r"/"] and text[i].strip()[-1] in ["_", r"/"] and
+            text[i].strip()[0] == text[i].strip()[-1] and text[i].strip()[1:-1] in roman_numerals or
+            text[i].strip()[0] in ["_", r"/"] and text[i].strip()[-1] in ["_", r"/"] and
+            text[i].strip()[0] == text[i].strip()[-1] and text[i].strip()[1:-1] in roman_numerals_dots or
+            text[i].strip()[0] in ["_", r"/"] and text[i].strip()[-1] in ["_", r"/"] and
+            text[i].strip()[0] == text[i].strip()[-1] and text[i].strip()[1:-1].lower() in numbers_letters_lower or
             (text[i].strip()[:7].lower() == "chapter" and (text[i].strip()[8:] in numbers or
             text[i].strip()[8:] in numbers_dots or text[i].strip()[8:] in roman_numerals or
             text[i].strip()[8:] in roman_numerals_dots or text[i].strip()[8:].lower() in numbers_letters_lower or
-            text[i].strip()[8:].lower() in numbers_letters_lower_dots))) and (i == 0 or i > 0 and
-            text[i-1].strip(" ") == "\n")):
+            text[i].strip()[8:].lower() in numbers_letters_lower_dots)) or
+            (text[i].strip()[:8].lower() == "_chapter" and (text[i].strip()[9:] in numbers or
+            text[i].strip()[9:] in numbers_dots or text[i].strip()[9:] in roman_numerals or
+            text[i].strip()[9:] in roman_numerals_dots or text[i].strip()[9:].lower() in numbers_letters_lower or
+            text[i].strip()[9:].lower() in numbers_letters_lower_dots))) and (i < len(text) and
+            text[i+1].strip(" ") == "\n" and (i == 0 or i > 0 and text[i-1].strip(" ") == "\n"))):
                 #If the line after the chapter heading isn't empty, it means
                 #that a subheading follows the chapter heading. All of the
                 #lines of following the chapter heading (ex: Chapter I.), down
@@ -1203,7 +1194,6 @@ txt_file_name[-4:].lower() == ".txt"):
                             break
                         elif text[j].strip(" ") == "\n":
                             empty_lines_after_heading += 1
-
                     #The "if" statement will only run if the subheader is more than
                     #one line in length (it begins on text[i+1] and the next non-empty
                     #line should meet the condition 'text[i+2].strip(" ") != "\n"'),
@@ -1353,14 +1343,18 @@ txt_file_name[-4:].lower() == ".txt"):
                                 r"\par}{\pard\sa" + points_between_paragraphs + line_spacing + r"\qj ")
                                 page_break_ok = False
 
+
             #If the chapter subtitle is found on the same line as the chapter heading and
             #that the chapter heading is comprised of either a digit, roman numeral or number
             #in written form, followed by either a period or colon and if the line index is
             #zero or the previous line is empty then the chapter heading is further investigated
             #below. (Examples: 1. Chapter Title / II: CHAPTER TITLE)
-            elif (text[i].strip(" ") != "\n" and (text[i].strip(" ").split()[0][:-1] in roman_numerals or
-            text[i].strip(" ").split()[0][:-1] in numbers or text[i].strip(" ").split()[0][:-1] in
-            numbers_letters_lower) and text[i].strip(" ").split()[0][-1] in [".",":"] and
+            elif (text[i].strip(" ") != "\n" and (text[i].strip().split()[0][:-1] in roman_numerals or
+            (text[i].strip().split()[0][0] in ["_", r"/"] and text[i].strip().split()[0][1:-1] in roman_numerals) or
+            text[i].strip().split()[0][:-1] in numbers or (text[i].strip().split()[0][0] in ["_", r"/"] and
+            text[i].strip().split()[0][1:-1] in numbers) or text[i].strip().split()[0][:-1] in
+            numbers_letters_lower or (text[i].strip().split()[0][0] in ["_", r"/"] and
+            text[i].strip().split()[0][1:-1] in numbers_letters_lower)) and text[i].strip().split()[0][-1] in [".",":"] and
             (i == 0 or i > 0 and text[i-1].strip(" ") == "\n")):
                 #If the line after the chapter heading isn't empty, it means
                 #that the chapter heading spans multiple lines. All of the
@@ -1460,11 +1454,15 @@ txt_file_name[-4:].lower() == ".txt"):
             #by either a period or colon, and if the line index is zero or the previous line
             #is empty then the chapter heading is further investigated below.
             #Examples: Chapter 1: Chapter Title / CHAPTER TWO. Chapter Title / Chapter Three: CHAPTER TITLE
-            elif ((text[i].strip(" ") != "\n" and len(text[i].strip(" ").split()) > 0 and
-            text[i].strip(" ").split()[0].lower() == "chapter") and (text[i].strip(" ").split()[1][:-1] in
-            roman_numerals or text[i].strip(" ").split()[1][:-1] in numbers or
+            elif (text[i].strip(" ") != "\n" and len(text[i].strip().split()) > 0 and
+            ((text[i].strip().split()[0].lower() == "chapter" and
+            (text[i].strip(" ").split()[1][:-1] in roman_numerals or text[i].strip(" ").split()[1][:-1] in numbers or
             text[i].strip(" ").split()[1][:-1].lower() in numbers_letters_lower) and
-            text[i].strip(" ").split()[1][-1] in [".",":"] and
+            text[i].strip(" ").split()[1][-1] in [".",":"]) or
+            (text[i].strip().split()[0].lower() in ["_chapter", r"/chapter"] and
+            (text[i].strip(" ").split()[1][:-1] in roman_numerals or text[i].strip(" ").split()[1][:-1] in numbers or
+            text[i].strip(" ").split()[1][:-1].lower() in numbers_letters_lower) and
+            text[i].strip(" ").split()[1][-2] in [".",":"])) and
             (i == 0 or i > 0 and text[i-1].strip(" ") == "\n")):
                 #If the line after the chapter heading isn't empty, it means
                 #that the chapter heading spans multiple lines. All of the
@@ -2410,35 +2408,26 @@ txt_file_name[-4:].lower() == ".txt"):
                 if title_length_pixels > available_horizontal_space_pixels:
                     title_words = re.split(r"( )", title)
                     number_of_title_words = len(title_words)
-                    middle_index_in_title = len(title)//2
-                    character_count = 0
-                    word_delimitor = None
-                    for i in range(len(title_words)):
-                        if character_count <= middle_index_in_title - (len(title_words[i])+1):
-                            character_count += len(title_words[i])
-                        else:
-                            word_delimitor = i
-                            break
-                    first_half_words = title_words[:word_delimitor]
+                    middle_index_in_title = math.ceil(len(title_words)/2)
+                    first_half_words = title_words[:middle_index_in_title]
                     first_half_words_string = "".join(first_half_words)
-                    second_half_words = title_words[word_delimitor:]
+                    second_half_words = title_words[middle_index_in_title:]
                     second_half_words_string = "".join(second_half_words)
-                    if first_half_words != []:
-                        adjusted_title_cover = first_half_words_string + "\n" + second_half_words_string
+                    adjusted_title_cover = first_half_words_string + "\n" + second_half_words_string
 
-                        while cover_title_font_size > 50:
-                            if (image_editable.textlength(first_half_words_string, font_title) >
-                            available_horizontal_space_pixels or
-                            image_editable.textlength(second_half_words_string, font_title) >
-                            available_horizontal_space_pixels):
-                                cover_title_font_size-=1
-                                font_title = ImageFont.truetype(cover_font, cover_title_font_size)
-                            else:
-                                #If the title was split, the "cover_title_height" variable is updated to
-                                #reflect that the text now spans two lines, including the spacing
-                                #in-between the lines ("cover_title_line_spacing").
-                                cover_title_height = 2*cover_title_font_size + cover_title_line_spacing
-                                break
+                    while cover_title_font_size > 50:
+                        if (image_editable.textlength(first_half_words_string, font_title) >
+                        available_horizontal_space_pixels or
+                        image_editable.textlength(second_half_words_string, font_title) >
+                        available_horizontal_space_pixels):
+                            cover_title_font_size-=1
+                            font_title = ImageFont.truetype(cover_font, cover_title_font_size)
+                        else:
+                            #If the title was split, the "cover_title_height" variable is updated to
+                            #reflect that the text now spans two lines, including the spacing
+                            #in-between the lines ("cover_title_line_spacing").
+                            cover_title_height = 2*cover_title_font_size + cover_title_line_spacing
+                            break
                     #If there is only one word in the title and that word happens to be very long,
                     #then instead of splitting the title in half, the font size "cover_title_font_size"
                     #will be decremented until the fitle fits within the cover box.
@@ -2486,21 +2475,12 @@ txt_file_name[-4:].lower() == ".txt"):
                 if author_length_pixels > available_horizontal_space_pixels:
                     author_words = re.split(r"( )", author)
                     number_of_author_words = len(author_words)
-                    middle_index_in_author = len(author)//2
-                    character_count = 0
-                    word_delimitor = None
-                    for i in range(len(author_words)):
-                        if character_count <= middle_index_in_author - (len(author_words[i])+1):
-                            character_count += len(author_words[i])
-                        else:
-                            word_delimitor = i
-                            break
-                    first_half_words = author_words[:word_delimitor]
+                    middle_index_in_author = math.ceil(len(author_words)/2)
+                    first_half_words = author_words[:middle_index_in_title]
                     first_half_words_string = "".join(first_half_words)
-                    second_half_words = author_words[word_delimitor:]
+                    second_half_words = author_words[middle_index_in_title:]
                     second_half_words_string = "".join(second_half_words)
-                    adjusted_author_cover = first_half_words_string + "\n" + second_half_words_string
-                    adjusted_author = first_half_words_string + "\n" + second_half_words_string
+                    adjusted_author_cover = first_half_words_string + "\n " + second_half_words_string
 
                     while cover_author_font_size > 50*max_author_title_font_ratio:
                         if (image_editable.textlength(first_half_words_string, font_author) >
