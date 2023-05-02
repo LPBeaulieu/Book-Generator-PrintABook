@@ -629,7 +629,6 @@ txt_file_name[-4:].lower() == ".txt"):
     #of the title can fit onto their own line or a font size
     #of 27 is reached.
     if re.search('[" "]{2,}', title_string) == None and title_width_twips > width_threshold:
-
         #The "re.split()" method with retention of spaces is
         #used in case the user has inputted additional spaces
         #to affect the splitting point of the title. Any sequences
@@ -2004,30 +2003,31 @@ txt_file_name[-4:].lower() == ".txt"):
 
                 #The indices of any remaining symmetrical double quotes ('"') are stored in
                 #the list "double_quote_indices" and cycled through using a "for" loop.
-                #If the index is above zero and smaller than the last index of the "double_quote_indices"
-                #list, and if the preceding character is not a space, "(", "[", "{", "-", "—" or "‘" (so that
-                #there isn't a closing double quote after an opening single quote) then the
-                #closing directional quote is substituted for the symmetrical one. The "text_string"
-                #string is updated by slicing it while skipping over what was the symmetrical double
-                #quote ('"') at index "double_quote_indices[i]" in "text_string". The "for" loop proceeds
-                #in reverse order to avoid indexing issues when substituting quotes for multi-character RTF escapes.
+                #The "for" loop proceeds in reverse order to avoid indexing issues when
+                #substituting quotes for multi-character RTF escapes.
                 double_quote_matches = re.finditer('"', text_string)
                 double_quote_indices = [match.start() for match in double_quote_matches]
                 for i in range(len(double_quote_indices)-1, -1, -1):
                     #If the index is above zero and smaller than the last index of the "double_quote_indices"
-                    #list, and if the previous character is not a letter and the following character is either
-                    #a letter or "¡", "¿" (which would start an exclamation or question, respectively, in Spanish)
-                    #a backslash (if the quote is followed by an RTF command or escape such as "\i"),
-                    #or a smallcaps (the italics will be dealt with after this step), then the double quote
-                    #is changed to the opening directional quote.
+                    #list, and if the previous character is not a letter nor in the following list
+                    #(["!", "?", ".", ";", ":"]) and the following character is either
+                    #a letter, "¡" or "¿" (the latter two which would start an exclamation
+                    #or question, respectively, in Spanish) a backslash (if the quote is followed by an RTF
+                    #command or escape such as "\par"), an inderscore italics indicator or a forward slash
+                    #smallcaps indicator, then the double quote is changed to the opening directional quote.
                     if (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
                     (text_string[double_quote_indices[i]-1].isalpha() == False and
                     text_string[double_quote_indices[i]-1] not in ["!", "?", ".", ";", ":"] and
                     (text_string[double_quote_indices[i]+1].isalpha() or
-                    text_string[double_quote_indices[i]+1] in ["¡", "¿", "\\", "_"]))):
+                    text_string[double_quote_indices[i]+1] in ["¡", "¿", "\\", "_", r"/"]))):
                         text_string = (text_string[:double_quote_indices[i]] + r"\'93" +
                         text_string[double_quote_indices[i]+1:])
-
+                    #If the index is above zero and smaller than the last index of the "double_quote_indices"
+                    #list, and if the preceding character is not a space, "(", "[", "{" or "‘" (so that
+                    #there isn't a closing double quote after an opening single quote) then the
+                    #closing directional quote is substituted for the symmetrical one. The "text_string"
+                    #string is updated by slicing it while skipping over what was the symmetrical double
+                    #quote ('"') at index "double_quote_indices[i]" in "text_string".
                     elif (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
                     text_string[double_quote_indices[i]-1] not in [" ", "(", "[", "{", "‘"]):
                         text_string = (text_string[:double_quote_indices[i]] + r"\'94" +
@@ -2036,20 +2036,20 @@ txt_file_name[-4:].lower() == ".txt"):
                 single_quote_matches = re.finditer("'", text_string)
                 single_quote_indices = [match.start() for match in single_quote_matches]
                 for i in range(len(single_quote_indices)-1, -1, -1):
-                    #The "if" statement will also change the symmetrical single quote to the closing
+                    if (single_quote_indices[i] > 0 and single_quote_indices[i] < len(text_string)-1 and
+                    (text_string[single_quote_indices[i]-1] != "\\" and
+                    text_string[single_quote_indices[i]-1].isalpha() == False and
+                    text_string[single_quote_indices[i]-1] not in ["!", "?", ".", ";", ":"] and
+                    (text_string[single_quote_indices[i]+1].isalpha() or
+                    text_string[single_quote_indices[i]+1] in ["¡", "¿", "\\", "_", r"/"]))):
+                        text_string = (text_string[:single_quote_indices[i]] + r"\'91" +
+                        text_string[single_quote_indices[i]+1:])
+
+                    #The "elif" statement will also change the symmetrical single quote to the closing
                     #directional single quote in contractions such as "don't", as only the preceding character
                     #is considered. In this case, the preceding character must not be a space, "(", "[", "{",
                     #"-", "—" nor a backslash (so that the single quote in the RTF escapes (such as r"\'92"))
                     #are not confused for actual single quotes.
-                    if (single_quote_indices[i] > 0 and single_quote_indices[i] < len(text_string)-1 and
-                    (text_string[single_quote_indices[i]-1] != "\\" and
-                    text_string[single_quote_indices[i]-1].isalpha() == False and
-                    text_string[single_quote_indices[i]-1] not in ["!", "?", ".", ";", ":", "_"] and
-                    (text_string[single_quote_indices[i]+1].isalpha() or
-                    text_string[single_quote_indices[i]+1] in ["¡", "¿", "\\", "_"]))):
-                        text_string = (text_string[:single_quote_indices[i]] + r"\'91" +
-                        text_string[single_quote_indices[i]+1:])
-
                     elif (single_quote_indices[i] > 0  and single_quote_indices[i] < len(text_string)-1 and
                     text_string[single_quote_indices[i]-1] not in [" ", "(", "[", "{", "\\"]):
                         text_string = (text_string[:single_quote_indices[i]] + r"\'92" +
@@ -2555,17 +2555,14 @@ txt_file_name[-4:].lower() == ".txt"):
                             cover_title_font_size-=1
                             font_title = ImageFont.truetype(cover_font, cover_title_font_size)
                         else:
-                            #If the title wasn't split, but was resized, the "cover_title_height"
-                            #variable is updated to reflect this. As the text does not span two lines,
-                            #"cover_title_font_size" isn't multiplied by 2.
-                            cover_title_height = cover_title_font_size + cover_title_line_spacing
+                            #The "cover_title_height" variable is updated to
+                            #reflect that the text now spans multiple lines, including the spacing
+                            #in-between the lines ("cover_title_line_spacing").
+                            cover_title_height = len(cover_title_lines)*cover_title_font_size + cover_title_line_spacing
                             break
                     cover_title_offset = (round((right_margin_cover_text-left_margin_cover_text)/2-
                     image_editable.textlength(longest_title_line, font_title)/2))
-                    #The "cover_title_height" variable is updated to
-                    #reflect that the text now spans multiple lines, including the spacing
-                    #in-between the lines ("cover_title_line_spacing").
-                    cover_title_height = len(cover_title_lines)*cover_title_font_size + cover_title_line_spacing
+
 
                 #As the author name font size should be at most 75% of that of the title,
                 #the initial font size is set to 75% of "cover_title_font_size".
@@ -2585,9 +2582,9 @@ txt_file_name[-4:].lower() == ".txt"):
                     author_words = re.split(r"( )", author)
                     number_of_author_words = len(author_words)
                     middle_index_in_author = math.ceil(len(author_words)/2)
-                    first_half_words = author_words[:middle_index_in_title]
+                    first_half_words = author_words[:middle_index_in_author]
                     first_half_words_string = "".join(first_half_words)
-                    second_half_words = author_words[middle_index_in_title:]
+                    second_half_words = author_words[middle_index_in_author:]
                     second_half_words_string = "".join(second_half_words)
                     adjusted_author_cover = first_half_words_string + "\n " + second_half_words_string
 
