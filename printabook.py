@@ -147,6 +147,11 @@ else:
 small_caps = True
 
 title = None
+#The user has the option to go with the automatic
+#splitting of the title, or manually indicate where the
+#line breaks should be by placing at least two successive
+#space in-between words that are to be split onto different lines.
+custom_title_line_breaks = False
 author = None
 #If the title needs to be split
 #in order to fit in the title page,
@@ -612,20 +617,26 @@ txt_file_name[-4:].lower() == ".txt"):
     correction_factor = 4.0
 
     width_threshold =  int((5.5*1440 - (left_margin_twips + right_margin_twips)) * correction_factor)
-
-    if title_width_twips > width_threshold:
-        #If the title width in twips is too high to fit
-        #on one line, then the title string is split into
-        #individual words, which are assessed for length
-        #in the while loop below. The "title_size" is
-        #decremented until both fragments of the title
-        #can fit onto their own line or a font size of
-        #27 is reached.
+    title_string = title
+    #If the title didn't contain sequences of at least two
+    #consecutive spaces, which would indicate that the user
+    #wants to manually insert line breaks at these locations,
+    #and that the title width in twips is too large to fit
+    #on one line, then the title string is split into
+    #individual words, which are assessed for length
+    #in the while loop in the "if" statement below.
+    #The "title_size" is decremented until both fragments
+    #of the title can fit onto their own line or a font size
+    #of 27 is reached.
+    if re.search('[" "]{2,}', title_string) == None and title_width_twips > width_threshold:
 
         #The "re.split()" method with retention of spaces is
         #used in case the user has inputted additional spaces
-        #to affect the splitting point of the title.
-        title_words = re.split(r"( )", title)
+        #to affect the splitting point of the title. Any sequences
+        #of two or more successive spaces, indicating where the user
+        #wants to split the title, are changed to a space, followed
+        #by a carriage return (" \n").
+        title_words = re.split(r"( )", re.sub('[" "]{2,}', " \n", title))
         number_of_title_words = len(title_words)
         #The middle index in the title will be the threshold
         #for including a carriage return in the title.
@@ -669,6 +680,43 @@ txt_file_name[-4:].lower() == ".txt"):
         if title_size_float == 27:
             title_size = r"\fs54"
 
+    #Should the title contain sequences of at least two
+    #consecutive spaces, which indicate that the user
+    #wants to manually insert line breaks at these locations,
+    #these instances are changed for a space followed by a
+    #carriage return (" \n", the space being required here
+    #in order to prevent merged words on the title page),
+    #and the length of the longest line would be determined
+    #by splitting the resulting string along the "\n" dividers.
+    #The font size of the title is then automatically adjusted,
+    #such that the longest line may fit within the available
+    #horizontal space.
+    else:
+        #The variable "custom_title_line_breaks" indicates
+        #that the user has included sequences of at least
+        #two successive spaces within the title, so that
+        #linebreaks may be inserted at these locations.
+        custom_title_line_breaks = True
+        title_string = re.sub('[" "]{2,}', " \n", title)
+        adjusted_title_rtf = title_string
+
+        length_of_longest_title_line = max([len(line) for line in re.split(r'\n', title_string)])
+
+        title_width_set = False
+        while title_width_set == False and title_size_float > 27:
+            title_character_height_twips = round(title_size_float*1440/72)
+            title_character_width_twips = round(1.1*title_character_height_twips)
+            title_width_twips = length_of_longest_title_line*title_character_width_twips
+
+            #If the longest of the title lines is still too wide to fit into its own line,
+            #the "title_size" is decremented until either the longest line fits or a font
+            #size of 27 is reached.
+            if title_character_width_twips > width_threshold:
+                title_size_float -= 0.5
+            else:
+                title_size = r"\fs" + str(round(2*title_size_float))
+                title_width_set = True
+
 
     #A similar automatic font scaling is applied to the
     #author name string "author".
@@ -686,9 +734,9 @@ txt_file_name[-4:].lower() == ".txt"):
         author_words = re.split(r"( )", author)
         number_of_author_words = len(author_words)
         middle_index_in_author = math.ceil(len(author_words)/2)
-        first_half_words = author_words[:middle_index_in_title]
+        first_half_words = author_words[:middle_index_in_author]
         first_half_words_string = "".join(first_half_words)
-        second_half_words = author_words[middle_index_in_title:]
+        second_half_words = author_words[middle_index_in_author:]
         second_half_words_string = "".join(second_half_words)
         adjusted_author_rtf = first_half_words_string + "\line " + second_half_words_string
 
@@ -950,7 +998,6 @@ txt_file_name[-4:].lower() == ".txt"):
             #corresponds to the title of the work.
             if title_index == None and text[i].lower().strip() == title.lower():
                 title_index = i
-                title_string = text[i].lower().strip()
                 #If the title needs to be split
                 #in order to fit in the title page,
                 #the value of "asjusted_title_rtf"
@@ -1774,9 +1821,17 @@ txt_file_name[-4:].lower() == ".txt"):
             if len(line_words) > 1:
                 line_skipping_first_word = (" ".join(line_words[1:]).lower().strip())
 
-            if title_index == None and text[i].lower().strip() == title.lower():
+            if text[i].lower().strip() == r"\qc" + title_size + title_string:
                 title_index = i
-                title_string = text[i].lower().strip()
+                if re.search('[" "]{2,}', title) == None:
+                    title_string = text[i].lower().strip()
+                else:
+                    #The user has the option to go with the automatic
+                    #splitting of the title, or manually indicate where the
+                    #line breaks should be by placing at least two successive
+                    #space in-between words that are to be split onto different lines.
+                    custom_title_line_breaks = True
+                    title_string = re.sub('[" "]{2,}', " \n", text[i].lower().strip())
 
             #If the element at index "i" of the "text" list corresponds to the author name
             #(either or not while skipping over the first word such as "by") and is located
@@ -1950,7 +2005,7 @@ txt_file_name[-4:].lower() == ".txt"):
                 #The indices of any remaining symmetrical double quotes ('"') are stored in
                 #the list "double_quote_indices" and cycled through using a "for" loop.
                 #If the index is above zero and smaller than the last index of the "double_quote_indices"
-                #list, and if the preceding character is not a space, "(", "[", "{", "-" or "‘" (so that
+                #list, and if the preceding character is not a space, "(", "[", "{", "-", "—" or "‘" (so that
                 #there isn't a closing double quote after an opening single quote) then the
                 #closing directional quote is substituted for the symmetrical one. The "text_string"
                 #string is updated by slicing it while skipping over what was the symmetrical double
@@ -1959,22 +2014,23 @@ txt_file_name[-4:].lower() == ".txt"):
                 double_quote_matches = re.finditer('"', text_string)
                 double_quote_indices = [match.start() for match in double_quote_matches]
                 for i in range(len(double_quote_indices)-1, -1, -1):
-                    if (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
-                    text_string[double_quote_indices[i]-1] not in [" ", "(", "[", "{", "-", "‘"]):
-                        text_string = (text_string[:double_quote_indices[i]] + r"\'94" +
-                        text_string[double_quote_indices[i]+1:])
-
                     #If the index is above zero and smaller than the last index of the "double_quote_indices"
                     #list, and if the previous character is not a letter and the following character is either
                     #a letter or "¡", "¿" (which would start an exclamation or question, respectively, in Spanish)
                     #a backslash (if the quote is followed by an RTF command or escape such as "\i"),
                     #or a smallcaps (the italics will be dealt with after this step), then the double quote
                     #is changed to the opening directional quote.
-                    elif (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
+                    if (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
                     (text_string[double_quote_indices[i]-1].isalpha() == False and
+                    text_string[double_quote_indices[i]-1] not in ["!", "?", ".", ";", ":"] and
                     (text_string[double_quote_indices[i]+1].isalpha() or
                     text_string[double_quote_indices[i]+1] in ["¡", "¿", "\\", "_"]))):
                         text_string = (text_string[:double_quote_indices[i]] + r"\'93" +
+                        text_string[double_quote_indices[i]+1:])
+
+                    elif (double_quote_indices[i] > 0 and double_quote_indices[i] < len(text_string)-1 and
+                    text_string[double_quote_indices[i]-1] not in [" ", "(", "[", "{", "‘"]):
+                        text_string = (text_string[:double_quote_indices[i]] + r"\'94" +
                         text_string[double_quote_indices[i]+1:])
 
                 single_quote_matches = re.finditer("'", text_string)
@@ -1983,20 +2039,31 @@ txt_file_name[-4:].lower() == ".txt"):
                     #The "if" statement will also change the symmetrical single quote to the closing
                     #directional single quote in contractions such as "don't", as only the preceding character
                     #is considered. In this case, the preceding character must not be a space, "(", "[", "{",
-                    #"-", nor a backslash (so that the single quote in the RTF escapes (such as r"\'92"))
+                    #"-", "—" nor a backslash (so that the single quote in the RTF escapes (such as r"\'92"))
                     #are not confused for actual single quotes.
-                    if (single_quote_indices[i] > 0  and single_quote_indices[i] < len(text_string)-1 and
-                    text_string[single_quote_indices[i]-1] not in [" ", "(", "[", "{", "-", "\\"]):
-                        text_string = (text_string[:single_quote_indices[i]] + r"\'92" +
-                        text_string[single_quote_indices[i]+1:])
-
-                    elif (single_quote_indices[i] > 0 and single_quote_indices[i] < len(text_string)-1 and
+                    if (single_quote_indices[i] > 0 and single_quote_indices[i] < len(text_string)-1 and
                     (text_string[single_quote_indices[i]-1] != "\\" and
                     text_string[single_quote_indices[i]-1].isalpha() == False and
+                    text_string[single_quote_indices[i]-1] not in ["!", "?", ".", ";", ":", "_"] and
                     (text_string[single_quote_indices[i]+1].isalpha() or
                     text_string[single_quote_indices[i]+1] in ["¡", "¿", "\\", "_"]))):
                         text_string = (text_string[:single_quote_indices[i]] + r"\'91" +
                         text_string[single_quote_indices[i]+1:])
+
+                    elif (single_quote_indices[i] > 0  and single_quote_indices[i] < len(text_string)-1 and
+                    text_string[single_quote_indices[i]-1] not in [" ", "(", "[", "{", "\\"]):
+                        text_string = (text_string[:single_quote_indices[i]] + r"\'92" +
+                        text_string[single_quote_indices[i]+1:])
+
+            #If an opening single or double quote is followed by a space or a line carriage ("\n", which
+            #was subsequently changed to r"\\par}{\\pard\\sa"), then the corresponding closing quote will
+            #be used in its stead, preceded by a space, in the event that there is an RTF command or RTF
+            #escape before the quote. Although the RTF Pocket Guide states that there isn't an optional
+            #space after an RTF escape, in my experience with LibreOffice, such a space is required.
+            closing_criteria = [r"\\par}{\\pard\\sa", " "]
+            for i in range(len(closing_criteria)):
+                text_string = re.sub(r"\'91" + closing_criteria[i], r" \'92" + closing_criteria[i], text_string)
+                text_string = re.sub(r"\'93" + closing_criteria[i], r" \'94" + closing_criteria[i], text_string)
 
             #RANDOM SUBSTITUTION: Any instance of '“‘”' (in RTF escape form) would be changed to '“‘“'
             #(in RTF escape form), as I've noticed that the opening multi-level nested quotes are not
@@ -2405,9 +2472,11 @@ txt_file_name[-4:].lower() == ".txt"):
                 #decremented by one unit in the "while" loop below until each of the split lines
                 #of the title can fit within the black rectangle, down to a minimum font size of 50.
                 cover_title_height = cover_title_font_size
-                if title_length_pixels > available_horizontal_space_pixels:
+                if custom_title_line_breaks == False and title_length_pixels > available_horizontal_space_pixels:
                     title_words = re.split(r"( )", title)
                     number_of_title_words = len(title_words)
+                    #The middle index in the title will be the threshold
+                    #for including a carriage return in the title.
                     middle_index_in_title = math.ceil(len(title_words)/2)
                     first_half_words = title_words[:middle_index_in_title]
                     first_half_words_string = "".join(first_half_words)
@@ -2457,6 +2526,46 @@ txt_file_name[-4:].lower() == ".txt"):
                     .replace("\n", ""), font_title))
                     cover_title_offset = (round((right_margin_cover_text-left_margin_cover_text)/2-
                     max([first_half_words_string_length, second_half_words_string_length])/2))
+
+
+                #If "custom_title_line_breaks == True", this indicates
+                #that the title contains sequences of at least two
+                #consecutive spaces, which means that the user
+                #wants to manually insert line breaks at these locations.
+                #The variable "adjusted_title_cover" is then set to the
+                #value of "adjusted_title_rtf", where these instances
+                #were changed for a space followed by a carriage return
+                #(" \n"), and the longest line is determined by splitting
+                #the resulting string along the "\n" dividers, followed
+                #by sorting according to length. The font size of the
+                #title is then automatically adjusted, such that the
+                #longest line may fit within the available horizontal
+                #space.
+                else:
+                    #The spaces before carriage returns in "adjusted_title_rtf"
+                    #(" \n"), which were initially included to avoid merged
+                    #words on the title page, are removed in the "adjusted_title_cover",
+                    #to make sure that the title is well centered on the cover.
+                    adjusted_title_cover = adjusted_title_rtf.replace(r" \n", r"\n")
+                    cover_title_lines = [line for line in re.split(r"\n", title_string)]
+                    longest_title_line = sorted(cover_title_lines, key=len)[-1]
+                    while cover_title_font_size > 50:
+                        if (image_editable.textlength(longest_title_line, font_title) >
+                        available_horizontal_space_pixels):
+                            cover_title_font_size-=1
+                            font_title = ImageFont.truetype(cover_font, cover_title_font_size)
+                        else:
+                            #If the title wasn't split, but was resized, the "cover_title_height"
+                            #variable is updated to reflect this. As the text does not span two lines,
+                            #"cover_title_font_size" isn't multiplied by 2.
+                            cover_title_height = cover_title_font_size + cover_title_line_spacing
+                            break
+                    cover_title_offset = (round((right_margin_cover_text-left_margin_cover_text)/2-
+                    image_editable.textlength(longest_title_line, font_title)/2))
+                    #The "cover_title_height" variable is updated to
+                    #reflect that the text now spans multiple lines, including the spacing
+                    #in-between the lines ("cover_title_line_spacing").
+                    cover_title_height = len(cover_title_lines)*cover_title_font_size + cover_title_line_spacing
 
                 #As the author name font size should be at most 75% of that of the title,
                 #the initial font size is set to 75% of "cover_title_font_size".
@@ -2664,7 +2773,7 @@ txt_file_name[-4:].lower() == ".txt"):
                     author_spine = "".join(author_name_split) + " — "
 
                     #The "spine_text" containing the text written on the spine is assembled.
-                    spine_text = author_spine + title.strip()
+                    spine_text = author_spine + re.sub('[" "]{2,}', " ", title.strip())
                 #Similar to what was done above, the font size of the spine
                 #initialized to 100 pixels (unless the user specified something different),
                 #will be optimized to the available space.
