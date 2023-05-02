@@ -63,7 +63,7 @@ py -m pip install NumPy --upgrade Pillow
 ```
 py -m printabook.py "title:Book title as found in TXT file" "author:Author name as found in TXT file"
 ```
-You may choose to include line breaks at certain points in the title by including at least two successive spaces in-between the words that you want to be split on different lines. Make sure that those extra spaces are present both in the TXT file and the "title:Book title as found in TXT file" argument in the Python call.
+You may choose to add line breaks at certain points in the title by including at least two successive spaces in-between the words that you want to be split on different lines. Make sure that those extra spaces are present both in the TXT file and the "title:Book title as found in TXT file" argument in the Python call.
 
 In a few seconds, your RTF file will be generated in your working folder. For a list of additional arguments that you can pass in when running the Python code, in order to change the formatting of the RTF document (font, font size, line spacing, etc.) and cover image, please consult Figures 1 to 3 below. <b>Should you just want to print books without worrying about all these details, simply run the code with the default settings and you will get nice results, allowing you to move on to step 3</b>.
 
